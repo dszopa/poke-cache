@@ -1,10 +1,6 @@
-package data;
+package dto;
 
-import java.io.Serializable;
-
-public class Pokemon implements Serializable {
-
-    private static Long serialVersionUID = 1L;
+public class PokemonDTO {
 
     private Long id;
 
@@ -40,12 +36,12 @@ public class Pokemon implements Serializable {
     private String move3;
     private String move4;
 
-    public Pokemon() {}
+    public PokemonDTO() {}
 
-    public Pokemon(String name, String nickname, String item, String ability, int level, String type1, String type2,
-                   int hpEVs, int attackEVs, int defenceEVs, int specialAttackEVs, int specialDefenceEVs, int speedEVs,
-                   int hpIVs, int attackIVs, int defenceIVs, int specialAttackIVs, int specialDefenceIVs, int speedIVs,
-                   String move1, String move2, String move3, String move4) {
+    public PokemonDTO(String name, String nickname, String item, String ability, int level, String type1, String type2,
+                      int hpEVs, int attackEVs, int defenceEVs, int specialAttackEVs, int specialDefenceEVs,
+                      int speedEVs, int hpIVs, int attackIVs, int defenceIVs, int specialAttackIVs,
+                      int specialDefenceIVs, int speedIVs, String move1, String move2, String move3, String move4) {
         this.name = name;
         this.nickname = nickname;
         this.item = item;
@@ -71,10 +67,11 @@ public class Pokemon implements Serializable {
         this.move4 = move4;
     }
 
-    public Pokemon(Long id, String name, String nickname, String item, String ability, int level, String type1,
-                   String type2, int hpEVs, int attackEVs, int defenceEVs, int specialAttackEVs, int specialDefenceEVs,
-                   int speedEVs, int hpIVs, int attackIVs, int defenceIVs, int specialAttackIVs, int specialDefenceIVs,
-                   int speedIVs, String move1, String move2, String move3, String move4) {
+    public PokemonDTO(Long id, String name, String nickname, String item, String ability, int level, String type1,
+                      String type2, int hpEVs, int attackEVs, int defenceEVs, int specialAttackEVs,
+                      int specialDefenceEVs, int speedEVs, int hpIVs, int attackIVs, int defenceIVs,
+                      int specialAttackIVs, int specialDefenceIVs, int speedIVs, String move1, String move2,
+                      String move3, String move4) {
         this.id = id;
         this.name = name;
         this.nickname = nickname;

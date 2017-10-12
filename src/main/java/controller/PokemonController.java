@@ -1,7 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
-import data.Pokemon;
+import dto.PokemonDTO;
 import service.PokemonService;
 import transformer.JsonTransformer;
 
@@ -26,7 +26,7 @@ public class PokemonController {
         }, new JsonTransformer());
 
         post("/pokemon", "application/json", (req, res) -> {
-            Pokemon pokemon = gson.fromJson(req.body(), Pokemon.class);
+            PokemonDTO pokemon = gson.fromJson(req.body(), PokemonDTO.class);
             return pokemonService.createPokemon(pokemon);
         }, new JsonTransformer());
     }

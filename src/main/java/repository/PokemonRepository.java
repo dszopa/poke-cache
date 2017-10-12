@@ -1,7 +1,6 @@
 package repository;
 
 import data.Pokemon;
-import factory.PokemonFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.DbConnectionService;
@@ -21,18 +20,14 @@ public class PokemonRepository {
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);
     private Connection connection;
-    private PokemonFactory pokemonFactory;
 
     /**
      * Repository for managing creation, retrieval, and editing of Pokemon entities
      * @param dbConnectionService
      *  A database connection service, used to get the current connection to the database.
-     * @param pokemonFactory
-     *  A PokemonFactory for creating Pokemon objects.
      */
-    public PokemonRepository(DbConnectionService dbConnectionService, PokemonFactory pokemonFactory) {
+    public PokemonRepository(DbConnectionService dbConnectionService) {
         this.connection = dbConnectionService.getConnection();
-        this.pokemonFactory = pokemonFactory;
     }
 
     /**
@@ -107,6 +102,45 @@ public class PokemonRepository {
     }
 
     /**
+     * Helper function to convert a ResultSet to a Pokemon Object
+     * @param rs
+     *  The ResultSet the Pokemon Object will be made from
+     * @return
+     *  The created Pokemon Object
+     */
+    private Pokemon _convertResultSetToPokemon(ResultSet rs) throws SQLException {
+        Long id = rs.getLong("id");
+        String name = rs.getString("name");
+        String nickname = rs.getString("nickname");
+        String item = rs.getString("item");
+        String ability = rs.getString("ability");
+        int level = rs.getInt("level");
+        String type1 = rs.getString("type1");
+        String type2 = rs.getString("type2");
+        int hpEVs = rs.getInt("hp_evs");
+        int attackEVs = rs.getInt("attack_evs");
+        int defenceEVs = rs.getInt("defence_evs");
+        int specialAttackEVs = rs.getInt("special_attack_evs");
+        int specialDefenceEVs = rs.getInt("special_defence_evs");
+        int speedEVs = rs.getInt("speed_evs");
+        int hpIVs = rs.getInt("hp_ivs");
+        int attackIVs = rs.getInt("attack_ivs");
+        int defenceIVs = rs.getInt("defence_ivs");
+        int specialAttackIVs = rs.getInt("special_attack_ivs");
+        int specialDefenceIVs = rs.getInt("special_defence_ivs");
+        int speedIVs = rs.getInt("speed_ivs");
+        String move1 = rs.getString("move1");
+        String move2 = rs.getString("move2");
+        String move3 = rs.getString("move3");
+        String move4 = rs.getString("move4");
+
+        return new Pokemon(id, name, nickname, item, ability, level, type1, type2,
+                hpEVs, attackEVs, defenceEVs, specialAttackEVs, specialDefenceEVs, speedEVs,
+                hpIVs, attackIVs, defenceIVs, specialAttackIVs, specialDefenceIVs, speedIVs,
+                move1, move2, move3, move4);
+    }
+
+    /**
      * Get a pokemon from the database by its id.
      * @param id
      *  The Pokemon's id
@@ -120,7 +154,7 @@ public class PokemonRepository {
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                return pokemonFactory.createPokemonFromResultSet(rs);
+                return _convertResultSetToPokemon(rs);
             } else {
                 throw new SQLException("ResultSet did not contain any pokemon. Database query returned 0 results.");
             }
