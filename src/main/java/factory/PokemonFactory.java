@@ -5,7 +5,7 @@ import dto.PokemonDTO;
 
 public class PokemonFactory {
 
-    public Pokemon createFromPokemonDTO(PokemonDTO pokemonDTO) {
+    public Pokemon createPokemon(PokemonDTO pokemonDTO) {
         return new Pokemon(pokemonDTO.getId(), pokemonDTO.getName(), pokemonDTO.getNickname(), pokemonDTO.getItem(),
                 pokemonDTO.getAbility(), pokemonDTO.getLevel(), pokemonDTO.getType1(), pokemonDTO.getType2(),
                 pokemonDTO.getHpEVs(), pokemonDTO.getAttackEVs(), pokemonDTO.getDefenceEVs(),

@@ -18,9 +18,9 @@ public class PokemonService {
      * @param pokemonRepository
      *  A PokemonRepository with access to a database.
      * @param pokemonDtoFactory
-     *  Factory used to create PokemonDTO Objects.
+     *  Reusable factory used to create PokemonDTO objects.
      * @param pokemonFactory
-     *  Factory used to create Pokemon Objects.
+     *  Reusable factory used to create Pokemon objects.
      */
     public PokemonService(PokemonRepository pokemonRepository, PokemonFactory pokemonFactory,
                           PokemonDtoFactory pokemonDtoFactory) {
@@ -30,26 +30,26 @@ public class PokemonService {
     }
 
     /**
-     * Gets a Pokemon from PokemonRepository by its id.
+     * Gets a PokemonDTO from PokemonRepository by its id.
      * @param id
-     *  The Pokemon's id we want to search by.
+     *  The Pokemon's id.
      * @return
-     *  The PokemonDTO with Pokemon data from PokemonRepository
+     *  A PokemonDTO with values filled from the database.
      */
     public PokemonDTO getPokemon(Long id) {
         Pokemon pokemon = pokemonRepository.getPokemonById(id);
-        return pokemonDtoFactory.createFromPokemon(pokemon);
+        return pokemonDtoFactory.createPokemonDTO(pokemon);
     }
 
     /**
-     * Creates a Pokemon based off of the given PokemonDTO object on a database through PokemonRepository
+     * Persists a Pokemon based off of the given PokemonDTO object.
      * @param pokemonDTO
-     *  The PokemonDTO object that will be persisted to a database.
+     *  The PokemonDTO object that will be persisted.
      * @return
      *  The persisted PokemonDTO.
      */
     public PokemonDTO createPokemon(PokemonDTO pokemonDTO) {
-        Pokemon pokemon = pokemonFactory.createFromPokemonDTO(pokemonDTO);
+        Pokemon pokemon = pokemonFactory.createPokemon(pokemonDTO);
         pokemon = pokemonRepository.savePokemon(pokemon);
         pokemonDTO.setId(pokemon.getId());
         return pokemonDTO;

@@ -1,30 +1,29 @@
-package data;
+package dto;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class PokemonTeam implements Serializable {
-
-    private static Long serialVersionUID = 1L;
+public class PokemonTeamDTO {
 
     private Long id;
     private String teamName;
     private String format;
 
     // Max size 6
-    private List<Long> pokemonIdList;
+    private List<PokemonDTO> pokemonList;
 
-    public PokemonTeam(String teamName, String format, List<Long> pokemonIdList) {
+    public PokemonTeamDTO() {}
+
+    public PokemonTeamDTO(String teamName, String format, List<PokemonDTO> pokemonList) {
         this.teamName = teamName;
         this.format = format;
-        this.pokemonIdList = pokemonIdList;
+        this.pokemonList = pokemonList;
     }
 
-    public PokemonTeam(Long id, String teamName, String format, List<Long> pokemonIdList) {
+    public PokemonTeamDTO(Long id, String teamName, String format, List<PokemonDTO> pokemonList) {
         this.id = id;
         this.teamName = teamName;
         this.format = format;
-        this.pokemonIdList = pokemonIdList;
+        this.pokemonList = pokemonList;
     }
 
     public Long getId() {
@@ -51,11 +50,11 @@ public class PokemonTeam implements Serializable {
         this.format = format;
     }
 
-    public List<Long> getPokemonIdList() {
-        return pokemonIdList;
+    public List<PokemonDTO> getPokemonList() {
+        return pokemonList;
     }
 
-    public void setPokemonIdList(List<Long> pokemonIdList) {
-        this.pokemonIdList = pokemonIdList;
+    public void setPokemonList(List<PokemonDTO> pokemonList) {
+        this.pokemonList = pokemonList;
     }
 }

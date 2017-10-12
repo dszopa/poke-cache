@@ -33,9 +33,9 @@ public class PokemonRepository {
     /**
      * Save a Pokemon to the database.
      * @param pokemon
-     *  The Pokemon that we wish to save.
+     *  The Pokemon that will be saved.
      * @return
-     *  The Pokemon with its database id attached.
+     *  The Pokemon with its new database id attached.
      */
     public Pokemon savePokemon(Pokemon pokemon) {
         try {
@@ -57,6 +57,30 @@ public class PokemonRepository {
 
         } catch (SQLException e) {
             logger.error("Error with SQL Statement.", e);
+            return null;
+        }
+    }
+
+    /**
+     * Get a Pokemon from the database by its id.
+     * @param id
+     *  The Pokemon's id
+     * @return
+     *  The Pokemon with id, id, from the database.
+     */
+    public Pokemon getPokemonById(Long id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(selectPokemonByIdQuery);
+            statement.setLong(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                return _convertResultSetToPokemon(rs);
+            } else {
+                throw new SQLException("ResultSet did not contain any Pokemon. Database query returned 0 results.");
+            }
+        } catch (SQLException e) {
+            logger.error("Getting Pokemon from database failed.", e);
             return null;
         }
     }
@@ -102,11 +126,13 @@ public class PokemonRepository {
     }
 
     /**
-     * Helper function to convert a ResultSet to a Pokemon Object
+     * Helper function to convert a ResultSet to a Pokemon object.
      * @param rs
-     *  The ResultSet the Pokemon Object will be made from
+     *  The ResultSet the Pokemon object will be made from.
      * @return
-     *  The created Pokemon Object
+     *  The created Pokemon object.
+     * @throws SQLException
+     *  Thrown when there is a problem converting the ResultSet to a Pokemon object.
      */
     private Pokemon _convertResultSetToPokemon(ResultSet rs) throws SQLException {
         Long id = rs.getLong("id");
@@ -138,29 +164,5 @@ public class PokemonRepository {
                 hpEVs, attackEVs, defenceEVs, specialAttackEVs, specialDefenceEVs, speedEVs,
                 hpIVs, attackIVs, defenceIVs, specialAttackIVs, specialDefenceIVs, speedIVs,
                 move1, move2, move3, move4);
-    }
-
-    /**
-     * Get a pokemon from the database by its id.
-     * @param id
-     *  The Pokemon's id
-     * @return
-     *  The Pokemon with id, id, from the database.
-     */
-    public Pokemon getPokemonById(Long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(selectPokemonByIdQuery);
-            statement.setLong(1, id);
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                return _convertResultSetToPokemon(rs);
-            } else {
-                throw new SQLException("ResultSet did not contain any pokemon. Database query returned 0 results.");
-            }
-        } catch (SQLException e) {
-            logger.error("Getting Pokemon from database failed.", e);
-            return null;
-        }
     }
 }
