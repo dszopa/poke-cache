@@ -25,6 +25,16 @@ public class PokemonTeamController {
             return pokemonTeamService.getPokemonTeam(id);
         }, new JsonTransformer());
 
+        get("/team/pokemon/format/:format", "application/json", (req, res) -> {
+            String format = req.params(":format");
+            return pokemonTeamService.getPokemonTeamsByFormat(format);
+        }, new JsonTransformer());
+
+        get("/team/pokemon/teamName/:teamName", "application/json", (req, res) -> {
+            String teamName = req.params(":teamName");
+            return pokemonTeamService.getPokemonTeamsByTeamName(teamName);
+        }, new JsonTransformer());
+
         post("/team/pokemon", (req, res) -> {
             PokemonTeamDTO pokemonTeam = gson.fromJson(req.body(), PokemonTeamDTO.class);
             return pokemonTeamService.createPokemonTeam(pokemonTeam);

@@ -6,14 +6,20 @@ import org.slf4j.LoggerFactory;
 import service.DbConnectionService;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PokemonTeamRepository {
 
-    private static String savePokemonTeamQuery = "INSERT INTO pokemon_team (team_name, format, pokemon1_id, " +
+    private static String insertPokemonTeamQuery = "INSERT INTO pokemon_team (team_name, format, pokemon1_id, " +
             "pokemon2_id, pokemon3_id, pokemon4_id, pokemon5_id, pokemon6_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static String selectPokemonTeamByIdQuery = "SELECT * FROM pokemon_team WHERE id = ? LIMIT 1";
+
+    private static String selectPokemonTeamsByFormatQuery = "SELECT * FROM pokemon_team WHERE format = ?";
+
+    private static String selectPokemonTeamsByTeamNameQuery = "SELECT * FROM pokemon_team WHERE team_name = ?";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonTeamRepository.class);
     private Connection connection;
@@ -71,15 +77,48 @@ public class PokemonTeamRepository {
             PreparedStatement statement = connection.prepareStatement(selectPokemonTeamByIdQuery);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                return _convertResultSetToPokemonTeam(rs);
-            } else {
-                throw new SQLException("ResultSet did not contain any PokemonTeam's. Database query failed.");
-            }
+            return _convertResultSetToPokemonTeam(rs);
         } catch (SQLException e) {
-            logger.error("Getting PokemonTeam from database failed.", e);
+            logger.error("Getting PokemonTeam from database by id failed.", e);
             return null;
+        }
+    }
+
+    /**
+     * Get a List of PokemonTeam from the database by format.
+     * @param format
+     *  The format to search by.
+     * @return
+     *  A list of PokemonTeam where each PokemonTeam has its format matching the provided format.
+     */
+    public List<PokemonTeam> getPokemonTeamsByFormat(String format) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(selectPokemonTeamsByFormatQuery);
+            statement.setString(1, format);
+            ResultSet rs = statement.executeQuery();
+            return _convertResultSetToPokemonTeams(rs);
+        } catch (SQLException e) {
+            logger.error("Getting PokemonTeams from database by format failed.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Get a List of PokemonTeam from the database by teamName
+     * @param teamName
+     *  The teamName to search by.
+     * @return
+     *  A list of PokemonTeam where each PokemonTeam has its teamName matching the provided teamName.
+     */
+    public List<PokemonTeam> getPokemonTeamsByTeamName(String teamName) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(selectPokemonTeamsByTeamNameQuery);
+            statement.setString(1, teamName);
+            ResultSet rs = statement.executeQuery();
+            return _convertResultSetToPokemonTeams(rs);
+        } catch (SQLException e) {
+            logger.error("Getting PokemonTeams from database by teamName failed.", e);
+            return new ArrayList<>();
         }
     }
 
@@ -94,7 +133,7 @@ public class PokemonTeamRepository {
      */
     private PreparedStatement _createSavePokemonTeamStatement(PokemonTeam pokemonTeam) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(
-                savePokemonTeamQuery, Statement.RETURN_GENERATED_KEYS);
+                insertPokemonTeamQuery, Statement.RETURN_GENERATED_KEYS);
 
         preparedStatement.setString(1, pokemonTeam.getTeamName());
         preparedStatement.setString(2, pokemonTeam.getFormat());
@@ -128,5 +167,22 @@ public class PokemonTeamRepository {
 
         return new PokemonTeam(id, teamName, format,
                 Arrays.asList(pokemon1Id, pokemon2Id, pokemon3Id, pokemon4Id, pokemon5Id, pokemon6Id));
+    }
+
+    /**
+     * Helper function to convert a ResultSet into a list of Pokemon objects.
+     * @param rs
+     *  The ResultSet the PokemonTeam list will be made from.
+     * @return
+     *  The created PokemonTeam object.
+     * @throws SQLException
+     *  Thrown when there is a problem converting the ResultSet into a list of PokemonTeam objects.
+     */
+    private List<PokemonTeam> _convertResultSetToPokemonTeams(ResultSet rs) throws SQLException {
+        List<PokemonTeam> pokemonTeams = new ArrayList<>();
+        while(rs.next()) {
+            pokemonTeams.add(_convertResultSetToPokemonTeam(rs));
+        }
+        return pokemonTeams;
     }
 }
