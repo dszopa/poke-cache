@@ -1,6 +1,7 @@
 package repository;
 
 import data.PokemonTeam;
+import org.intellij.lang.annotations.Language;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.DbConnectionService;
@@ -12,13 +13,17 @@ import java.util.List;
 
 public class PokemonTeamRepository {
 
+    @Language("MySQL")
     private static final String insertPokemonTeamQuery = "INSERT INTO pokemon_team (team_name, format, pokemon1_id, " +
             "pokemon2_id, pokemon3_id, pokemon4_id, pokemon5_id, pokemon6_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
+    @Language("MySQL")
     private static final String selectPokemonTeamByIdQuery = "SELECT * FROM pokemon_team WHERE id = ? LIMIT 1";
 
+    @Language("MySQL")
     private static final String selectPokemonTeamsByFormatQuery = "SELECT * FROM pokemon_team WHERE format = ?";
 
+    @Language("MySQL")
     private static final String selectPokemonTeamsByTeamNameQuery = "SELECT * FROM pokemon_team WHERE team_name = ?";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonTeamRepository.class);

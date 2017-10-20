@@ -1,6 +1,7 @@
 package repository;
 
 import data.Pokemon;
+import org.intellij.lang.annotations.Language;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.DbConnectionService;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class PokemonRepository {
 
+    @Language("MySQL")
     private static final String insertPokemonQuery = "INSERT INTO pokemon (name, nickname, item, ability, level, type1, type2," +
             " hp_evs, attack_evs, defence_evs, special_attack_evs, special_defence_evs, speed_evs," +
             " hp_ivs, attack_ivs, defence_ivs, special_attack_ivs, special_defence_ivs, speed_ivs," +
@@ -18,8 +20,10 @@ public class PokemonRepository {
             "VALUES " +
             "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    @Language("MySQL")
     private static final String selectPokemonByIdQuery = "SELECT * FROM pokemon WHERE id = ? LIMIT 1";
 
+    @Language("MySQL")
     private static final String selectPokemonByIdsQueryStart = "SELECT * FROM pokemon_team WHERE id IN (";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);

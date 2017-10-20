@@ -1,6 +1,7 @@
 package repository;
 
 import data.RandomPokemon;
+import org.intellij.lang.annotations.Language;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.DbConnectionService;
@@ -9,11 +10,13 @@ import java.sql.*;
 
 public class RandomPokemonRepository {
 
+    @Language("MySQL")
     private static final String saveRandomPokemonQuery = "INSERT INTO random_pokemon (name, nickname, item, ability, level, " +
             "type1, type2, hp, attack, defence, special_attack, special_defence, speed, move1, move2, move3, move4) " +
             "VALUES " +
             "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    @Language("MySQL")
     private static final String selectRandomPokemonByIdQuery = "SELECT * FROM random_pokemon where id = ? LIMIT 1";
 
     private final static Logger logger = LoggerFactory.getLogger(RandomPokemonRepository.class);
