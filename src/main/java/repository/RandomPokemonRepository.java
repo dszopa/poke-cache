@@ -9,15 +9,15 @@ import java.sql.*;
 
 public class RandomPokemonRepository {
 
-    private static String saveRandomPokemonQuery = "INSERT INTO random_pokemon (name, nickname, item, ability, level, " +
+    private static final String saveRandomPokemonQuery = "INSERT INTO random_pokemon (name, nickname, item, ability, level, " +
             "type1, type2, hp, attack, defence, special_attack, special_defence, speed, move1, move2, move3, move4) " +
             "VALUES " +
             "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static String selectRandomPokemonByIdQuery = "SELECT * FROM random_pokemon where id = ? LIMIT 1";
+    private static final String selectRandomPokemonByIdQuery = "SELECT * FROM random_pokemon where id = ? LIMIT 1";
 
     private final static Logger logger = LoggerFactory.getLogger(RandomPokemonRepository.class);
-    private Connection connection;
+    private final Connection connection;
 
     /**
      * Repository for managing creation, retrieval, and editing of RandomPokemon entities.
@@ -71,13 +71,7 @@ public class RandomPokemonRepository {
             PreparedStatement statement = connection.prepareStatement(selectRandomPokemonByIdQuery);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                return _convertResultSetToRandomPokemon(rs);
-            } else {
-                throw new SQLException("ResultSet did not contain any RandomPokemon. Database query returned 0" +
-                        " results.");
-            }
+            return _convertResultSetToRandomPokemon(rs);
         } catch (SQLException e) {
             logger.error("Getting RandomPokemon from database failed.", e);
             return null;
@@ -133,15 +127,15 @@ public class RandomPokemonRepository {
         String nickname = rs.getString("nickname");
         String item = rs.getString("item");
         String ability = rs.getString("ability");
-        int level = rs.getInt("level");
+        Integer level = rs.getInt("level");
         String type1 = rs.getString("type1");
         String type2 = rs.getString("type2");
-        int hp = rs.getInt("hp");
-        int attack = rs.getInt("attack");
-        int defence = rs.getInt("defence");
-        int specialAttack = rs.getInt("special_attack");
-        int specialDefence = rs.getInt("special_defence");
-        int speed = rs.getInt("speed");
+        Integer hp = rs.getInt("hp");
+        Integer attack = rs.getInt("attack");
+        Integer defence = rs.getInt("defence");
+        Integer specialAttack = rs.getInt("special_attack");
+        Integer specialDefence = rs.getInt("special_defence");
+        Integer speed = rs.getInt("speed");
         String move1 = rs.getString("move1");
         String move2 = rs.getString("move2");
         String move3 = rs.getString("move3");

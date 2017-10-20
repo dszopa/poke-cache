@@ -8,19 +8,19 @@ public class RandomPokemonDTO {
     private String nickname;
     private String item;
     private String ability;
-    private int level;
+    private Integer level;
 
     // Typing
     private String type1;
     private String type2;
 
     // Stats
-    private int hp;
-    private int attack;
-    private int defence;
-    private int specialAttack;
-    private int specialDefence;
-    private int speed;
+    private Integer hp;
+    private Integer attack;
+    private Integer defence;
+    private Integer specialAttack;
+    private Integer specialDefence;
+    private Integer speed;
 
     // Move names
     private String move1;
@@ -30,9 +30,9 @@ public class RandomPokemonDTO {
 
     public RandomPokemonDTO() {}
 
-    public RandomPokemonDTO(String name, String nickname, String item, String ability, int level, String type1,
-                            String type2, int hp, int attack, int defence, int specialAttack, int specialDefence,
-                            int speed, String move1, String move2, String move3, String move4) {
+    public RandomPokemonDTO(String name, String nickname, String item, String ability, Integer level, String type1,
+                            String type2, Integer hp, Integer attack, Integer defence, Integer specialAttack, Integer specialDefence,
+                            Integer speed, String move1, String move2, String move3, String move4) {
         this.name = name;
         this.nickname = nickname;
         this.item = item;
@@ -52,9 +52,9 @@ public class RandomPokemonDTO {
         this.move4 = move4;
     }
 
-    public RandomPokemonDTO(Long id, String name, String nickname, String item, String ability, int level, String type1,
-                            String type2, int hp, int attack, int defence, int specialAttack, int specialDefence,
-                            int speed, String move1, String move2, String move3, String move4) {
+    public RandomPokemonDTO(Long id, String name, String nickname, String item, String ability, Integer level, String type1,
+                            String type2, Integer hp, Integer attack, Integer defence, Integer specialAttack, Integer specialDefence,
+                            Integer speed, String move1, String move2, String move3, String move4) {
         this.id = id;
         this.name = name;
         this.nickname = nickname;
@@ -115,11 +115,11 @@ public class RandomPokemonDTO {
         this.ability = ability;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
@@ -139,51 +139,51 @@ public class RandomPokemonDTO {
         this.type2 = type2;
     }
 
-    public int getHp() {
+    public Integer getHp() {
         return hp;
     }
 
-    public void setHp(int hp) {
+    public void setHp(Integer hp) {
         this.hp = hp;
     }
 
-    public int getAttack() {
+    public Integer getAttack() {
         return attack;
     }
 
-    public void setAttack(int attack) {
+    public void setAttack(Integer attack) {
         this.attack = attack;
     }
 
-    public int getDefence() {
+    public Integer getDefence() {
         return defence;
     }
 
-    public void setDefence(int defence) {
+    public void setDefence(Integer defence) {
         this.defence = defence;
     }
 
-    public int getSpecialAttack() {
+    public Integer getSpecialAttack() {
         return specialAttack;
     }
 
-    public void setSpecialAttack(int specialAttack) {
+    public void setSpecialAttack(Integer specialAttack) {
         this.specialAttack = specialAttack;
     }
 
-    public int getSpecialDefence() {
+    public Integer getSpecialDefence() {
         return specialDefence;
     }
 
-    public void setSpecialDefence(int specialDefence) {
+    public void setSpecialDefence(Integer specialDefence) {
         this.specialDefence = specialDefence;
     }
 
-    public int getSpeed() {
+    public Integer getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(Integer speed) {
         this.speed = speed;
     }
 

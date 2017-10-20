@@ -8,9 +8,9 @@ import repository.RandomPokemonRepository;
 
 public class RandomPokemonService {
 
-    private RandomPokemonRepository randomPokemonRepository;
-    private RandomPokemonFactory randomPokemonFactory;
-    private RandomPokemonDtoFactory randomPokemonDtoFactory;
+    private final RandomPokemonRepository randomPokemonRepository;
+    private final RandomPokemonFactory randomPokemonFactory;
+    private final RandomPokemonDtoFactory randomPokemonDtoFactory;
 
     public RandomPokemonService(RandomPokemonRepository randomPokemonRepository,
                                 RandomPokemonFactory randomPokemonFactory,

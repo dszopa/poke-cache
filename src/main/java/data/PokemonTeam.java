@@ -10,9 +10,7 @@ public class PokemonTeam implements Serializable {
     private Long id;
     private String teamName;
     private String format;
-
-    // Max size 6
-    private List<Long> pokemonIdList;
+    private List<Long> pokemonIdList; // Max size 6
 
     public PokemonTeam(String teamName, String format, List<Long> pokemonIdList) {
         this.teamName = teamName;

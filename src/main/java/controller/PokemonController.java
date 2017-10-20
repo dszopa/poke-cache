@@ -10,8 +10,8 @@ import static spark.Spark.post;
 
 public class PokemonController {
 
-    private Gson gson;
-    private PokemonService pokemonService;
+    private final Gson gson;
+    private final PokemonService pokemonService;
 
     public PokemonController(Gson gson, PokemonService pokemonService) {
         this.gson = gson;

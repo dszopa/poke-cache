@@ -18,12 +18,12 @@ import java.util.Map;
 
 public class PokemonTeamService {
 
-    private PokemonTeamRepository pokemonTeamRepository;
-    private PokemonRepository pokemonRepository;
-    private PokemonDtoFactory pokemonDtoFactory;
-    private PokemonFactory pokemonFactory;
-    private PokemonTeamDtoFactory pokemonTeamDtoFactory;
-    private PokemonTeamFactory pokemonTeamFactory;
+    private final PokemonTeamRepository pokemonTeamRepository;
+    private final PokemonRepository pokemonRepository;
+    private final PokemonDtoFactory pokemonDtoFactory;
+    private final PokemonFactory pokemonFactory;
+    private final PokemonTeamDtoFactory pokemonTeamDtoFactory;
+    private final PokemonTeamFactory pokemonTeamFactory;
 
     /**
      * Interacts with a PokemonRepository & PokemonTeamRepository to provide a wrapper for error handling as well

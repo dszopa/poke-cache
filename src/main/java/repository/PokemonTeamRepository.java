@@ -12,20 +12,20 @@ import java.util.List;
 
 public class PokemonTeamRepository {
 
-    private static String insertPokemonTeamQuery = "INSERT INTO pokemon_team (team_name, format, pokemon1_id, " +
+    private static final String insertPokemonTeamQuery = "INSERT INTO pokemon_team (team_name, format, pokemon1_id, " +
             "pokemon2_id, pokemon3_id, pokemon4_id, pokemon5_id, pokemon6_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static String selectPokemonTeamByIdQuery = "SELECT * FROM pokemon_team WHERE id = ? LIMIT 1";
+    private static final String selectPokemonTeamByIdQuery = "SELECT * FROM pokemon_team WHERE id = ? LIMIT 1";
 
-    private static String selectPokemonTeamsByFormatQuery = "SELECT * FROM pokemon_team WHERE format = ?";
+    private static final String selectPokemonTeamsByFormatQuery = "SELECT * FROM pokemon_team WHERE format = ?";
 
-    private static String selectPokemonTeamsByTeamNameQuery = "SELECT * FROM pokemon_team WHERE team_name = ?";
+    private static final String selectPokemonTeamsByTeamNameQuery = "SELECT * FROM pokemon_team WHERE team_name = ?";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonTeamRepository.class);
-    private Connection connection;
+    private final Connection connection;
 
     /**
-     * Repsitory for managing creating, retrieval, and editing of PokemonTeam entities.
+     * Repository for managing creating, retrieval, and editing of PokemonTeam entities.
      * @param dbConnectionService
      *  A database connection service, used to get the current connection to the database.
      */

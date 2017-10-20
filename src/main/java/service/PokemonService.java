@@ -8,9 +8,9 @@ import repository.PokemonRepository;
 
 public class PokemonService {
 
-    private PokemonRepository pokemonRepository;
-    private PokemonFactory pokemonFactory;
-    private PokemonDtoFactory pokemonDtoFactory;
+    private final PokemonRepository pokemonRepository;
+    private final PokemonFactory pokemonFactory;
+    private final PokemonDtoFactory pokemonDtoFactory;
 
     /**
      * Interacts with a PokemonRepository to provide a wrapper for error handling as well as

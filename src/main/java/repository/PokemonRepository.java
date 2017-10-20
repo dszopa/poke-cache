@@ -11,19 +11,19 @@ import java.util.List;
 
 public class PokemonRepository {
 
-    private static String insertPokemonQuery = "INSERT INTO pokemon (name, nickname, item, ability, level, type1, type2," +
+    private static final String insertPokemonQuery = "INSERT INTO pokemon (name, nickname, item, ability, level, type1, type2," +
             " hp_evs, attack_evs, defence_evs, special_attack_evs, special_defence_evs, speed_evs," +
             " hp_ivs, attack_ivs, defence_ivs, special_attack_ivs, special_defence_ivs, speed_ivs," +
             " move1, move2, move3, move4) " +
             "VALUES " +
             "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static String selectPokemonByIdQuery = "SELECT * FROM pokemon WHERE id = ? LIMIT 1";
+    private static final String selectPokemonByIdQuery = "SELECT * FROM pokemon WHERE id = ? LIMIT 1";
 
-    private static String selectPokemonByIdsQueryStart = "SELECT * FROM pokemon_team WHERE id IN (";
+    private static final String selectPokemonByIdsQueryStart = "SELECT * FROM pokemon_team WHERE id IN (";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);
-    private Connection connection;
+    private final Connection connection;
 
     /**
      * Repository for managing creation, retrieval, and editing of Pokemon entities
@@ -186,21 +186,21 @@ public class PokemonRepository {
         String nickname = rs.getString("nickname");
         String item = rs.getString("item");
         String ability = rs.getString("ability");
-        int level = rs.getInt("level");
+        Integer level = rs.getInt("level");
         String type1 = rs.getString("type1");
         String type2 = rs.getString("type2");
-        int hpEVs = rs.getInt("hp_evs");
-        int attackEVs = rs.getInt("attack_evs");
-        int defenceEVs = rs.getInt("defence_evs");
-        int specialAttackEVs = rs.getInt("special_attack_evs");
-        int specialDefenceEVs = rs.getInt("special_defence_evs");
-        int speedEVs = rs.getInt("speed_evs");
-        int hpIVs = rs.getInt("hp_ivs");
-        int attackIVs = rs.getInt("attack_ivs");
-        int defenceIVs = rs.getInt("defence_ivs");
-        int specialAttackIVs = rs.getInt("special_attack_ivs");
-        int specialDefenceIVs = rs.getInt("special_defence_ivs");
-        int speedIVs = rs.getInt("speed_ivs");
+        Integer hpEVs = rs.getInt("hp_evs");
+        Integer attackEVs = rs.getInt("attack_evs");
+        Integer defenceEVs = rs.getInt("defence_evs");
+        Integer specialAttackEVs = rs.getInt("special_attack_evs");
+        Integer specialDefenceEVs = rs.getInt("special_defence_evs");
+        Integer speedEVs = rs.getInt("speed_evs");
+        Integer hpIVs = rs.getInt("hp_ivs");
+        Integer attackIVs = rs.getInt("attack_ivs");
+        Integer defenceIVs = rs.getInt("defence_ivs");
+        Integer specialAttackIVs = rs.getInt("special_attack_ivs");
+        Integer specialDefenceIVs = rs.getInt("special_defence_ivs");
+        Integer speedIVs = rs.getInt("speed_ivs");
         String move1 = rs.getString("move1");
         String move2 = rs.getString("move2");
         String move3 = rs.getString("move3");

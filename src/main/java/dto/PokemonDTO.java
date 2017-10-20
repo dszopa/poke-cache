@@ -9,26 +9,26 @@ public class PokemonDTO {
     private String nickname;
     private String item;
     private String ability;
-    private int level;
+    private Integer level;
 
     // Typing
     private String type1;
     private String type2;
 
     // Stats
-    private int hpEVs;
-    private int attackEVs;
-    private int defenceEVs;
-    private int specialAttackEVs;
-    private int specialDefenceEVs;
-    private int speedEVs;
+    private Integer hpEVs;
+    private Integer attackEVs;
+    private Integer defenceEVs;
+    private Integer specialAttackEVs;
+    private Integer specialDefenceEVs;
+    private Integer speedEVs;
 
-    private int hpIVs;
-    private int attackIVs;
-    private int defenceIVs;
-    private int specialAttackIVs;
-    private int specialDefenceIVs;
-    private int speedIVs;
+    private Integer hpIVs;
+    private Integer attackIVs;
+    private Integer defenceIVs;
+    private Integer specialAttackIVs;
+    private Integer specialDefenceIVs;
+    private Integer speedIVs;
 
     // Move names
     private String move1;
@@ -38,10 +38,10 @@ public class PokemonDTO {
 
     public PokemonDTO() {}
 
-    public PokemonDTO(String name, String nickname, String item, String ability, int level, String type1, String type2,
-                      int hpEVs, int attackEVs, int defenceEVs, int specialAttackEVs, int specialDefenceEVs,
-                      int speedEVs, int hpIVs, int attackIVs, int defenceIVs, int specialAttackIVs,
-                      int specialDefenceIVs, int speedIVs, String move1, String move2, String move3, String move4) {
+    public PokemonDTO(String name, String nickname, String item, String ability, Integer level, String type1, String type2,
+                      Integer hpEVs, Integer attackEVs, Integer defenceEVs, Integer specialAttackEVs, Integer specialDefenceEVs,
+                      Integer speedEVs, Integer hpIVs, Integer attackIVs, Integer defenceIVs, Integer specialAttackIVs,
+                      Integer specialDefenceIVs, Integer speedIVs, String move1, String move2, String move3, String move4) {
         this.name = name;
         this.nickname = nickname;
         this.item = item;
@@ -67,10 +67,10 @@ public class PokemonDTO {
         this.move4 = move4;
     }
 
-    public PokemonDTO(Long id, String name, String nickname, String item, String ability, int level, String type1,
-                      String type2, int hpEVs, int attackEVs, int defenceEVs, int specialAttackEVs,
-                      int specialDefenceEVs, int speedEVs, int hpIVs, int attackIVs, int defenceIVs,
-                      int specialAttackIVs, int specialDefenceIVs, int speedIVs, String move1, String move2,
+    public PokemonDTO(Long id, String name, String nickname, String item, String ability, Integer level, String type1,
+                      String type2, Integer hpEVs, Integer attackEVs, Integer defenceEVs, Integer specialAttackEVs,
+                      Integer specialDefenceEVs, Integer speedEVs, Integer hpIVs, Integer attackIVs, Integer defenceIVs,
+                      Integer specialAttackIVs, Integer specialDefenceIVs, Integer speedIVs, String move1, String move2,
                       String move3, String move4) {
         this.id = id;
         this.name = name;
@@ -138,11 +138,11 @@ public class PokemonDTO {
         this.ability = ability;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
@@ -162,99 +162,99 @@ public class PokemonDTO {
         this.type2 = type2;
     }
 
-    public int getHpEVs() {
+    public Integer getHpEVs() {
         return hpEVs;
     }
 
-    public void setHpEVs(int hpEVs) {
+    public void setHpEVs(Integer hpEVs) {
         this.hpEVs = hpEVs;
     }
 
-    public int getAttackEVs() {
+    public Integer getAttackEVs() {
         return attackEVs;
     }
 
-    public void setAttackEVs(int attackEVs) {
+    public void setAttackEVs(Integer attackEVs) {
         this.attackEVs = attackEVs;
     }
 
-    public int getDefenceEVs() {
+    public Integer getDefenceEVs() {
         return defenceEVs;
     }
 
-    public void setDefenceEVs(int defenceEVs) {
+    public void setDefenceEVs(Integer defenceEVs) {
         this.defenceEVs = defenceEVs;
     }
 
-    public int getSpecialAttackEVs() {
+    public Integer getSpecialAttackEVs() {
         return specialAttackEVs;
     }
 
-    public void setSpecialAttackEVs(int specialAttackEVs) {
+    public void setSpecialAttackEVs(Integer specialAttackEVs) {
         this.specialAttackEVs = specialAttackEVs;
     }
 
-    public int getSpecialDefenceEVs() {
+    public Integer getSpecialDefenceEVs() {
         return specialDefenceEVs;
     }
 
-    public void setSpecialDefenceEVs(int specialDefenceEVs) {
+    public void setSpecialDefenceEVs(Integer specialDefenceEVs) {
         this.specialDefenceEVs = specialDefenceEVs;
     }
 
-    public int getSpeedEVs() {
+    public Integer getSpeedEVs() {
         return speedEVs;
     }
 
-    public void setSpeedEVs(int speedEVs) {
+    public void setSpeedEVs(Integer speedEVs) {
         this.speedEVs = speedEVs;
     }
 
-    public int getHpIVs() {
+    public Integer getHpIVs() {
         return hpIVs;
     }
 
-    public void setHpIVs(int hpIVs) {
+    public void setHpIVs(Integer hpIVs) {
         this.hpIVs = hpIVs;
     }
 
-    public int getAttackIVs() {
+    public Integer getAttackIVs() {
         return attackIVs;
     }
 
-    public void setAttackIVs(int attackIVs) {
+    public void setAttackIVs(Integer attackIVs) {
         this.attackIVs = attackIVs;
     }
 
-    public int getDefenceIVs() {
+    public Integer getDefenceIVs() {
         return defenceIVs;
     }
 
-    public void setDefenceIVs(int defenceIVs) {
+    public void setDefenceIVs(Integer defenceIVs) {
         this.defenceIVs = defenceIVs;
     }
 
-    public int getSpecialAttackIVs() {
+    public Integer getSpecialAttackIVs() {
         return specialAttackIVs;
     }
 
-    public void setSpecialAttackIVs(int specialAttackIVs) {
+    public void setSpecialAttackIVs(Integer specialAttackIVs) {
         this.specialAttackIVs = specialAttackIVs;
     }
 
-    public int getSpecialDefenceIVs() {
+    public Integer getSpecialDefenceIVs() {
         return specialDefenceIVs;
     }
 
-    public void setSpecialDefenceIVs(int specialDefenceIVs) {
+    public void setSpecialDefenceIVs(Integer specialDefenceIVs) {
         this.specialDefenceIVs = specialDefenceIVs;
     }
 
-    public int getSpeedIVs() {
+    public Integer getSpeedIVs() {
         return speedIVs;
     }
 
-    public void setSpeedIVs(int speedIVs) {
+    public void setSpeedIVs(Integer speedIVs) {
         this.speedIVs = speedIVs;
     }
 

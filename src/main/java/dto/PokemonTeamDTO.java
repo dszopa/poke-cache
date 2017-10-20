@@ -7,9 +7,7 @@ public class PokemonTeamDTO {
     private Long id;
     private String teamName;
     private String format;
-
-    // Max size 6
-    private List<PokemonDTO> pokemonList;
+    private List<PokemonDTO> pokemonList; // Max size 6
 
     public PokemonTeamDTO() {}
 
