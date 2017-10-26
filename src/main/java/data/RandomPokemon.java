@@ -32,53 +32,6 @@ public class RandomPokemon implements Serializable {
     private String move3;
     private String move4;
 
-    public RandomPokemon() {}
-
-    public RandomPokemon(String name, String nickname, String item, String ability, Integer level, String type1, String type2,
-                   Integer hp, Integer attack, Integer defence, Integer specialAttack, Integer specialDefence, Integer speed, String move1,
-                   String move2, String move3, String move4) {
-        this.name = name;
-        this.nickname = nickname;
-        this.item = item;
-        this.ability = ability;
-        this.level = level;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.hp = hp;
-        this.attack = attack;
-        this.defence = defence;
-        this.specialAttack = specialAttack;
-        this.specialDefence = specialDefence;
-        this.speed = speed;
-        this.move1 = move1;
-        this.move2 = move2;
-        this.move3 = move3;
-        this.move4 = move4;
-    }
-
-    public RandomPokemon(Long id, String name, String nickname, String item, String ability, Integer level, String type1,
-                         String type2, Integer hp, Integer attack, Integer defence, Integer specialAttack, Integer specialDefence,
-                         Integer speed, String move1, String move2, String move3, String move4) {
-        this.id = id;
-        this.name = name;
-        this.nickname = nickname;
-        this.item = item;
-        this.ability = ability;
-        this.level = level;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.hp = hp;
-        this.attack = attack;
-        this.defence = defence;
-        this.specialAttack = specialAttack;
-        this.specialDefence = specialDefence;
-        this.speed = speed;
-        this.move1 = move1;
-        this.move2 = move2;
-        this.move3 = move3;
-        this.move4 = move4;
-    }
-
     public Long getId() {
         return id;
     }

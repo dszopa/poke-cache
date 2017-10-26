@@ -14,7 +14,12 @@ public class PokemonTeamFactory {
         for (PokemonDTO pokemonDTO : pokemonTeamDTO.getPokemonList()) {
             pokemonIds.add(pokemonDTO.getId());
         }
-        return new PokemonTeam(pokemonTeamDTO.getId(), pokemonTeamDTO.getTeamName(), pokemonTeamDTO.getFormat(),
-                pokemonIds);
+
+        return new PokemonTeam.PokemonTeamBuilder()
+                .withId(pokemonTeamDTO.getId())
+                .withTeamName(pokemonTeamDTO.getTeamName())
+                .withFormat(pokemonTeamDTO.getFormat())
+                .withPokemonIdList(pokemonIds)
+                .build();
     }
 }

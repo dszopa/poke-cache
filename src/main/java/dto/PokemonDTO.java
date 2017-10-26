@@ -36,68 +36,6 @@ public class PokemonDTO {
     private String move3;
     private String move4;
 
-    public PokemonDTO() {}
-
-    public PokemonDTO(String name, String nickname, String item, String ability, Integer level, String type1, String type2,
-                      Integer hpEVs, Integer attackEVs, Integer defenceEVs, Integer specialAttackEVs, Integer specialDefenceEVs,
-                      Integer speedEVs, Integer hpIVs, Integer attackIVs, Integer defenceIVs, Integer specialAttackIVs,
-                      Integer specialDefenceIVs, Integer speedIVs, String move1, String move2, String move3, String move4) {
-        this.name = name;
-        this.nickname = nickname;
-        this.item = item;
-        this.ability = ability;
-        this.level = level;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.hpEVs = hpEVs;
-        this.attackEVs = attackEVs;
-        this.defenceEVs = defenceEVs;
-        this.specialAttackEVs = specialAttackEVs;
-        this.specialDefenceEVs = specialDefenceEVs;
-        this.speedEVs = speedEVs;
-        this.hpIVs = hpIVs;
-        this.attackIVs = attackIVs;
-        this.defenceIVs = defenceIVs;
-        this.specialAttackIVs = specialAttackIVs;
-        this.specialDefenceIVs = specialDefenceIVs;
-        this.speedIVs = speedIVs;
-        this.move1 = move1;
-        this.move2 = move2;
-        this.move3 = move3;
-        this.move4 = move4;
-    }
-
-    public PokemonDTO(Long id, String name, String nickname, String item, String ability, Integer level, String type1,
-                      String type2, Integer hpEVs, Integer attackEVs, Integer defenceEVs, Integer specialAttackEVs,
-                      Integer specialDefenceEVs, Integer speedEVs, Integer hpIVs, Integer attackIVs, Integer defenceIVs,
-                      Integer specialAttackIVs, Integer specialDefenceIVs, Integer speedIVs, String move1, String move2,
-                      String move3, String move4) {
-        this.id = id;
-        this.name = name;
-        this.nickname = nickname;
-        this.item = item;
-        this.ability = ability;
-        this.level = level;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.hpEVs = hpEVs;
-        this.attackEVs = attackEVs;
-        this.defenceEVs = defenceEVs;
-        this.specialAttackEVs = specialAttackEVs;
-        this.specialDefenceEVs = specialDefenceEVs;
-        this.speedEVs = speedEVs;
-        this.hpIVs = hpIVs;
-        this.attackIVs = attackIVs;
-        this.defenceIVs = defenceIVs;
-        this.specialAttackIVs = specialAttackIVs;
-        this.specialDefenceIVs = specialDefenceIVs;
-        this.speedIVs = speedIVs;
-        this.move1 = move1;
-        this.move2 = move2;
-        this.move3 = move3;
-        this.move4 = move4;
-    }
-
     public Long getId() {
         return id;
     }
@@ -288,5 +226,185 @@ public class PokemonDTO {
 
     public void setMove4(String move4) {
         this.move4 = move4;
+    }
+
+    public static final class PokemonDTOBuilder {
+        private Long id;
+        // Pokemon Info
+        private String name;
+        private String nickname;
+        private String item;
+        private String ability;
+        private Integer level;
+        // Typing
+        private String type1;
+        private String type2;
+        // Stats
+        private Integer hpEVs;
+        private Integer attackEVs;
+        private Integer defenceEVs;
+        private Integer specialAttackEVs;
+        private Integer specialDefenceEVs;
+        private Integer speedEVs;
+        private Integer hpIVs;
+        private Integer attackIVs;
+        private Integer defenceIVs;
+        private Integer specialAttackIVs;
+        private Integer specialDefenceIVs;
+        private Integer speedIVs;
+        // Move names
+        private String move1;
+        private String move2;
+        private String move3;
+        private String move4;
+
+        public PokemonDTOBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public PokemonDTOBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public PokemonDTOBuilder withNickname(String nickname) {
+            this.nickname = nickname;
+            return this;
+        }
+
+        public PokemonDTOBuilder withItem(String item) {
+            this.item = item;
+            return this;
+        }
+
+        public PokemonDTOBuilder withAbility(String ability) {
+            this.ability = ability;
+            return this;
+        }
+
+        public PokemonDTOBuilder withLevel(Integer level) {
+            this.level = level;
+            return this;
+        }
+
+        public PokemonDTOBuilder withType1(String type1) {
+            this.type1 = type1;
+            return this;
+        }
+
+        public PokemonDTOBuilder withType2(String type2) {
+            this.type2 = type2;
+            return this;
+        }
+
+        public PokemonDTOBuilder withHpEVs(Integer hpEVs) {
+            this.hpEVs = hpEVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withAttackEVs(Integer attackEVs) {
+            this.attackEVs = attackEVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withDefenceEVs(Integer defenceEVs) {
+            this.defenceEVs = defenceEVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withSpecialAttackEVs(Integer specialAttackEVs) {
+            this.specialAttackEVs = specialAttackEVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withSpecialDefenceEVs(Integer specialDefenceEVs) {
+            this.specialDefenceEVs = specialDefenceEVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withSpeedEVs(Integer speedEVs) {
+            this.speedEVs = speedEVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withHpIVs(Integer hpIVs) {
+            this.hpIVs = hpIVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withAttackIVs(Integer attackIVs) {
+            this.attackIVs = attackIVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withDefenceIVs(Integer defenceIVs) {
+            this.defenceIVs = defenceIVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withSpecialAttackIVs(Integer specialAttackIVs) {
+            this.specialAttackIVs = specialAttackIVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withSpecialDefenceIVs(Integer specialDefenceIVs) {
+            this.specialDefenceIVs = specialDefenceIVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withSpeedIVs(Integer speedIVs) {
+            this.speedIVs = speedIVs;
+            return this;
+        }
+
+        public PokemonDTOBuilder withMove1(String move1) {
+            this.move1 = move1;
+            return this;
+        }
+
+        public PokemonDTOBuilder withMove2(String move2) {
+            this.move2 = move2;
+            return this;
+        }
+
+        public PokemonDTOBuilder withMove3(String move3) {
+            this.move3 = move3;
+            return this;
+        }
+
+        public PokemonDTOBuilder withMove4(String move4) {
+            this.move4 = move4;
+            return this;
+        }
+
+        public PokemonDTO build() {
+            PokemonDTO pokemonDTO = new PokemonDTO();
+            pokemonDTO.setId(id);
+            pokemonDTO.setName(name);
+            pokemonDTO.setNickname(nickname);
+            pokemonDTO.setItem(item);
+            pokemonDTO.setAbility(ability);
+            pokemonDTO.setLevel(level);
+            pokemonDTO.setType1(type1);
+            pokemonDTO.setType2(type2);
+            pokemonDTO.setHpEVs(hpEVs);
+            pokemonDTO.setAttackEVs(attackEVs);
+            pokemonDTO.setDefenceEVs(defenceEVs);
+            pokemonDTO.setSpecialAttackEVs(specialAttackEVs);
+            pokemonDTO.setSpecialDefenceEVs(specialDefenceEVs);
+            pokemonDTO.setSpeedEVs(speedEVs);
+            pokemonDTO.setHpIVs(hpIVs);
+            pokemonDTO.setAttackIVs(attackIVs);
+            pokemonDTO.setDefenceIVs(defenceIVs);
+            pokemonDTO.setSpecialAttackIVs(specialAttackIVs);
+            pokemonDTO.setSpecialDefenceIVs(specialDefenceIVs);
+            pokemonDTO.setSpeedIVs(speedIVs);
+            pokemonDTO.setMove1(move1);
+            pokemonDTO.setMove2(move2);
+            pokemonDTO.setMove3(move3);
+            pokemonDTO.setMove4(move4);
+            return pokemonDTO;
+        }
     }
 }

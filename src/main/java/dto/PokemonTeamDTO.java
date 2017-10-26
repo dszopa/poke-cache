@@ -9,21 +9,6 @@ public class PokemonTeamDTO {
     private String format;
     private List<PokemonDTO> pokemonList; // Max size 6
 
-    public PokemonTeamDTO() {}
-
-    public PokemonTeamDTO(String teamName, String format, List<PokemonDTO> pokemonList) {
-        this.teamName = teamName;
-        this.format = format;
-        this.pokemonList = pokemonList;
-    }
-
-    public PokemonTeamDTO(Long id, String teamName, String format, List<PokemonDTO> pokemonList) {
-        this.id = id;
-        this.teamName = teamName;
-        this.format = format;
-        this.pokemonList = pokemonList;
-    }
-
     public Long getId() {
         return id;
     }
@@ -54,5 +39,41 @@ public class PokemonTeamDTO {
 
     public void setPokemonList(List<PokemonDTO> pokemonList) {
         this.pokemonList = pokemonList;
+    }
+
+    public static final class PokemonTeamDTOBuilder {
+        private Long id;
+        private String teamName;
+        private String format;
+        private List<PokemonDTO> pokemonList; // Max size 6
+
+        public PokemonTeamDTOBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public PokemonTeamDTOBuilder withTeamName(String teamName) {
+            this.teamName = teamName;
+            return this;
+        }
+
+        public PokemonTeamDTOBuilder withFormat(String format) {
+            this.format = format;
+            return this;
+        }
+
+        public PokemonTeamDTOBuilder withPokemonList(List<PokemonDTO> pokemonList) {
+            this.pokemonList = pokemonList;
+            return this;
+        }
+
+        public PokemonTeamDTO build() {
+            PokemonTeamDTO pokemonTeamDTO = new PokemonTeamDTO();
+            pokemonTeamDTO.setId(id);
+            pokemonTeamDTO.setTeamName(teamName);
+            pokemonTeamDTO.setFormat(format);
+            pokemonTeamDTO.setPokemonList(pokemonList);
+            return pokemonTeamDTO;
+        }
     }
 }

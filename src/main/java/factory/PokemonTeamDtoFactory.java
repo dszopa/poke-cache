@@ -11,8 +11,12 @@ import java.util.Map;
 public class PokemonTeamDtoFactory {
 
     public PokemonTeamDTO createPokemonTeamDto(PokemonTeam pokemonTeam, List<PokemonDTO> pokemonDtoList) {
-        return new PokemonTeamDTO(pokemonTeam.getId(), pokemonTeam.getTeamName(), pokemonTeam.getFormat(),
-                pokemonDtoList);
+        return new PokemonTeamDTO.PokemonTeamDTOBuilder()
+                .withId(pokemonTeam.getId())
+                .withTeamName(pokemonTeam.getTeamName())
+                .withFormat(pokemonTeam.getFormat())
+                .withPokemonList(pokemonDtoList)
+                .build();
     }
 
     public PokemonTeamDTO createPokemonTeamDto(PokemonTeam pokemonTeam, Map<Long, PokemonDTO> pokemonDtoMap) {
@@ -22,7 +26,11 @@ public class PokemonTeamDtoFactory {
             pokemonDtoList.add(pokemonDtoMap.get(id));
         }
 
-        return new PokemonTeamDTO(pokemonTeam.getId(), pokemonTeam.getTeamName(), pokemonTeam.getFormat(),
-                pokemonDtoList);
+        return new PokemonTeamDTO.PokemonTeamDTOBuilder()
+                .withId(pokemonTeam.getId())
+                .withTeamName(pokemonTeam.getTeamName())
+                .withFormat(pokemonTeam.getFormat())
+                .withPokemonList(pokemonDtoList)
+                .build();
     }
 }

@@ -6,11 +6,31 @@ import dto.PokemonDTO;
 public class PokemonDtoFactory {
 
     public PokemonDTO createPokemonDTO(Pokemon pokemon) {
-        return new PokemonDTO(pokemon.getId(), pokemon.getName(), pokemon.getNickname(), pokemon.getItem(),
-                pokemon.getAbility(), pokemon.getLevel(), pokemon.getType1(), pokemon.getType2(), pokemon.getHpEVs(),
-                pokemon.getAttackEVs(), pokemon.getDefenceEVs(), pokemon.getSpecialAttackEVs(),
-                pokemon.getSpecialDefenceEVs(), pokemon.getSpeedEVs(), pokemon.getHpIVs(), pokemon.getAttackIVs(),
-                pokemon.getDefenceIVs(), pokemon.getSpecialAttackIVs(), pokemon.getSpecialDefenceIVs(),
-                pokemon.getSpeedIVs(), pokemon.getMove1(), pokemon.getMove2(), pokemon.getMove3(), pokemon.getMove4());
+        return new PokemonDTO.PokemonDTOBuilder()
+                .withId(pokemon.getId())
+                .withName(pokemon.getName())
+                .withNickname(pokemon.getNickname())
+                .withItem(pokemon.getItem())
+                .withAbility(pokemon.getAbility())
+                .withLevel(pokemon.getLevel())
+                .withType1(pokemon.getType1())
+                .withType2(pokemon.getType2())
+                .withHpEVs(pokemon.getHpEVs())
+                .withAttackEVs(pokemon.getAttackEVs())
+                .withDefenceEVs(pokemon.getDefenceEVs())
+                .withSpecialAttackEVs(pokemon.getSpecialAttackEVs())
+                .withSpecialDefenceEVs(pokemon.getSpecialDefenceEVs())
+                .withSpeedEVs(pokemon.getSpeedEVs())
+                .withHpIVs(pokemon.getHpIVs())
+                .withAttackIVs(pokemon.getAttackIVs())
+                .withDefenceIVs(pokemon.getDefenceIVs())
+                .withSpecialAttackIVs(pokemon.getSpecialAttackIVs())
+                .withSpecialDefenceIVs(pokemon.getSpecialDefenceIVs())
+                .withSpeedIVs(pokemon.getSpeedIVs())
+                .withMove1(pokemon.getMove1())
+                .withMove2(pokemon.getMove2())
+                .withMove3(pokemon.getMove3())
+                .withMove4(pokemon.getMove4())
+                .build();
     }
 }

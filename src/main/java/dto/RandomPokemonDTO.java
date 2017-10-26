@@ -28,53 +28,6 @@ public class RandomPokemonDTO {
     private String move3;
     private String move4;
 
-    public RandomPokemonDTO() {}
-
-    public RandomPokemonDTO(String name, String nickname, String item, String ability, Integer level, String type1,
-                            String type2, Integer hp, Integer attack, Integer defence, Integer specialAttack, Integer specialDefence,
-                            Integer speed, String move1, String move2, String move3, String move4) {
-        this.name = name;
-        this.nickname = nickname;
-        this.item = item;
-        this.ability = ability;
-        this.level = level;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.hp = hp;
-        this.attack = attack;
-        this.defence = defence;
-        this.specialAttack = specialAttack;
-        this.specialDefence = specialDefence;
-        this.speed = speed;
-        this.move1 = move1;
-        this.move2 = move2;
-        this.move3 = move3;
-        this.move4 = move4;
-    }
-
-    public RandomPokemonDTO(Long id, String name, String nickname, String item, String ability, Integer level, String type1,
-                            String type2, Integer hp, Integer attack, Integer defence, Integer specialAttack, Integer specialDefence,
-                            Integer speed, String move1, String move2, String move3, String move4) {
-        this.id = id;
-        this.name = name;
-        this.nickname = nickname;
-        this.item = item;
-        this.ability = ability;
-        this.level = level;
-        this.type1 = type1;
-        this.type2 = type2;
-        this.hp = hp;
-        this.attack = attack;
-        this.defence = defence;
-        this.specialAttack = specialAttack;
-        this.specialDefence = specialDefence;
-        this.speed = speed;
-        this.move1 = move1;
-        this.move2 = move2;
-        this.move3 = move3;
-        this.move4 = move4;
-    }
-
     public Long getId() {
         return id;
     }
@@ -217,5 +170,142 @@ public class RandomPokemonDTO {
 
     public void setMove4(String move4) {
         this.move4 = move4;
+    }
+
+    public static final class RandomPokemonDTOBuilder {
+        private Long id;
+        private String name;
+        private String nickname;
+        private String item;
+        private String ability;
+        private Integer level;
+        // Typing
+        private String type1;
+        private String type2;
+        // Stats
+        private Integer hp;
+        private Integer attack;
+        private Integer defence;
+        private Integer specialAttack;
+        private Integer specialDefence;
+        private Integer speed;
+        // Move names
+        private String move1;
+        private String move2;
+        private String move3;
+        private String move4;
+
+        public RandomPokemonDTOBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withNickname(String nickname) {
+            this.nickname = nickname;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withItem(String item) {
+            this.item = item;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withAbility(String ability) {
+            this.ability = ability;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withLevel(Integer level) {
+            this.level = level;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withType1(String type1) {
+            this.type1 = type1;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withType2(String type2) {
+            this.type2 = type2;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withHp(Integer hp) {
+            this.hp = hp;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withAttack(Integer attack) {
+            this.attack = attack;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withDefence(Integer defence) {
+            this.defence = defence;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withSpecialAttack(Integer specialAttack) {
+            this.specialAttack = specialAttack;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withSpecialDefence(Integer specialDefence) {
+            this.specialDefence = specialDefence;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withSpeed(Integer speed) {
+            this.speed = speed;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withMove1(String move1) {
+            this.move1 = move1;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withMove2(String move2) {
+            this.move2 = move2;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withMove3(String move3) {
+            this.move3 = move3;
+            return this;
+        }
+
+        public RandomPokemonDTOBuilder withMove4(String move4) {
+            this.move4 = move4;
+            return this;
+        }
+
+        public RandomPokemonDTO build() {
+            RandomPokemonDTO randomPokemonDTO = new RandomPokemonDTO();
+            randomPokemonDTO.setId(id);
+            randomPokemonDTO.setName(name);
+            randomPokemonDTO.setNickname(nickname);
+            randomPokemonDTO.setItem(item);
+            randomPokemonDTO.setAbility(ability);
+            randomPokemonDTO.setLevel(level);
+            randomPokemonDTO.setType1(type1);
+            randomPokemonDTO.setType2(type2);
+            randomPokemonDTO.setHp(hp);
+            randomPokemonDTO.setAttack(attack);
+            randomPokemonDTO.setDefence(defence);
+            randomPokemonDTO.setSpecialAttack(specialAttack);
+            randomPokemonDTO.setSpecialDefence(specialDefence);
+            randomPokemonDTO.setSpeed(speed);
+            randomPokemonDTO.setMove1(move1);
+            randomPokemonDTO.setMove2(move2);
+            randomPokemonDTO.setMove3(move3);
+            randomPokemonDTO.setMove4(move4);
+            return randomPokemonDTO;
+        }
     }
 }

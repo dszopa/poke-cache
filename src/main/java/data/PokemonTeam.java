@@ -12,19 +12,6 @@ public class PokemonTeam implements Serializable {
     private String format;
     private List<Long> pokemonIdList; // Max size 6
 
-    public PokemonTeam(String teamName, String format, List<Long> pokemonIdList) {
-        this.teamName = teamName;
-        this.format = format;
-        this.pokemonIdList = pokemonIdList;
-    }
-
-    public PokemonTeam(Long id, String teamName, String format, List<Long> pokemonIdList) {
-        this.id = id;
-        this.teamName = teamName;
-        this.format = format;
-        this.pokemonIdList = pokemonIdList;
-    }
-
     public Long getId() {
         return id;
     }
@@ -55,5 +42,41 @@ public class PokemonTeam implements Serializable {
 
     public void setPokemonIdList(List<Long> pokemonIdList) {
         this.pokemonIdList = pokemonIdList;
+    }
+
+    public static final class PokemonTeamBuilder {
+        private Long id;
+        private String teamName;
+        private String format;
+        private List<Long> pokemonIdList; // Max size 6
+
+        public PokemonTeamBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public PokemonTeamBuilder withTeamName(String teamName) {
+            this.teamName = teamName;
+            return this;
+        }
+
+        public PokemonTeamBuilder withFormat(String format) {
+            this.format = format;
+            return this;
+        }
+
+        public PokemonTeamBuilder withPokemonIdList(List<Long> pokemonIdList) {
+            this.pokemonIdList = pokemonIdList;
+            return this;
+        }
+
+        public PokemonTeam build() {
+            PokemonTeam pokemonTeam = new PokemonTeam();
+            pokemonTeam.setId(id);
+            pokemonTeam.setTeamName(teamName);
+            pokemonTeam.setFormat(format);
+            pokemonTeam.setPokemonIdList(pokemonIdList);
+            return pokemonTeam;
+        }
     }
 }

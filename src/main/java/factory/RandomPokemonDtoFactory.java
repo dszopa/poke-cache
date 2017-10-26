@@ -6,10 +6,25 @@ import dto.RandomPokemonDTO;
 public class RandomPokemonDtoFactory {
 
     public RandomPokemonDTO createRandomPokemonDTO(RandomPokemon randomPokemon) {
-        return new RandomPokemonDTO(randomPokemon.getId(), randomPokemon.getName(), randomPokemon.getNickname(),
-                randomPokemon.getItem(), randomPokemon.getAbility(), randomPokemon.getLevel(), randomPokemon.getType1(),
-                randomPokemon.getType2(), randomPokemon.getHp(), randomPokemon.getAttack(), randomPokemon.getDefence(),
-                randomPokemon.getSpecialAttack(), randomPokemon.getSpecialDefence(), randomPokemon.getSpeed(),
-                randomPokemon.getMove1(), randomPokemon.getMove2(), randomPokemon.getMove3(), randomPokemon.getMove4());
+        return new RandomPokemonDTO.RandomPokemonDTOBuilder()
+                .withId(randomPokemon.getId())
+                .withName(randomPokemon.getName())
+                .withNickname(randomPokemon.getNickname())
+                .withItem(randomPokemon.getItem())
+                .withAbility(randomPokemon.getAbility())
+                .withLevel(randomPokemon.getLevel())
+                .withType1(randomPokemon.getType1())
+                .withType2(randomPokemon.getType2())
+                .withHp(randomPokemon.getHp())
+                .withAttack(randomPokemon.getAttack())
+                .withDefence(randomPokemon.getDefence())
+                .withSpecialAttack(randomPokemon.getSpecialAttack())
+                .withSpecialDefence(randomPokemon.getSpecialDefence())
+                .withSpeed(randomPokemon.getSpeed())
+                .withMove1(randomPokemon.getMove1())
+                .withMove2(randomPokemon.getMove2())
+                .withMove3(randomPokemon.getMove3())
+                .withMove4(randomPokemon.getMove4())
+                .build();
     }
 }
