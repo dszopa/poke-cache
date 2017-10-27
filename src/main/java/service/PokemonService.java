@@ -8,7 +8,6 @@ import repository.PokemonRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class PokemonService {
 
@@ -52,9 +51,9 @@ public class PokemonService {
      * @return
      *  A list of PokemonDTOs where each PokemonDTO's id is in ids.
      */
-    @SuppressWarnings("unchecked")
     public List<PokemonDTO> getPokemonByIds(List<Long> ids) {
-        return _getPokemonList(param -> pokemonRepository.getPokemonByIds((List<Long>) param), ids);
+        List<Pokemon> pokemonList = pokemonRepository.getPokemonByIds(ids);
+        return _convertPokemonListToPokemonDtoList(pokemonList);
     }
 
     /**
@@ -65,7 +64,8 @@ public class PokemonService {
      *  A list of PokemonDTOs where each PokemonDTO's primary or secondary type is type.
      */
     public List<PokemonDTO> getPokemonByType(String type) {
-        return _getPokemonList(param -> pokemonRepository.getPokemonByType((String) param), type);
+        List<Pokemon> pokemonList = pokemonRepository.getPokemonByType(type);
+        return _convertPokemonListToPokemonDtoList(pokemonList);
     }
 
     /**
@@ -76,21 +76,18 @@ public class PokemonService {
      *  A list of PokemonDTOs where each PokemonDTO's name is name.
      */
     public List<PokemonDTO> getPokemonByName(String name) {
-        return _getPokemonList(param -> pokemonRepository.getPokemonByName((String) param), name);
+        List<Pokemon> pokemonList = pokemonRepository.getPokemonByName(name);
+        return _convertPokemonListToPokemonDtoList(pokemonList);
     }
 
     /**
-     * Takes a function returning a list of Pokemon objects and an object to invoke on the function and returns
-     * a list of PokemonDTOs
-     * @param function
-     *  A function with one parameter returning a list of Pokemon.
-     * @param param
-     *  The parameter for function.
+     * Converts a list of Pokemon into a list of PokemonDTOs.
+     * @param pokemonList
+     *  The list of Pokemon to convert.
      * @return
-     *  The result of function invoked with parameter then converted to a list.
+     *  A list of PokemonDTOs converted from pokemonList.
      */
-    private List<PokemonDTO> _getPokemonList(Function<Object, List<Pokemon>> function, Object param) {
-        List<Pokemon> pokemonList = function.apply(param);
+    private List<PokemonDTO> _convertPokemonListToPokemonDtoList(List<Pokemon> pokemonList) {
         List<PokemonDTO> pokemonDtoList = new ArrayList<>();
         for (Pokemon pokemon : pokemonList) {
             pokemonDtoList.add(pokemonDtoFactory.createPokemonDTO(pokemon));
