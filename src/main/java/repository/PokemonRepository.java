@@ -20,7 +20,9 @@ public class PokemonRepository {
 
     private static final String selectPokemonByIdQuery = "SELECT * FROM pokemon WHERE id = ? LIMIT 1";
 
-    private static final String selectPokemonByIdsQueryStart = "SELECT * FROM pokemon_team WHERE id IN (";
+    private static final String selectPokemonByIdsQueryStart = "SELECT * FROM pokemon WHERE id IN (";
+
+    private static final String selectPokemonByTypeQuery = "SELECT * FROM pokemon WHERE type1 = ? OR type2 = ?";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);
     private final Connection connection;
@@ -84,7 +86,7 @@ public class PokemonRepository {
                 throw new SQLException("ResultSet did not contain any Pokemon. Database query returned 0 results.");
             }
         } catch (SQLException e) {
-            logger.error("Getting Pokemon from database failed.", e);
+            logger.error("Getting Pokemon from database by id failed.", e);
             return null;
         }
     }
@@ -102,7 +104,28 @@ public class PokemonRepository {
             ResultSet rs = statement.executeQuery();
             return _convertResultSetToPokemonList(rs);
         } catch (SQLException e) {
-            logger.error("Getting Pokemon from database failed.", e);
+            logger.error("Getting Pokemon from database by ids failed.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Get a list of Pokemon by type.
+     * @param type
+     *  The type to search by.
+     * @return
+     *  A list of Pokemon objects where each pokemon's primary or secondary type will be the provided type.
+     */
+    public List<Pokemon> getPokemonByType(String type) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(selectPokemonByTypeQuery);
+            statement.setString(1, type);
+            statement.setString(2, type);
+            ResultSet rs = statement.executeQuery();
+            return _convertResultSetToPokemonList(rs);
+
+        } catch (SQLException e) {
+            logger.error("Getting Pokemon from database by type failed.", e);
             return new ArrayList<>();
         }
     }
@@ -206,10 +229,32 @@ public class PokemonRepository {
         String move3 = rs.getString("move3");
         String move4 = rs.getString("move4");
 
-        return new Pokemon(id, name, nickname, item, ability, level, type1, type2,
-                hpEVs, attackEVs, defenceEVs, specialAttackEVs, specialDefenceEVs, speedEVs,
-                hpIVs, attackIVs, defenceIVs, specialAttackIVs, specialDefenceIVs, speedIVs,
-                move1, move2, move3, move4);
+        return new Pokemon.PokemonBuilder()
+                .withId(id)
+                .withName(name)
+                .withNickname(nickname)
+                .withItem(item)
+                .withAbility(ability)
+                .withLevel(level)
+                .withType1(type1)
+                .withType2(type2)
+                .withHpEVs(hpEVs)
+                .withAttackEVs(attackEVs)
+                .withDefenceEVs(defenceEVs)
+                .withSpecialAttackEVs(specialAttackEVs)
+                .withSpecialDefenceEVs(specialDefenceEVs)
+                .withSpeedEVs(speedEVs)
+                .withHpIVs(hpIVs)
+                .withAttackIVs(attackIVs)
+                .withDefenceIVs(defenceIVs)
+                .withSpecialAttackIVs(specialAttackIVs)
+                .withSpecialDefenceIVs(specialDefenceIVs)
+                .withSpeedIVs(speedIVs)
+                .withMove1(move1)
+                .withMove2(move2)
+                .withMove3(move3)
+                .withMove4(move4)
+                .build();
     }
 
     /**

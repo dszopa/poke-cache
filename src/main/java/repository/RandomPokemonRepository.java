@@ -37,7 +37,7 @@ public class RandomPokemonRepository {
      */
     public RandomPokemon saveRandomPokemon(RandomPokemon randomPokemon) {
         try {
-            PreparedStatement preparedStatement = _createSaveRandomPokemonStatement(randomPokemon);
+            PreparedStatement preparedStatement = _createInsertRandomPokemonStatement(randomPokemon);
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -87,7 +87,7 @@ public class RandomPokemonRepository {
      * @throws SQLException
      *  Thrown when there is a problem creating the PreparedStatement.
      */
-    private PreparedStatement _createSaveRandomPokemonStatement(RandomPokemon randomPokemon) throws SQLException {
+    private PreparedStatement _createInsertRandomPokemonStatement(RandomPokemon randomPokemon) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(
                 saveRandomPokemonQuery, Statement.RETURN_GENERATED_KEYS);
 
@@ -141,8 +141,25 @@ public class RandomPokemonRepository {
         String move3 = rs.getString("move3");
         String move4 = rs.getString("move4");
 
-        return new RandomPokemon(id, name, nickname, item, ability, level, type1, type2,
-                hp, attack, defence, specialAttack, specialDefence, speed,
-                move1, move2, move3, move4);
+        return new RandomPokemon.RandomPokemonBuilder()
+                .withId(id)
+                .withName(name)
+                .withNickname(nickname)
+                .withItem(item)
+                .withAbility(ability)
+                .withLevel(level)
+                .withType1(type1)
+                .withType2(type2)
+                .withHp(hp)
+                .withAttack(attack)
+                .withDefence(defence)
+                .withSpecialAttack(specialAttack)
+                .withSpecialDefence(specialDefence)
+                .withSpeed(speed)
+                .withMove1(move1)
+                .withMove2(move2)
+                .withMove3(move3)
+                .withMove4(move4)
+                .build();
     }
 }

@@ -33,7 +33,6 @@ public class PokemonTeamRepository {
         this.connection = dbConnectionService.getConnection();
     }
 
-    // TODO: it might be possible to abstract this code with a generic function
     /**
      * Saves a PokemonTeam to the database.
      * @param pokemonTeam
@@ -43,7 +42,7 @@ public class PokemonTeamRepository {
      */
     public PokemonTeam savePokemonTeam(PokemonTeam pokemonTeam) {
         try {
-            PreparedStatement preparedStatement = _createSavePokemonTeamStatement(pokemonTeam);
+            PreparedStatement preparedStatement = _createInsertPokemonTeamStatement(pokemonTeam);
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -131,7 +130,7 @@ public class PokemonTeamRepository {
      * @throws SQLException
      *  Thrown when there is a problem with creating the PreparedStatement.
      */
-    private PreparedStatement _createSavePokemonTeamStatement(PokemonTeam pokemonTeam) throws SQLException {
+    private PreparedStatement _createInsertPokemonTeamStatement(PokemonTeam pokemonTeam) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(
                 insertPokemonTeamQuery, Statement.RETURN_GENERATED_KEYS);
 
@@ -165,8 +164,13 @@ public class PokemonTeamRepository {
         Long pokemon5Id = rs.getLong("pokemon5_id");
         Long pokemon6Id = rs.getLong("pokemon6_id");
 
-        return new PokemonTeam(id, teamName, format,
-                Arrays.asList(pokemon1Id, pokemon2Id, pokemon3Id, pokemon4Id, pokemon5Id, pokemon6Id));
+        return new PokemonTeam.PokemonTeamBuilder()
+                .withId(id)
+                .withTeamName(teamName)
+                .withFormat(format)
+                .withPokemonIdList(Arrays.asList(pokemon1Id, pokemon2Id, pokemon3Id, pokemon4Id,
+                        pokemon5Id, pokemon6Id))
+                .build();
     }
 
     /**

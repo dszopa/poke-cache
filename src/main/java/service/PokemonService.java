@@ -6,6 +6,9 @@ import factory.PokemonDtoFactory;
 import factory.PokemonFactory;
 import repository.PokemonRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PokemonService {
 
     private final PokemonRepository pokemonRepository;
@@ -36,9 +39,41 @@ public class PokemonService {
      * @return
      *  A PokemonDTO with values filled from the database.
      */
-    public PokemonDTO getPokemon(Long id) {
+    public PokemonDTO getPokemonById(Long id) {
         Pokemon pokemon = pokemonRepository.getPokemonById(id);
         return pokemonDtoFactory.createPokemonDTO(pokemon);
+    }
+
+    /**
+     * Gets a list of PokemonDTOs from PokemonRepository by their ids.
+     * @param ids
+     *  The ids of Pokemon to search for.
+     * @return
+     *  A list of PokemonDTOs where each PokemonDTO's id is in ids.
+     */
+    public List<PokemonDTO> getPokemonByIds(List<Long> ids) {
+        List<Pokemon> pokemonList = pokemonRepository.getPokemonByIds(ids);
+        List<PokemonDTO> pokemonDtoList = new ArrayList<>();
+        for (Pokemon pokemon : pokemonList) {
+            pokemonDtoList.add(pokemonDtoFactory.createPokemonDTO(pokemon));
+        }
+        return pokemonDtoList;
+    }
+
+    /**
+     * Gets a list of PokemonDTOs from PokemonRepository by their ids.
+     * @param type
+     *  The type of Pokemon to search for.
+     * @return
+     *  A list of PokemonDTOs where each PokemonDTO's primary or secondary type is type.
+     */
+    public List<PokemonDTO> getPokemonByType(String type) {
+        List<Pokemon> pokemonList = pokemonRepository.getPokemonByType(type);
+        List<PokemonDTO> pokemonDtoList = new ArrayList<>();
+        for (Pokemon pokemon : pokemonList) {
+            pokemonDtoList.add(pokemonDtoFactory.createPokemonDTO(pokemon));
+        }
+        return pokemonDtoList;
     }
 
     /**
