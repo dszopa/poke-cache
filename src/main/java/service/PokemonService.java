@@ -8,6 +8,7 @@ import repository.PokemonRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class PokemonService {
 
@@ -51,13 +52,9 @@ public class PokemonService {
      * @return
      *  A list of PokemonDTOs where each PokemonDTO's id is in ids.
      */
+    @SuppressWarnings("unchecked")
     public List<PokemonDTO> getPokemonByIds(List<Long> ids) {
-        List<Pokemon> pokemonList = pokemonRepository.getPokemonByIds(ids);
-        List<PokemonDTO> pokemonDtoList = new ArrayList<>();
-        for (Pokemon pokemon : pokemonList) {
-            pokemonDtoList.add(pokemonDtoFactory.createPokemonDTO(pokemon));
-        }
-        return pokemonDtoList;
+        return _getPokemonList(param -> pokemonRepository.getPokemonByIds((List<Long>) param), ids);
     }
 
     /**
@@ -68,7 +65,32 @@ public class PokemonService {
      *  A list of PokemonDTOs where each PokemonDTO's primary or secondary type is type.
      */
     public List<PokemonDTO> getPokemonByType(String type) {
-        List<Pokemon> pokemonList = pokemonRepository.getPokemonByType(type);
+        return _getPokemonList(param -> pokemonRepository.getPokemonByType((String) param), type);
+    }
+
+    /**
+     * Gets a list of PokemonDTOs from PokemonRepository by their name.
+     * @param name
+     *  The name of Pokemon to search for.
+     * @return
+     *  A list of PokemonDTOs where each PokemonDTO's name is name.
+     */
+    public List<PokemonDTO> getPokemonByName(String name) {
+        return _getPokemonList(param -> pokemonRepository.getPokemonByName((String) param), name);
+    }
+
+    /**
+     * Takes a function returning a list of Pokemon objects and an object to invoke on the function and returns
+     * a list of PokemonDTOs
+     * @param function
+     *  A function with one parameter returning a list of Pokemon.
+     * @param param
+     *  The parameter for function.
+     * @return
+     *  The result of function invoked with parameter then converted to a list.
+     */
+    private List<PokemonDTO> _getPokemonList(Function<Object, List<Pokemon>> function, Object param) {
+        List<Pokemon> pokemonList = function.apply(param);
         List<PokemonDTO> pokemonDtoList = new ArrayList<>();
         for (Pokemon pokemon : pokemonList) {
             pokemonDtoList.add(pokemonDtoFactory.createPokemonDTO(pokemon));

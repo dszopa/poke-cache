@@ -24,6 +24,8 @@ public class PokemonRepository {
 
     private static final String selectPokemonByTypeQuery = "SELECT * FROM pokemon WHERE type1 = ? OR type2 = ?";
 
+    private static final String selectPokemonByName = "SELECT * FROM pokemon WHERE name = ?";
+
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);
     private final Connection connection;
 
@@ -126,6 +128,25 @@ public class PokemonRepository {
 
         } catch (SQLException e) {
             logger.error("Getting Pokemon from database by type failed.", e);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Get a list of Pokemon by name.
+     * @param name
+     *  The name of Pokemon to search by.
+     * @return
+     *  A list of Pokemon objects where each Pokemon's name is name.
+     */
+    public List<Pokemon> getPokemonByName(String name) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(selectPokemonByName);
+            statement.setString(1, name);
+            ResultSet rs = statement.executeQuery();
+            return _convertResultSetToPokemonList(rs);
+        } catch (SQLException e) {
+            logger.error("Getting Pokemon from database by type failed", e);
             return new ArrayList<>();
         }
     }

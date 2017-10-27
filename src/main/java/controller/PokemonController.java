@@ -26,7 +26,7 @@ public class PokemonController {
     private void _setupRoutes() {
         // Get Pokemon By Id.
         get("/pokemon/id/:id", "application/json", (req, res) -> {
-            Long id = Long.parseLong(req.params("id"));
+            Long id = Long.parseLong(req.params(":id"));
             return pokemonService.getPokemonById(id);
         }, new JsonTransformer());
 
@@ -53,8 +53,14 @@ public class PokemonController {
 
         // Get a list of Pokemon by type.
         get("/pokemon/type/:type", "application/json", (req, res) -> {
-           String type = req.params("type");
+           String type = req.params(":type");
            return pokemonService.getPokemonByType(type);
+        }, new JsonTransformer());
+
+        // Get a list of Pokemon by pokemon name
+        get("/pokemon/name/:name", "application/json", (req, res) -> {
+            String name = req.params(":name");
+            return pokemonService.getPokemonByName(name);
         }, new JsonTransformer());
 
         // Create a new Pokemon.
