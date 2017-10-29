@@ -3,7 +3,6 @@ package service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -25,7 +24,7 @@ public class DbConnectionService{
                     InputStream inputStream = null;
 
                     try {
-                        inputStream = new FileInputStream("src/main/resources/config.properties");
+                        inputStream = DbConnectionService.class.getResourceAsStream("/config.properties");
                         properties.load(inputStream);
 
                         String url = properties.getProperty("database.url");
