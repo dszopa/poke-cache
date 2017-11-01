@@ -1,15 +1,16 @@
 package repository;
 
 import data.Pokemon;
+import factory.DataSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.DbConnectionService;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PokemonRepository {
+public class PokemonRepository extends Repository {
 
     private static final String insertPokemonQuery = "INSERT INTO pokemon (name, nickname, item, ability, level, type1, type2," +
             " hp_evs, attack_evs, defence_evs, special_attack_evs, special_defence_evs, speed_evs," +
@@ -27,15 +28,15 @@ public class PokemonRepository {
     private static final String selectPokemonByName = "SELECT * FROM pokemon WHERE name = ?";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);
-    private final Connection connection;
+    private final DataSource dataSource;
 
     /**
      * Repository for managing creation, retrieval, and editing of Pokemon entities
-     * @param dbConnectionService
-     *  A database connection service, used to get the current connection to the database.
+     * @param dataSourceFactory
+     *  A factory for getting a DataSource object that manages database connections.
      */
-    public PokemonRepository(DbConnectionService dbConnectionService) {
-        this.connection = dbConnectionService.getConnection();
+    public PokemonRepository(DataSourceFactory dataSourceFactory) {
+        this.dataSource = dataSourceFactory.getDataSource();
     }
 
     /**
@@ -46,26 +47,31 @@ public class PokemonRepository {
      *  The Pokemon with its new database id attached.
      */
     public Pokemon savePokemon(Pokemon pokemon) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = _createInsertPokemonStatement(pokemon);
+            connection = dataSource.getConnection();
+            statement = _createInsertPokemonStatement(pokemon, connection);
 
-            int affectedRows = preparedStatement.executeUpdate();
+            int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating Pokemon failed, no rows affected.");
             }
 
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                pokemon.setId(generatedKeys.getLong(1));
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                pokemon.setId(resultSet.getLong(1));
             } else {
                 throw new SQLException("Creating Pokemon failed, no ID obtained.");
             }
 
             return pokemon;
-
         } catch (SQLException e) {
-            logger.error("Error with SQL Statement.", e);
+            logger.error("Error with SQL Statement. Called: savePokemon(" + pokemon.toString() + ")", e);
             return null;
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
         }
     }
 
@@ -77,19 +83,20 @@ public class PokemonRepository {
      *  The Pokemon with id, id, from the database.
      */
     public Pokemon getPokemonById(Long id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(selectPokemonByIdQuery);
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(selectPokemonByIdQuery);
             statement.setLong(1, id);
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                return _convertResultSetToPokemon(rs);
-            } else {
-                throw new SQLException("ResultSet did not contain any Pokemon. Database query returned 0 results.");
-            }
+            resultSet = statement.executeQuery();
+            return _convertResultSetToPokemon(resultSet);
         } catch (SQLException e) {
-            logger.error("Getting Pokemon from database by id failed.", e);
+            logger.error("Getting Pokemon from database by id failed. Called: getPokemonById(" + id + ")", e);
             return null;
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
         }
     }
 
@@ -101,13 +108,19 @@ public class PokemonRepository {
      *  A list of Pokemon objects.
      */
     public List<Pokemon> getPokemonByIds(List<Long> ids) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement statement = _createSelectPokemonByIdsStatement(ids);
-            ResultSet rs = statement.executeQuery();
-            return _convertResultSetToPokemonList(rs);
+            connection = dataSource.getConnection();
+            statement = _createSelectPokemonByIdsStatement(ids, connection);
+            resultSet = statement.executeQuery();
+            return _convertResultSetToPokemonList(resultSet);
         } catch (SQLException e) {
-            logger.error("Getting Pokemon from database by ids failed.", e);
+            logger.error("Getting Pokemon from database by ids failed. Called: getPokemonByIds(" + ids.toString() + ")", e);
             return new ArrayList<>();
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
         }
     }
 
@@ -119,16 +132,21 @@ public class PokemonRepository {
      *  A list of Pokemon objects where each pokemon's primary or secondary type will be the provided type.
      */
     public List<Pokemon> getPokemonByType(String type) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(selectPokemonByTypeQuery);
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(selectPokemonByTypeQuery);
             statement.setString(1, type);
             statement.setString(2, type);
-            ResultSet rs = statement.executeQuery();
-            return _convertResultSetToPokemonList(rs);
-
+            resultSet = statement.executeQuery();
+            return _convertResultSetToPokemonList(resultSet);
         } catch (SQLException e) {
-            logger.error("Getting Pokemon from database by type failed.", e);
+            logger.error("Getting Pokemon from database by type failed. Called: getPokemonByType(" + type + ")", e);
             return new ArrayList<>();
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
         }
     }
 
@@ -140,14 +158,20 @@ public class PokemonRepository {
      *  A list of Pokemon objects where each Pokemon's name is name.
      */
     public List<Pokemon> getPokemonByName(String name) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(selectPokemonByName);
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(selectPokemonByName);
             statement.setString(1, name);
-            ResultSet rs = statement.executeQuery();
-            return _convertResultSetToPokemonList(rs);
+            resultSet = statement.executeQuery();
+            return _convertResultSetToPokemonList(resultSet);
         } catch (SQLException e) {
-            logger.error("Getting Pokemon from database by type failed", e);
+            logger.error("Getting Pokemon from database by type failed. Called: getPokemonByName(" + name + ")", e);
             return new ArrayList<>();
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
         }
     }
 
@@ -155,12 +179,15 @@ public class PokemonRepository {
      * Helper function which returns a PreparedStatement for saving a Pokemon object.
      * @param pokemon
      *  The Pokemon object the PreparedStatement is being prepared for.
+     * @param connection
+     *  The Connection object used to create the statement.
      * @return
      *  A PreparedStatement for saving the given Pokemon object.
      * @throws SQLException
      *  Thrown when there is a problem with creating the PreparedStatement.
      */
-    private PreparedStatement _createInsertPokemonStatement(Pokemon pokemon) throws SQLException {
+    private PreparedStatement _createInsertPokemonStatement(Pokemon pokemon, Connection connection)
+            throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(
                 insertPokemonQuery, Statement.RETURN_GENERATED_KEYS);
 
@@ -195,12 +222,15 @@ public class PokemonRepository {
      * Helper function which returns a PreparedStatement for selecting
      * @param ids
      *  The list of ids the PreparedStatement is being prepared for.
+     * @param connection
+     *  The Connection object used to create the statement.
      * @return
      *  A PreparedStatement for selecting Pokemon from the database.
      * @throws SQLException
      *  Thrown when there is a problem with creating the PreparedStatement.
      */
-    private PreparedStatement _createSelectPokemonByIdsStatement(List<Long> ids) throws SQLException {
+    private PreparedStatement _createSelectPokemonByIdsStatement(List<Long> ids, Connection connection)
+            throws SQLException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(selectPokemonByIdsQueryStart);
 
@@ -216,6 +246,23 @@ public class PokemonRepository {
     }
 
     /**
+     * Helper function to convert a ResultSet to a list of Pokemon.
+     * @param rs
+     *  The ResultSet that will be converted.
+     * @return
+     *  The created list of Pokemon
+     * @throws SQLException
+     *  Thrown when there is a problem converting the ResultSet to a list of Pokemon.
+     */
+    private List<Pokemon> _convertResultSetToPokemonList(ResultSet rs) throws SQLException {
+        List<Pokemon> pokemonList = new ArrayList<>();
+        while (rs.next()) {
+            pokemonList.add(_convertResultSetToPokemonNoNextCall(rs));
+        }
+        return pokemonList;
+    }
+
+    /**
      * Helper function to convert a ResultSet to a Pokemon object.
      * @param rs
      *  The ResultSet the Pokemon object will be made from.
@@ -225,6 +272,24 @@ public class PokemonRepository {
      *  Thrown when there is a problem converting the ResultSet to a Pokemon object.
      */
     private Pokemon _convertResultSetToPokemon(ResultSet rs) throws SQLException {
+        if (rs.next()) {
+            return _convertResultSetToPokemonNoNextCall(rs);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Helper function which contains the actual logic to convert a ResultSet to a Pokemon object.
+     * Does not call rs.next()
+     * @param rs
+     *  The ResultSet the Pokemon object will be made from.
+     * @return
+     *  The created Pokemon object.
+     * @throws SQLException
+     *  Thrown when there is a problem converting the ResultSet to a Pokemon object.
+     */
+    private Pokemon _convertResultSetToPokemonNoNextCall(ResultSet rs) throws SQLException {
         Long id = rs.getLong("id");
         String name = rs.getString("name");
         String nickname = rs.getString("nickname");
@@ -276,22 +341,5 @@ public class PokemonRepository {
                 .withMove3(move3)
                 .withMove4(move4)
                 .build();
-    }
-
-    /**
-     * Helper function to convert a ResultSet to a list of Pokemon.
-     * @param rs
-     *  The ResultSet that will be converted.
-     * @return
-     *  The created list of Pokemon
-     * @throws SQLException
-     *  Thrown when there is a problem converting the ResultSet to a list of Pokemon.
-     */
-    private List<Pokemon> _convertResultSetToPokemonList(ResultSet rs) throws SQLException {
-        List<Pokemon> pokemonList = new ArrayList<>();
-        while (rs.next()) {
-            pokemonList.add(_convertResultSetToPokemon(rs));
-        }
-        return pokemonList;
     }
 }

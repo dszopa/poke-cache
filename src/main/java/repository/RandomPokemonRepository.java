@@ -3,11 +3,12 @@ package repository;
 import data.RandomPokemon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.DbConnectionService;
+import factory.DataSourceFactory;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
-public class RandomPokemonRepository {
+public class RandomPokemonRepository extends Repository {
 
     private static final String saveRandomPokemonQuery = "INSERT INTO random_pokemon (name, nickname, item, ability, level, " +
             "type1, type2, hp, attack, defence, special_attack, special_defence, speed, move1, move2, move3, move4) " +
@@ -17,15 +18,15 @@ public class RandomPokemonRepository {
     private static final String selectRandomPokemonByIdQuery = "SELECT * FROM random_pokemon where id = ? LIMIT 1";
 
     private final static Logger logger = LoggerFactory.getLogger(RandomPokemonRepository.class);
-    private final Connection connection;
+    private final DataSource dataSource;
 
     /**
      * Repository for managing creation, retrieval, and editing of RandomPokemon entities.
-     * @param dbConnectionService
-     *  A database connection service, used to get the current connection to the database.
+     * @param dataSourceFactory
+     *  A factory for getting a DataSource object that manages database connections.
      */
-    public RandomPokemonRepository(DbConnectionService dbConnectionService) {
-        this.connection = dbConnectionService.getConnection();
+    public RandomPokemonRepository(DataSourceFactory dataSourceFactory) {
+        this.dataSource = dataSourceFactory.getDataSource();
     }
 
     /**
@@ -36,26 +37,31 @@ public class RandomPokemonRepository {
      *  The RandomPokemon with its new database id attached.
      */
     public RandomPokemon saveRandomPokemon(RandomPokemon randomPokemon) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = _createInsertRandomPokemonStatement(randomPokemon);
+            connection = dataSource.getConnection();
+            statement = _createInsertRandomPokemonStatement(randomPokemon, connection);
 
-            int affectedRows = preparedStatement.executeUpdate();
+            int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating RandomPokemon failed, no rows affected.");
             }
 
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                randomPokemon.setId(generatedKeys.getLong(1));
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                randomPokemon.setId(resultSet.getLong(1));
             } else {
                 throw new SQLException("Creating RandomPokemon failed, no ID obtained.");
             }
 
             return randomPokemon;
-
         } catch (SQLException e) {
-            logger.error("Error with SQL Statement.", e);
+            logger.error("Error with SQL Statement. Called: saveRandomPokemon(" + randomPokemon.toString() + ")", e);
             return null;
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
         }
     }
 
@@ -67,14 +73,20 @@ public class RandomPokemonRepository {
      *  The RandomPokemon with id, id, from the database.
      */
     public RandomPokemon getRandomPokemonById(Long id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(selectRandomPokemonByIdQuery);
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(selectRandomPokemonByIdQuery);
             statement.setLong(1, id);
-            ResultSet rs = statement.executeQuery();
-            return _convertResultSetToRandomPokemon(rs);
+            resultSet = statement.executeQuery();
+            return _convertResultSetToRandomPokemon(resultSet);
         } catch (SQLException e) {
-            logger.error("Getting RandomPokemon from database failed.", e);
+            logger.error("Getting RandomPokemon from database failed. Called: getRandomPokemonById(" + id + ")", e);
             return null;
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
         }
     }
 
@@ -82,12 +94,15 @@ public class RandomPokemonRepository {
      * Helper function which returns a PreparedStatement for saving a RandomPokemon object.
      * @param randomPokemon
      *  The RandomPokemon object the PreparedStatement is being prepared for.
+     * @param connection
+     *  The Connection object used to create the statement.
      * @return
      *  A PreparedStatement for saving the given RandomPokemon object.
      * @throws SQLException
      *  Thrown when there is a problem creating the PreparedStatement.
      */
-    private PreparedStatement _createInsertRandomPokemonStatement(RandomPokemon randomPokemon) throws SQLException {
+    private PreparedStatement _createInsertRandomPokemonStatement(RandomPokemon randomPokemon, Connection connection)
+            throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(
                 saveRandomPokemonQuery, Statement.RETURN_GENERATED_KEYS);
 
@@ -122,6 +137,23 @@ public class RandomPokemonRepository {
      *  Thrown when there is a problem converting the ResultSet to a RandomPokemon object.
      */
     private RandomPokemon _convertResultSetToRandomPokemon(ResultSet rs) throws SQLException {
+        if (rs.next()) {
+            return _convertResultSetToRandomPokemonNoNextCall(rs);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Helper function containing the actual conversion logic from ResultSet to RandomPokemon.
+     * @param rs
+     *  The ResultSet the RandomPokemon object will be made from.
+     * @return
+     *  The created RandomPokemon object.
+     * @throws SQLException
+     *  Thrown when there is a problem converting the ResultSet to a RandomPokemon object.
+     */
+    private RandomPokemon _convertResultSetToRandomPokemonNoNextCall(ResultSet rs) throws SQLException {
         Long id = rs.getLong("id");
         String name = rs.getString("name");
         String nickname = rs.getString("nickname");

@@ -6,7 +6,7 @@ import factory.*;
 import repository.PokemonRepository;
 import repository.PokemonTeamRepository;
 import repository.RandomPokemonRepository;
-import service.DbConnectionService;
+import factory.DataSourceFactory;
 import service.PokemonService;
 import service.PokemonTeamService;
 import service.RandomPokemonService;
@@ -18,7 +18,7 @@ public class App {
     public static void main(String[] args) {
         // --- Instantiate Dependencies ---
         Gson gson = new Gson();
-        DbConnectionService dbConnectionService = new DbConnectionService();
+        DataSourceFactory dataSourceFactory = new DataSourceFactory();
 
         // Create Object Factories
         PokemonFactory pokemonFactory = new PokemonFactory();
@@ -29,9 +29,9 @@ public class App {
         RandomPokemonDtoFactory randomPokemonDtoFactory = new RandomPokemonDtoFactory();
 
         // Create Repositories
-        PokemonRepository pokemonRepository = new PokemonRepository(dbConnectionService);
-        PokemonTeamRepository pokemonTeamRepository = new PokemonTeamRepository(dbConnectionService);
-        RandomPokemonRepository randomPokemonRepository = new RandomPokemonRepository(dbConnectionService);
+        PokemonRepository pokemonRepository = new PokemonRepository(dataSourceFactory);
+        PokemonTeamRepository pokemonTeamRepository = new PokemonTeamRepository(dataSourceFactory);
+        RandomPokemonRepository randomPokemonRepository = new RandomPokemonRepository(dataSourceFactory);
 
         // Create Services
         PokemonService pokemonService = new PokemonService(pokemonRepository, pokemonFactory, pokemonDtoFactory);

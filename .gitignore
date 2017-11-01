@@ -278,3 +278,5 @@ Temporary Items
 
 /.idea/
 /src/main/resources/config.properties
+/poke-cache.iml
+/.idea/vcs.xml
