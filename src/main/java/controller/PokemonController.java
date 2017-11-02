@@ -2,11 +2,16 @@ package controller;
 
 import com.google.gson.Gson;
 import dto.PokemonDTO;
+import dto.StatusMessageDTO;
 import service.PokemonService;
+import spark.Request;
+import spark.Response;
 import transformer.JsonTransformer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -26,8 +31,12 @@ public class PokemonController {
     private void _setupRoutes() {
         // Get Pokemon By Id.
         get("/pokemon/id/:id", "application/json", (req, res) -> {
-            Long id = Long.parseLong(req.params(":id"));
-            return pokemonService.getPokemonById(id);
+            try {
+                Long id = Long.parseLong(req.params(":id"));
+                return pokemonService.getPokemonById(id);
+            } catch (NumberFormatException e) {
+                return _validateGetPokemonById(req, res);
+            }
         }, new JsonTransformer());
 
         // Get a List of Pokemon by a list of Ids.
@@ -68,5 +77,19 @@ public class PokemonController {
             PokemonDTO pokemon = gson.fromJson(req.body(), PokemonDTO.class);
             return pokemonService.createPokemon(pokemon);
         }, new JsonTransformer());
+    }
+
+    private StatusMessageDTO _validateGetPokemonById(Request req, Response res) {
+        int statusCode = 400;
+        res.status(statusCode);
+
+        Map<String, Object> errorMap = new HashMap<>();
+        errorMap.put("id", req.params("id"));
+
+        return new StatusMessageDTO.StatusMessageDTOBuilder()
+                .withStatus(statusCode)
+                .withMessage("Malformed request, id must be a number between 0 and " + Long.MAX_VALUE + ".")
+                .withErrors(errorMap)
+                .build();
     }
 }
