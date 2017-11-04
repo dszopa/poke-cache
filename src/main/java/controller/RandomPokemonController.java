@@ -20,14 +20,16 @@ public class RandomPokemonController {
     }
 
     private void _setupRoutes() {
-        get("/random/pokemon/:id", "application/json", (req, res) -> {
-            Long id = Long.parseLong(req.params("id"));
-            return randomPokemonService.getRandomPokemon(id);
+        post("/random-pokemon", (req, res) -> {
+            RandomPokemonDTO randomPokemon = gson.fromJson(req.body(), RandomPokemonDTO.class);
+            // TODO: validate
+            return randomPokemonService.createRandomPokemon(randomPokemon);
         }, new JsonTransformer());
 
-        post("/random/pokemon", (req, res) -> {
-            RandomPokemonDTO randomPokemon = gson.fromJson(req.body(), RandomPokemonDTO.class);
-            return randomPokemonService.createRandomPokemon(randomPokemon);
+
+        get("/random-pokemon/:id", "application/json", (req, res) -> {
+            Long id = Long.parseLong(req.params("id"));
+            return randomPokemonService.getRandomPokemonById(id);
         }, new JsonTransformer());
     }
 }

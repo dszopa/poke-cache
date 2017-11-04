@@ -35,4 +35,23 @@ public abstract class Repository {
             logger.error("Unable to close connection properly.", e);
         }
     }
+
+    /**
+     * Rollback what has happened to the database during the connection if possible.
+     * @param connection
+     *  The database connection to rollback.
+     * @param logger
+     *  A Logger from the implementing class to log the rollback process.
+     */
+    protected void _rollbackConnection(Connection connection, Logger logger) {
+        if (connection != null) {
+            try {
+                logger.info("Attempting to rollback connection...");
+                connection.rollback();
+                logger.info("Connection rollback successful.");
+            } catch (SQLException e) {
+                logger.error("Failed to rollback connection.", e);
+            }
+        }
+    }
 }

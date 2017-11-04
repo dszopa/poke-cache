@@ -27,8 +27,11 @@ public class RandomPokemonService {
      * @return
      *  A RandomPokemonDTO with values filled from the database.
      */
-    public RandomPokemonDTO getRandomPokemon(Long id) {
+    public RandomPokemonDTO getRandomPokemonById(Long id) {
         RandomPokemon randomPokemon = randomPokemonRepository.getRandomPokemonById(id);
+        if (randomPokemon == null) {
+            return null;
+        }
         return randomPokemonDtoFactory.createRandomPokemonDTO(randomPokemon);
     }
 
@@ -42,6 +45,9 @@ public class RandomPokemonService {
     public RandomPokemonDTO createRandomPokemon(RandomPokemonDTO randomPokemonDTO) {
         RandomPokemon randomPokemon = randomPokemonFactory.createRandomPokemon(randomPokemonDTO);
         randomPokemon = randomPokemonRepository.saveRandomPokemon(randomPokemon);
+        if (randomPokemon == null) {
+            return null;
+        }
         randomPokemonDTO.setId(randomPokemon.getId());
         return randomPokemonDTO;
     }

@@ -4,6 +4,7 @@ import data.Pokemon;
 import dto.PokemonDTO;
 import factory.PokemonDtoFactory;
 import factory.PokemonFactory;
+import model.GetPokemonRequest;
 import repository.PokemonRepository;
 
 import java.util.ArrayList;
@@ -32,6 +33,14 @@ public class PokemonService {
         this.pokemonDtoFactory = pokemonDtoFactory;
     }
 
+    public List<PokemonDTO> getPokemon(GetPokemonRequest getPokemonRequest) {
+        List<Pokemon> pokemonList = pokemonRepository.getPokemon(
+                getPokemonRequest.getIds(),
+                getPokemonRequest.getType(),
+                getPokemonRequest.getName());
+        return _convertPokemonListToPokemonDtoList(pokemonList);
+    }
+
     /**
      * Gets a PokemonDTO from PokemonRepository by its id.
      * @param id
@@ -41,43 +50,27 @@ public class PokemonService {
      */
     public PokemonDTO getPokemonById(Long id) {
         Pokemon pokemon = pokemonRepository.getPokemonById(id);
+        if (pokemon == null) {
+            return null;
+        }
         return pokemonDtoFactory.createPokemonDTO(pokemon);
     }
 
     /**
-     * Gets a list of PokemonDTOs from PokemonRepository by their ids.
-     * @param ids
-     *  The ids of Pokemon to search for.
+     * Persists a Pokemon based off of the given PokemonDTO object.
+     * @param pokemonDTO
+     *  The PokemonDTO object that will be persisted.
      * @return
-     *  A list of PokemonDTOs where each PokemonDTO's id is in ids.
+     *  The persisted PokemonDTO.
      */
-    public List<PokemonDTO> getPokemonByIds(List<Long> ids) {
-        List<Pokemon> pokemonList = pokemonRepository.getPokemonByIds(ids);
-        return _convertPokemonListToPokemonDtoList(pokemonList);
-    }
-
-    /**
-     * Gets a list of PokemonDTOs from PokemonRepository by their ids.
-     * @param type
-     *  The type of Pokemon to search for.
-     * @return
-     *  A list of PokemonDTOs where each PokemonDTO's primary or secondary type is type.
-     */
-    public List<PokemonDTO> getPokemonByType(String type) {
-        List<Pokemon> pokemonList = pokemonRepository.getPokemonByType(type);
-        return _convertPokemonListToPokemonDtoList(pokemonList);
-    }
-
-    /**
-     * Gets a list of PokemonDTOs from PokemonRepository by their name.
-     * @param name
-     *  The name of Pokemon to search for.
-     * @return
-     *  A list of PokemonDTOs where each PokemonDTO's name is name.
-     */
-    public List<PokemonDTO> getPokemonByName(String name) {
-        List<Pokemon> pokemonList = pokemonRepository.getPokemonByName(name);
-        return _convertPokemonListToPokemonDtoList(pokemonList);
+    public PokemonDTO createPokemon(PokemonDTO pokemonDTO) {
+        Pokemon pokemon = pokemonFactory.createPokemon(pokemonDTO);
+        pokemon = pokemonRepository.savePokemon(pokemon);
+        if (pokemon == null) {
+            return null;
+        }
+        pokemonDTO.setId(pokemon.getId());
+        return pokemonDTO;
     }
 
     /**
@@ -93,19 +86,5 @@ public class PokemonService {
             pokemonDtoList.add(pokemonDtoFactory.createPokemonDTO(pokemon));
         }
         return pokemonDtoList;
-    }
-
-    /**
-     * Persists a Pokemon based off of the given PokemonDTO object.
-     * @param pokemonDTO
-     *  The PokemonDTO object that will be persisted.
-     * @return
-     *  The persisted PokemonDTO.
-     */
-    public PokemonDTO createPokemon(PokemonDTO pokemonDTO) {
-        Pokemon pokemon = pokemonFactory.createPokemon(pokemonDTO);
-        pokemon = pokemonRepository.savePokemon(pokemon);
-        pokemonDTO.setId(pokemon.getId());
-        return pokemonDTO;
     }
 }

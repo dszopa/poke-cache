@@ -2,6 +2,7 @@ package repository;
 
 import data.PokemonTeam;
 import factory.DataSourceFactory;
+import model.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,14 +14,10 @@ import java.util.List;
 
 public class PokemonTeamRepository extends Repository {
 
+    private static final String selectPokemonTeamByIdQuery = "SELECT * FROM pokemon_team WHERE id = ? LIMIT 1";
     private static final String insertPokemonTeamQuery = "INSERT INTO pokemon_team (team_name, format, pokemon1_id, " +
             "pokemon2_id, pokemon3_id, pokemon4_id, pokemon5_id, pokemon6_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String selectPokemonTeamByIdQuery = "SELECT * FROM pokemon_team WHERE id = ? LIMIT 1";
-
-    private static final String selectPokemonTeamsByFormatQuery = "SELECT * FROM pokemon_team WHERE format = ?";
-
-    private static final String selectPokemonTeamsByTeamNameQuery = "SELECT * FROM pokemon_team WHERE team_name = ?";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonTeamRepository.class);
     private final DataSource dataSource;
@@ -32,6 +29,60 @@ public class PokemonTeamRepository extends Repository {
      */
     public PokemonTeamRepository(DataSourceFactory dataSourceFactory) {
         this.dataSource = dataSourceFactory.getDataSource();
+    }
+
+    public List<PokemonTeam> getPokemonTeams(Format format, String teamName) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT * FROM pokemon_team");
+
+        if (format != null || teamName != null) {
+            stringBuilder.append(" WHERE");
+        }
+
+        int formatIndex = 0;
+        int teamNameIndex = 0;
+        int count = 0;
+
+        if (format != null) {
+            stringBuilder.append(" UPPER(format) = ?");
+            count++;
+            formatIndex = count;
+        }
+        if (teamName != null) {
+            if (count >= 1) {
+                stringBuilder.append(" AND");
+            }
+            stringBuilder.append(" UPPER(team_name) = UPPER(?)");
+            count++;
+            teamNameIndex = count;
+        }
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(stringBuilder.toString());
+
+            if (format != null) {
+                statement.setString(formatIndex, format.name());
+            }
+            if (teamName != null) {
+                statement.setString(teamNameIndex, teamName);
+            }
+
+            logger.info("Database Call -> " + statement.toString());
+            resultSet = statement.executeQuery();
+            return _convertResultSetToPokemonTeams(resultSet);
+
+        } catch (SQLException e) {
+            logger.error("Error querying for PokemonTeams from database. Call -> getPokemonTeams("
+                    + format + ", " + teamName + ")", e);
+            _rollbackConnection(connection, logger);
+            return new ArrayList<>();
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
+        }
     }
 
     /**
@@ -63,7 +114,8 @@ public class PokemonTeamRepository extends Repository {
 
             return pokemonTeam;
         } catch (SQLException e) {
-            logger.error("Error with SQL Statement. Called: savePokemonTeam(" + pokemonTeam.toString() + ")", e);
+            logger.error("Error with SQL Statement. Called -> savePokemonTeam(" + pokemonTeam.toString() + ")", e);
+            _rollbackConnection(connection, logger);
             return null;
         } finally {
             _closeIfNotNull(connection, statement, resultSet, logger);
@@ -88,60 +140,9 @@ public class PokemonTeamRepository extends Repository {
             resultSet = statement.executeQuery();
             return _convertResultSetToPokemonTeam(resultSet);
         } catch (SQLException e) {
-            logger.error("Getting PokemonTeam from database by id failed. Called: getPokemonTeamById(" + id + ")", e);
+            logger.error("Getting PokemonTeam from database by id failed. Call -> getPokemonTeamById(" + id + ")", e);
+            _rollbackConnection(connection, logger);
             return null;
-        } finally {
-            _closeIfNotNull(connection, statement, resultSet, logger);
-        }
-    }
-
-    /**
-     * Get a List of PokemonTeam from the database by format.
-     * @param format
-     *  The format to search by.
-     * @return
-     *  A list of PokemonTeam where each PokemonTeam has its format matching the provided format.
-     */
-    public List<PokemonTeam> getPokemonTeamsByFormat(String format) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = dataSource.getConnection();
-            statement = connection.prepareStatement(selectPokemonTeamsByFormatQuery);
-            statement.setString(1, format);
-            resultSet = statement.executeQuery();
-            return _convertResultSetToPokemonTeams(resultSet);
-        } catch (SQLException e) {
-            logger.error("Getting PokemonTeams from database by format failed. Called: getPokemonTeamsByFormat(" +
-                    format + ")", e);
-            return new ArrayList<>();
-        } finally {
-            _closeIfNotNull(connection, statement, resultSet, logger);
-        }
-    }
-
-    /**
-     * Get a List of PokemonTeam from the database by teamName
-     * @param teamName
-     *  The teamName to search by.
-     * @return
-     *  A list of PokemonTeam where each PokemonTeam has its teamName matching the provided teamName.
-     */
-    public List<PokemonTeam> getPokemonTeamsByTeamName(String teamName) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = dataSource.getConnection();
-            statement = connection.prepareStatement(selectPokemonTeamsByTeamNameQuery);
-            statement.setString(1, teamName);
-            resultSet = statement.executeQuery();
-            return _convertResultSetToPokemonTeams(resultSet);
-        } catch (SQLException e) {
-            logger.error("Getting PokemonTeams from database by teamName failed. Called: getPokemonTeamsByTeamName(" +
-                    teamName + ")", e);
-            return new ArrayList<>();
         } finally {
             _closeIfNotNull(connection, statement, resultSet, logger);
         }

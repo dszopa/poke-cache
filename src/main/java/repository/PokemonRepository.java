@@ -2,6 +2,7 @@ package repository;
 
 import data.Pokemon;
 import factory.DataSourceFactory;
+import model.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,20 +13,13 @@ import java.util.List;
 
 public class PokemonRepository extends Repository {
 
+    private static final String selectPokemonByIdQuery = "SELECT * FROM pokemon WHERE id = ? LIMIT 1";
     private static final String insertPokemonQuery = "INSERT INTO pokemon (name, nickname, item, ability, level, type1, type2," +
             " hp_evs, attack_evs, defence_evs, special_attack_evs, special_defence_evs, speed_evs," +
             " hp_ivs, attack_ivs, defence_ivs, special_attack_ivs, special_defence_ivs, speed_ivs," +
             " move1, move2, move3, move4) " +
             "VALUES " +
             "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    private static final String selectPokemonByIdQuery = "SELECT * FROM pokemon WHERE id = ? LIMIT 1";
-
-    private static final String selectPokemonByIdsQueryStart = "SELECT * FROM pokemon WHERE id IN (";
-
-    private static final String selectPokemonByTypeQuery = "SELECT * FROM pokemon WHERE type1 = ? OR type2 = ?";
-
-    private static final String selectPokemonByName = "SELECT * FROM pokemon WHERE name = ?";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);
     private final DataSource dataSource;
@@ -37,6 +31,124 @@ public class PokemonRepository extends Repository {
      */
     public PokemonRepository(DataSourceFactory dataSourceFactory) {
         this.dataSource = dataSourceFactory.getDataSource();
+    }
+
+    /**
+     * Gets a Pokemon list with each pokemon matching the given parameters.
+     * @param ids
+     *  A list of Long ids used to specify Pokemon id.
+     * @param type
+     *  A Type object, used to specify Pokemon type1 or type 2.
+     * @param name
+     *  A String object, used to specify Pokemon name.
+     * @return
+     *  A list of Pokemon matching the given parameters.
+     */
+    public List<Pokemon> getPokemon(List<Long> ids, Type type, String name) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT * FROM pokemon");
+
+        if ((ids != null && !ids.isEmpty()) || type != null || name != null) {
+            stringBuilder.append(" WHERE");
+        }
+
+        int idsIndexStart = 0;
+        int idsIndexEnd = 0;
+        int typeIndex = 0;
+        int nameIndex = 0;
+        int count = 0;
+
+        if (ids != null && !ids.isEmpty()) {
+            idsIndexStart = count;
+            stringBuilder.append(" id IN (");
+            for (int i = 0; i < ids.size(); i++) {
+                if (i == ids.size() -1) {
+                    stringBuilder.append(" ?");
+                } else {
+                    stringBuilder.append(" ?,");
+                }
+                count++;
+            }
+            stringBuilder.append(" )");
+            idsIndexEnd = count;
+        }
+        if (type != null) {
+            if (count >= 1) {
+                stringBuilder.append(" AND");
+            }
+            // No need to UPPER ?'s, type.value can never be lowercase.
+            stringBuilder.append(" ( UPPER(type1) = ? OR UPPER(type2) = ?)");
+            count++;
+            typeIndex = count;
+            count++;
+        }
+        if (name != null) {
+            if (count >= 1) {
+                stringBuilder.append(" AND");
+            }
+            stringBuilder.append(" UPPER(name) = UPPER(?)");
+            count++;
+            nameIndex = count;
+        }
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(stringBuilder.toString());
+
+            if (ids != null && !ids.isEmpty()) {
+                for (int i = idsIndexStart; i < idsIndexEnd; i++) {
+                    statement.setLong(i + 1, ids.get(i - idsIndexStart));
+                }
+            }
+            if (type != null) {
+                statement.setString(typeIndex, type.name());
+                statement.setString(typeIndex + 1, type.name());
+            }
+            if (name != null) {
+                statement.setString(nameIndex, name);
+            }
+
+            logger.info("Database Call -> " + statement.toString());
+            resultSet = statement.executeQuery();
+            return _convertResultSetToPokemonList(resultSet);
+
+        } catch (SQLException e) {
+            logger.error("Error querying for Pokemon from database. Call -> getPokemon(" + ids + ", "
+                    + type + ", " + name + ")", e);
+            _rollbackConnection(connection, logger);
+            return new ArrayList<>();
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
+        }
+    }
+
+    /**
+     * Get a Pokemon from the database by its id.
+     * @param id
+     *  The Pokemon's id
+     * @return
+     *  The Pokemon with id, id, from the database.
+     */
+    public Pokemon getPokemonById(Long id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(selectPokemonByIdQuery);
+            statement.setLong(1, id);
+            resultSet = statement.executeQuery();
+            return _convertResultSetToPokemon(resultSet);
+        } catch (SQLException e) {
+            logger.error("Getting Pokemon from database by id failed. Call -> getPokemonById(" + id + ")", e);
+            _rollbackConnection(connection, logger);
+            return null;
+        } finally {
+            _closeIfNotNull(connection, statement, resultSet, logger);
+        }
     }
 
     /**
@@ -68,108 +180,9 @@ public class PokemonRepository extends Repository {
 
             return pokemon;
         } catch (SQLException e) {
-            logger.error("Error with SQL Statement. Called: savePokemon(" + pokemon.toString() + ")", e);
+            logger.error("Error with SQL Statement. Call -> savePokemon(" + pokemon.toString() + ")", e);
+            _rollbackConnection(connection, logger);
             return null;
-        } finally {
-            _closeIfNotNull(connection, statement, resultSet, logger);
-        }
-    }
-
-    /**
-     * Get a Pokemon from the database by its id.
-     * @param id
-     *  The Pokemon's id
-     * @return
-     *  The Pokemon with id, id, from the database.
-     */
-    public Pokemon getPokemonById(Long id) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = dataSource.getConnection();
-            statement = connection.prepareStatement(selectPokemonByIdQuery);
-            statement.setLong(1, id);
-            resultSet = statement.executeQuery();
-            return _convertResultSetToPokemon(resultSet);
-        } catch (SQLException e) {
-            logger.error("Getting Pokemon from database by id failed. Called: getPokemonById(" + id + ")", e);
-            return null;
-        } finally {
-            _closeIfNotNull(connection, statement, resultSet, logger);
-        }
-    }
-
-    /**
-     * Get a list of Pokemon by ids
-     * @param ids
-     *  The ids to get the list of Pokemon by
-     * @return
-     *  A list of Pokemon objects.
-     */
-    public List<Pokemon> getPokemonByIds(List<Long> ids) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = dataSource.getConnection();
-            statement = _createSelectPokemonByIdsStatement(ids, connection);
-            resultSet = statement.executeQuery();
-            return _convertResultSetToPokemonList(resultSet);
-        } catch (SQLException e) {
-            logger.error("Getting Pokemon from database by ids failed. Called: getPokemonByIds(" + ids.toString() + ")", e);
-            return new ArrayList<>();
-        } finally {
-            _closeIfNotNull(connection, statement, resultSet, logger);
-        }
-    }
-
-    /**
-     * Get a list of Pokemon by type.
-     * @param type
-     *  The type to search by.
-     * @return
-     *  A list of Pokemon objects where each pokemon's primary or secondary type will be the provided type.
-     */
-    public List<Pokemon> getPokemonByType(String type) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = dataSource.getConnection();
-            statement = connection.prepareStatement(selectPokemonByTypeQuery);
-            statement.setString(1, type);
-            statement.setString(2, type);
-            resultSet = statement.executeQuery();
-            return _convertResultSetToPokemonList(resultSet);
-        } catch (SQLException e) {
-            logger.error("Getting Pokemon from database by type failed. Called: getPokemonByType(" + type + ")", e);
-            return new ArrayList<>();
-        } finally {
-            _closeIfNotNull(connection, statement, resultSet, logger);
-        }
-    }
-
-    /**
-     * Get a list of Pokemon by name.
-     * @param name
-     *  The name of Pokemon to search by.
-     * @return
-     *  A list of Pokemon objects where each Pokemon's name is name.
-     */
-    public List<Pokemon> getPokemonByName(String name) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = dataSource.getConnection();
-            statement = connection.prepareStatement(selectPokemonByName);
-            statement.setString(1, name);
-            resultSet = statement.executeQuery();
-            return _convertResultSetToPokemonList(resultSet);
-        } catch (SQLException e) {
-            logger.error("Getting Pokemon from database by type failed. Called: getPokemonByName(" + name + ")", e);
-            return new ArrayList<>();
         } finally {
             _closeIfNotNull(connection, statement, resultSet, logger);
         }
@@ -216,33 +229,6 @@ public class PokemonRepository extends Repository {
         preparedStatement.setString(23, pokemon.getMove4());
 
         return preparedStatement;
-    }
-
-    /**
-     * Helper function which returns a PreparedStatement for selecting
-     * @param ids
-     *  The list of ids the PreparedStatement is being prepared for.
-     * @param connection
-     *  The Connection object used to create the statement.
-     * @return
-     *  A PreparedStatement for selecting Pokemon from the database.
-     * @throws SQLException
-     *  Thrown when there is a problem with creating the PreparedStatement.
-     */
-    private PreparedStatement _createSelectPokemonByIdsStatement(List<Long> ids, Connection connection)
-            throws SQLException {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(selectPokemonByIdsQueryStart);
-
-        for (int i = 0; i < ids.size(); i++) {
-            stringBuilder.append(ids.get(i).toString());
-            if (i == ids.size() - 1) {
-                stringBuilder.append(")");
-            } else {
-                stringBuilder.append(", ");
-            }
-        }
-        return connection.prepareStatement(stringBuilder.toString());
     }
 
     /**

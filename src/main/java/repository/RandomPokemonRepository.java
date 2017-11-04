@@ -10,12 +10,11 @@ import java.sql.*;
 
 public class RandomPokemonRepository extends Repository {
 
+    private static final String selectRandomPokemonByIdQuery = "SELECT * FROM random_pokemon where id = ? LIMIT 1";
     private static final String saveRandomPokemonQuery = "INSERT INTO random_pokemon (name, nickname, item, ability, level, " +
             "type1, type2, hp, attack, defence, special_attack, special_defence, speed, move1, move2, move3, move4) " +
             "VALUES " +
             "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    private static final String selectRandomPokemonByIdQuery = "SELECT * FROM random_pokemon where id = ? LIMIT 1";
 
     private final static Logger logger = LoggerFactory.getLogger(RandomPokemonRepository.class);
     private final DataSource dataSource;
@@ -58,7 +57,8 @@ public class RandomPokemonRepository extends Repository {
 
             return randomPokemon;
         } catch (SQLException e) {
-            logger.error("Error with SQL Statement. Called: saveRandomPokemon(" + randomPokemon.toString() + ")", e);
+            logger.error("Error with SQL Statement. Call -> saveRandomPokemon(" + randomPokemon.toString() + ")", e);
+            _rollbackConnection(connection, logger);
             return null;
         } finally {
             _closeIfNotNull(connection, statement, resultSet, logger);
@@ -83,7 +83,8 @@ public class RandomPokemonRepository extends Repository {
             resultSet = statement.executeQuery();
             return _convertResultSetToRandomPokemon(resultSet);
         } catch (SQLException e) {
-            logger.error("Getting RandomPokemon from database failed. Called: getRandomPokemonById(" + id + ")", e);
+            logger.error("Getting RandomPokemon from database failed. Call -> getRandomPokemonById(" + id + ")", e);
+            _rollbackConnection(connection, logger);
             return null;
         } finally {
             _closeIfNotNull(connection, statement, resultSet, logger);

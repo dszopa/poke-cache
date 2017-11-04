@@ -8,6 +8,7 @@ import factory.PokemonDtoFactory;
 import factory.PokemonFactory;
 import factory.PokemonTeamDtoFactory;
 import factory.PokemonTeamFactory;
+import model.GetPokemonTeamsRequest;
 import repository.PokemonRepository;
 import repository.PokemonTeamRepository;
 
@@ -59,33 +60,19 @@ public class PokemonTeamService {
      * @return
      *  A PokemonTeamDTO with values filled from the database.
      */
-    public PokemonTeamDTO getPokemonTeam(Long id) {
+    public PokemonTeamDTO getPokemonTeamById(Long id) {
         PokemonTeam pokemonTeam = pokemonTeamRepository.getPokemonTeamById(id);
+        if (pokemonTeam == null) {
+            return null;
+        }
         Map<Long, PokemonDTO> pokemonDtoMap = _createPokemonPokemonDtoMapFromPokemonIdList(pokemonTeam.getPokemonIdList());
         return pokemonTeamDtoFactory.createPokemonTeamDto(pokemonTeam, pokemonDtoMap);
     }
 
-    /**
-     * Gets a List of PokemonTeamDTO where each DTO has a format matching the provided format.
-     * @param format
-     *  The format to search by.
-     * @return
-     *  A list of PokemonTeamDTO where each DTO has its values filled from the database.
-     */
-    public List<PokemonTeamDTO> getPokemonTeamsByFormat(String format) {
-        List<PokemonTeam> pokemonTeams = pokemonTeamRepository.getPokemonTeamsByFormat(format);
-        return _convertPokemonTeamsToPokemonTeamDtos(pokemonTeams);
-    }
-
-    /**
-     * Gets a list of PokemonTeamDTO where each DTO has a format matching the provided format.
-     * @param teamName
-     *  The teamName to search by.
-     * @return
-     *  A list of PokemonTeamDTO where each DTO has its values filled from the database.
-     */
-    public List<PokemonTeamDTO> getPokemonTeamsByTeamName(String teamName) {
-        List<PokemonTeam> pokemonTeams = pokemonTeamRepository.getPokemonTeamsByTeamName(teamName);
+    public List<PokemonTeamDTO> getPokemonTeams(GetPokemonTeamsRequest getPokemonTeamsRequest) {
+        List<PokemonTeam> pokemonTeams = pokemonTeamRepository.getPokemonTeams(
+                getPokemonTeamsRequest.getFormat(),
+                getPokemonTeamsRequest.getTeamName());
         return _convertPokemonTeamsToPokemonTeamDtos(pokemonTeams);
     }
 
@@ -108,6 +95,11 @@ public class PokemonTeamService {
 
         PokemonTeam pokemonTeam = pokemonTeamFactory.createPokemonTeam(pokemonTeamDto);
         pokemonTeam = pokemonTeamRepository.savePokemonTeam(pokemonTeam);
+
+        if (pokemonTeam == null) {
+            return null;
+        }
+
         pokemonTeamDto.setId(pokemonTeam.getId());
         return pokemonTeamDto;
     }
@@ -139,7 +131,7 @@ public class PokemonTeamService {
      *  A Map with key id and value PokemonDTO where the id is the Pokemon's id and value is the converted Pokemon.
      */
     private Map<Long, PokemonDTO> _createPokemonPokemonDtoMapFromPokemonIdList(List<Long> ids) {
-        List<Pokemon> pokemonList = pokemonRepository.getPokemonByIds(ids);
+        List<Pokemon> pokemonList = pokemonRepository.getPokemon(ids, null, null);
         Map<Long, PokemonDTO> pokemonDtoMap = new HashMap<>();
         for (Pokemon pokemon : pokemonList) {
             pokemonDtoMap.put(pokemon.getId(), pokemonDtoFactory.createPokemonDTO(pokemon));
