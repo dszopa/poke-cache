@@ -1,6 +1,14 @@
 package dto;
 
+import model.Type;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class PokemonDTO {
+
+    private static final String invalidType = "Not a valid type. valid types are: " + Arrays.toString(Type.values());
 
     private Long id;
 
@@ -226,6 +234,152 @@ public class PokemonDTO {
 
     public void setMove4(String move4) {
         this.move4 = move4;
+    }
+
+    public List<ErrorDTO> validate() {
+        List<ErrorDTO> errors = new ArrayList<>();
+
+        if (name == null) {
+            errors.add(new ErrorDTO("name", "attribute was not given, name must be provided"));
+        }
+
+        if (ability == null) {
+            errors.add(new ErrorDTO("ability", "attribute was not given, ability must be provided"));
+        }
+
+        if (level == null) {
+            errors.add(new ErrorDTO("level", "attribute was not given, level must be provided"));
+        }
+
+        if (level < 1 || level > 100) {
+            errors.add(new ErrorDTO("level", "level must be a number between 1 and 100"));
+        }
+
+        if (type1 == null) {
+            errors.add(new ErrorDTO("type1", "pokemon must have a primary type"));
+        }
+
+        if (type1 != null) {
+            try {
+                Type.valueOf(type1.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                errors.add(new ErrorDTO("type1", invalidType));
+            }
+        }
+
+        if (type2 != null) {
+            try {
+                Type.valueOf(type2.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                errors.add(new ErrorDTO("type2", invalidType));
+            }
+        }
+
+        if (hpEVs == null) {
+            errors.add(new ErrorDTO("hpEVs", "attribute was not given, hpEVs must be provided"));
+        }
+
+        if (hpEVs < 0 || hpEVs > 252) {
+            errors.add(new ErrorDTO("hpEVs", "hpEVs must be a number between 0 and 252"));
+        }
+
+        if (attackEVs == null) {
+            errors.add(new ErrorDTO("attackEVs", "attribute was not given, attackEVs must be provided"));
+        }
+
+        if (attackEVs < 0 || attackEVs > 252) {
+            errors.add(new ErrorDTO("attackEVs", "attackEVs must be a number between 0 and 252"));
+        }
+
+        if (defenceEVs == null) {
+            errors.add(new ErrorDTO("defenceEVs", "attribute was not given, defenceEVs must be provided"));
+        }
+
+        if (defenceEVs < 0 || defenceEVs > 252) {
+            errors.add(new ErrorDTO("defenceEVs", "defenceEVs must be a number between 0 and 252"));
+        }
+
+        if (specialAttackEVs == null) {
+            errors.add(new ErrorDTO("specialAttackEVs", "attribute was not given, specialAttackEVs must be provided"));
+        }
+
+        if (specialAttackEVs < 0 || specialAttackEVs > 252) {
+            errors.add(new ErrorDTO("specialAttackEVs", "specialAttackEVs must be a number between 0 and 252"));
+        }
+
+        if (specialDefenceEVs == null) {
+            errors.add(new ErrorDTO("specialDefenceEVs", "attribute was not given, specialDefenceEVs must be provided"));
+        }
+
+        if (specialDefenceEVs < 0 || specialDefenceEVs > 252) {
+            errors.add(new ErrorDTO("specialDefenceEVs", "specialDefenceEVs must be a number between 0 and 252"));
+        }
+
+        if (speedEVs == null) {
+            errors.add(new ErrorDTO("speedEVs", "attribute was not given, speedEVs must be provided"));
+        }
+
+        if (speedEVs < 0 || speedEVs > 252) {
+            errors.add(new ErrorDTO("speedEVs", "speedEVs must be a number between 0 and 252"));
+        }
+
+        if (hpEVs + attackEVs + defenceEVs + specialAttackEVs + specialDefenceEVs + speedEVs > 508) {
+            errors.add(new ErrorDTO("EV Total", "a pokemon cannot have more than 508 total EVs"));
+        }
+
+        if (hpIVs == null) {
+            errors.add(new ErrorDTO("hpIVs", "attribute was not given, hpIVs must be provided"));
+        }
+
+        if (hpIVs < 0 || hpIVs > 31) {
+            errors.add(new ErrorDTO("hpIVs", "hpIVs must be a number between 0 and 31"));
+        }
+
+        if (attackIVs == null) {
+            errors.add(new ErrorDTO("attackIVs", "attribute was not given, attackIVs must be provided"));
+        }
+
+        if (attackIVs < 0 || attackIVs > 31) {
+            errors.add(new ErrorDTO("attackIVs", "attackIVs must be a number between 0 and 31"));
+        }
+
+        if (defenceIVs == null) {
+            errors.add(new ErrorDTO("defenceIVs", "attribute was not given, defenceIVs must be provided"));
+        }
+
+        if (defenceIVs < 0 || defenceIVs > 31) {
+            errors.add(new ErrorDTO("defenceIVs", "defenceIVs must be a number between 0 and 31"));
+        }
+
+        if (specialAttackIVs == null) {
+            errors.add(new ErrorDTO("specialAttackIVs", "attribute was not given, specialAttackIVs must be provided"));
+        }
+
+        if (specialAttackIVs < 0 || specialAttackIVs > 31) {
+            errors.add(new ErrorDTO("specialAttackIVs", "specialAttackIVs must be a number between 0 and 31"));
+        }
+
+        if (specialDefenceIVs == null) {
+            errors.add(new ErrorDTO("specialDefenceIVs", "attribute was not given, specialDefenceIVs must be provided"));
+        }
+
+        if (specialDefenceIVs < 0 || specialDefenceIVs > 31) {
+            errors.add(new ErrorDTO("specialDefenceIVs", "specialDefenceIVs must be a number between 0 and 31"));
+        }
+
+        if (speedIVs == null) {
+            errors.add(new ErrorDTO("speedIVs", "attribute was not given, speedIVs must be provided"));
+        }
+
+        if (speedIVs < 0 || speedIVs > 31) {
+            errors.add(new ErrorDTO("speedIVs", "speedIVs must be a number between 0 and 31"));
+        }
+
+        if (move1 == null && move2 == null && move3 == null && move4 == null) {
+            errors.add(new ErrorDTO("move1, move2, move3, move4", "a pokemon must have atleast one move"));
+        }
+
+        return errors;
     }
 
     public static final class PokemonDTOBuilder {

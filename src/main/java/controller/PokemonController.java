@@ -1,6 +1,8 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import dto.ErrorDTO;
 import dto.PokemonDTO;
 import dto.StatusMessageDTO;
 import model.GetPokemonRequest;
@@ -37,9 +39,22 @@ public class PokemonController {
 
         // Create a new Pokemon.
         post("/pokemon", "application/json", (req, res) -> {
-            PokemonDTO pokemon = gson.fromJson(req.body(), PokemonDTO.class);
-            // TODO: validate
-            return pokemonService.createPokemon(pokemon);
+            try {
+                PokemonDTO pokemon = gson.fromJson(req.body(), PokemonDTO.class);
+                if (pokemon == null) {
+                    res.status(clientError);
+                    return new StatusMessageDTO("Unable to create Pokemon, no body provided");
+                }
+                List<ErrorDTO> errors = pokemon.validate();
+                if (!errors.isEmpty()) {
+                    res.status(clientError);
+                    return new StatusMessageDTO("Unable to create Pokemon.", errors);
+                }
+                return pokemonService.createPokemon(pokemon);
+            } catch (JsonSyntaxException e) {
+                res.status(clientError);
+                return new StatusMessageDTO("Invalid JSON, please send a valid Pokemon.");
+            }
         }, new JsonTransformer());
 
 

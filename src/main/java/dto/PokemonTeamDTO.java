@@ -1,8 +1,14 @@
 package dto;
 
+import model.Format;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PokemonTeamDTO {
+
+    private static final String invalidFormat = "Not a valid format, valid formats are: " + Arrays.toString(Format.values());
 
     private Long id;
     private String teamName;
@@ -39,6 +45,47 @@ public class PokemonTeamDTO {
 
     public void setPokemonList(List<PokemonDTO> pokemonList) {
         this.pokemonList = pokemonList;
+    }
+
+    public List<ErrorDTO> validate() {
+        List<ErrorDTO> errors = new ArrayList<>();
+
+        if (teamName == null) {
+            errors.add(new ErrorDTO("teamName", "attribute was not given, teamName must be provided"));
+        }
+
+        if (format == null) {
+            errors.add(new ErrorDTO("format", "attribute was not given, format must be provided"));
+        }
+
+        if (format != null) {
+            try {
+                Format.valueOf(format.toUpperCase().replace(" ", "_"));
+            } catch (IllegalArgumentException e) {
+                errors.add(new ErrorDTO("format", invalidFormat));
+            }
+        }
+
+        if (pokemonList == null) {
+            errors.add(new ErrorDTO("pokemonList", "attribute was not given, pokemonList must be provided"));
+        }
+
+        if (pokemonList != null) {
+            if (pokemonList.size() > 6) {
+                errors.add(new ErrorDTO("pokemonList", "a PokemonTeam's pokemonList cannot contain" +
+                        "more than 6 pokemon"));
+            }
+
+            for (PokemonDTO pokemonDTO : pokemonList) {
+                List<ErrorDTO> pokemonErrors = pokemonDTO.validate();
+                for (ErrorDTO error : pokemonErrors) {
+                    error.setAttribute("pokemon1." + error.getAttribute());
+                }
+                errors.addAll(pokemonErrors);
+            }
+        }
+
+        return errors;
     }
 
     public static final class PokemonTeamDTOBuilder {

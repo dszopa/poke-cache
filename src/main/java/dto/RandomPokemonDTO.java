@@ -1,6 +1,14 @@
 package dto;
 
+import model.Type;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class RandomPokemonDTO {
+
+    private static final String invalidType = "Not a valid type. valid types are: " + Arrays.toString(Type.values());
 
     private Long id;
 
@@ -170,6 +178,112 @@ public class RandomPokemonDTO {
 
     public void setMove4(String move4) {
         this.move4 = move4;
+    }
+
+    public List<ErrorDTO> validate() {
+        List<ErrorDTO> errors = new ArrayList<>();
+
+        if (name == null) {
+            errors.add(new ErrorDTO("name", "attribute was not given, name must be provided"));
+        }
+
+         if (ability == null) {
+            errors.add(new ErrorDTO("ability", "attribute was not given, ability must be provided"));
+         }
+
+         if (level == null) {
+            errors.add(new ErrorDTO("level", "attribute was not given, level must be provided"));
+         }
+
+          if (level < 0 || level > 100) {
+            errors.add(new ErrorDTO("level", "level must be a number between 1 and 100"));
+          }
+
+          if (type1 == null) {
+            errors.add(new ErrorDTO("type1", "attribute not given, type1 must be provided"));
+          }
+
+        if (type1 != null) {
+            try {
+                Type.valueOf(type1.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                errors.add(new ErrorDTO("type1", invalidType));
+            }
+        }
+
+        if (type2 != null) {
+            try {
+                Type.valueOf(type2.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                errors.add(new ErrorDTO("type2", invalidType));
+            }
+        }
+
+        if (hp == null) {
+            errors.add(new ErrorDTO("hp", "attribute not given, hp must be provided"));
+        }
+
+        if (hp < 0) {
+            errors.add(new ErrorDTO("hp", "hp must be a number greater than 0"));
+        }
+
+        if (attack == null) {
+            errors.add(new ErrorDTO("attack", "attribute not given, attack must be provided"));
+        }
+
+        if (attack < 0) {
+            errors.add(new ErrorDTO("attack", "attack must be a number greater than 0"));
+        }
+
+        if (defence == null) {
+            errors.add(new ErrorDTO("defence", "attribute not given, defence must be provided"));
+        }
+
+        if (defence < 0) {
+            errors.add(new ErrorDTO("defence", "defence must be a number greater than 0"));
+        }
+
+        if (specialAttack == null) {
+            errors.add(new ErrorDTO("specialAttack", "attribute not given, specialAttack must be provided"));
+        }
+
+        if (specialAttack < 0) {
+            errors.add(new ErrorDTO("specialAttack", "specialAttack must be a number greater than 0"));
+        }
+
+        if (specialDefence == null) {
+            errors.add(new ErrorDTO("specialDefence", "attribute not given, specialDefence must be provided"));
+        }
+
+        if (specialDefence < 0) {
+            errors.add(new ErrorDTO("specialDefence", "specialDefence must be a number greater than 0"));
+        }
+
+        if (speed == null) {
+            errors.add(new ErrorDTO("speed", "attribute not given, speed must be provided"));
+        }
+
+        if (speed < 0) {
+            errors.add(new ErrorDTO("speed", "speed must be a number greater than 0"));
+        }
+
+        if (move1 == null) {
+            errors.add(new ErrorDTO("move1", "attribute not given, move1 must be provided"));
+        }
+
+        if (move2 == null) {
+            errors.add(new ErrorDTO("move2", "attribute not given, move2 must be provided"));
+        }
+
+        if (move3 == null) {
+            errors.add(new ErrorDTO("move3", "attribute not given, move3 must be provided"));
+        }
+
+        if (move4 == null) {
+            errors.add(new ErrorDTO("move4", "attribute not given, move4 must be provided"));
+        }
+
+        return errors;
     }
 
     public static final class RandomPokemonDTOBuilder {
