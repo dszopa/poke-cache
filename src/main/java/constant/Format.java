@@ -1,4 +1,4 @@
-package model;
+package constant;
 
 public enum Format {
     OU,

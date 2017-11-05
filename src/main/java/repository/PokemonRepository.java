@@ -2,7 +2,7 @@ package repository;
 
 import data.Pokemon;
 import factory.DataSourceFactory;
-import model.Type;
+import constant.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

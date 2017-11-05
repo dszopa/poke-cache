@@ -5,7 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import dto.ErrorDTO;
 import dto.PokemonTeamDTO;
 import dto.StatusMessageDTO;
-import model.Format;
+import constant.Format;
 import model.GetPokemonTeamsRequest;
 import service.PokemonTeamService;
 import transformer.JsonTransformer;

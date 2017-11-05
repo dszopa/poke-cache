@@ -2,7 +2,7 @@ package repository;
 
 import data.PokemonTeam;
 import factory.DataSourceFactory;
-import model.Format;
+import constant.Format;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

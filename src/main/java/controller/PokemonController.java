@@ -6,7 +6,7 @@ import dto.ErrorDTO;
 import dto.PokemonDTO;
 import dto.StatusMessageDTO;
 import model.GetPokemonRequest;
-import model.Type;
+import constant.Type;
 import service.PokemonService;
 import transformer.JsonTransformer;
 

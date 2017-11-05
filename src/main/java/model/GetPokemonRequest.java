@@ -1,5 +1,7 @@
 package model;
 
+import constant.Type;
+
 import java.util.List;
 
 public class GetPokemonRequest {

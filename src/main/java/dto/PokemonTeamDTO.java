@@ -1,6 +1,6 @@
 package dto;
 
-import model.Format;
+import constant.Format;
 
 import java.util.ArrayList;
 import java.util.Arrays;

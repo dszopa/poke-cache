@@ -1,5 +1,7 @@
 package model;
 
+import constant.Format;
+
 public class GetPokemonTeamsRequest {
 
     private Format format;
