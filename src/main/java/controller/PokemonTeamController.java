@@ -15,8 +15,8 @@ import java.util.List;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static util.StatusCodes.clientError;
-import static util.StatusCodes.noContent;
+import static constant.StatusCodes.clientError;
+import static constant.StatusCodes.noContent;
 
 public class PokemonTeamController {
 

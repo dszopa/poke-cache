@@ -12,7 +12,7 @@ import java.util.List;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static util.StatusCodes.clientError;
+import static constant.StatusCodes.clientError;
 
 public class RandomPokemonController {
 

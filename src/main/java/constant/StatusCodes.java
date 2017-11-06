@@ -1,4 +1,4 @@
-package util;
+package constant;
 
 public class StatusCodes {
     public static final Integer clientError = 400;
