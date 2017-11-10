@@ -18,9 +18,10 @@ public class App {
         // --- Instantiate Dependencies ---
         Gson gson = new Gson();
         DataSourceFactory dataSourceFactory = new DataSourceFactory();
+        HttpClientFactory httpClientFactory = new HttpClientFactory();
 
         // Create Object Factories
-        PokemonFactory pokemonFactory = new PokemonFactory();
+        PokemonFactory pokemonFactory = new PokemonFactory(httpClientFactory);
         PokemonDtoFactory pokemonDtoFactory = new PokemonDtoFactory();
         PokemonTeamFactory pokemonTeamFactory = new PokemonTeamFactory();
         PokemonTeamDtoFactory pokemonTeamDtoFactory = new PokemonTeamDtoFactory();

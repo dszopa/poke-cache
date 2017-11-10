@@ -13,8 +13,11 @@ public class PokemonDtoFactory {
                 .withItem(pokemon.getItem())
                 .withAbility(pokemon.getAbility())
                 .withLevel(pokemon.getLevel())
-                .withType1(pokemon.getType1())
-                .withType2(pokemon.getType2())
+                .withGender(pokemon.getGender())
+                .withShiny(pokemon.getShiny())
+                .withNature(pokemon.getNature())
+                .withHappiness(pokemon.getHappiness())
+                .withTypes(pokemon.getTypes())
                 .withHpEVs(pokemon.getHpEVs())
                 .withAttackEVs(pokemon.getAttackEVs())
                 .withDefenceEVs(pokemon.getDefenceEVs())
@@ -27,10 +30,7 @@ public class PokemonDtoFactory {
                 .withSpecialAttackIVs(pokemon.getSpecialAttackIVs())
                 .withSpecialDefenceIVs(pokemon.getSpecialDefenceIVs())
                 .withSpeedIVs(pokemon.getSpeedIVs())
-                .withMove1(pokemon.getMove1())
-                .withMove2(pokemon.getMove2())
-                .withMove3(pokemon.getMove3())
-                .withMove4(pokemon.getMove4())
+                .withMoves(pokemon.getMoves())
                 .build();
     }
 }

@@ -13,13 +13,12 @@ import java.util.List;
 
 public class PokemonRepository extends Repository {
 
-    private static final String selectPokemonByIdQuery = "SELECT * FROM pokemon WHERE id = ? LIMIT 1";
-    private static final String insertPokemonQuery = "INSERT INTO pokemon (name, nickname, item, ability, level, type1, type2," +
-            " hp_evs, attack_evs, defence_evs, special_attack_evs, special_defence_evs, speed_evs," +
-            " hp_ivs, attack_ivs, defence_ivs, special_attack_ivs, special_defence_ivs, speed_ivs," +
-            " move1, move2, move3, move4) " +
-            "VALUES " +
-            "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String selectPokemonByIdQuery = "SELECT * FROM pokemon WHERE id = ?";
+    private static final String insertPokemonQuery = "INSERT INTO pokemon (name, nickname, item, ability, level, gender," +
+            " shiny, nature, happiness, hp_evs, attack_evs, defence_evs, special_attack_evs, special_defence_evs," +
+            " speed_evs, hp_ivs, attack_ivs, defence_ivs, special_attack_ivs, special_defence_ivs, speed_ivs)" +
+            " VALUES" +
+            " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);
     private final DataSource dataSource;
@@ -174,6 +173,10 @@ public class PokemonRepository extends Repository {
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 pokemon.setId(resultSet.getLong(1));
+
+                // TODO: create pokemonTypes
+                // TODO; create pokemonMoves
+
             } else {
                 throw new SQLException("Creating Pokemon failed, no ID obtained.");
             }
@@ -186,6 +189,18 @@ public class PokemonRepository extends Repository {
         } finally {
             _closeIfNotNull(connection, statement, resultSet, logger);
         }
+    }
+
+    // TODO:
+    private List<String> _getTypesByPokemonId(Long id) {
+        List<String> types = new ArrayList<>();
+        return types;
+    }
+
+    // TODO:
+    private List<String> _getMovesByPokemonId(Long id) {
+        List<String> moves = new ArrayList<>();
+        return moves;
     }
 
     /**
@@ -209,24 +224,18 @@ public class PokemonRepository extends Repository {
         preparedStatement.setString(3, pokemon.getItem());
         preparedStatement.setString(4, pokemon.getAbility());
         preparedStatement.setInt(5, pokemon.getLevel());
-        preparedStatement.setString(6, pokemon.getType1());
-        preparedStatement.setString(7, pokemon.getType2());
-        preparedStatement.setInt(8, pokemon.getHpEVs());
-        preparedStatement.setInt(9, pokemon.getAttackEVs());
-        preparedStatement.setInt(10, pokemon.getDefenceEVs());
-        preparedStatement.setInt(11, pokemon.getSpecialAttackEVs());
-        preparedStatement.setInt(12, pokemon.getSpecialDefenceEVs());
-        preparedStatement.setInt(13, pokemon.getSpeedEVs());
-        preparedStatement.setInt(14, pokemon.getHpIVs());
-        preparedStatement.setInt(15, pokemon.getAttackIVs());
-        preparedStatement.setInt(16, pokemon.getDefenceIVs());
-        preparedStatement.setInt(17, pokemon.getSpecialAttackIVs());
-        preparedStatement.setInt(18, pokemon.getSpecialDefenceIVs());
-        preparedStatement.setInt(19, pokemon.getSpeedIVs());
-        preparedStatement.setString(20, pokemon.getMove1());
-        preparedStatement.setString(21, pokemon.getMove2());
-        preparedStatement.setString(22, pokemon.getMove3());
-        preparedStatement.setString(23, pokemon.getMove4());
+        preparedStatement.setInt(6, pokemon.getHpEVs());
+        preparedStatement.setInt(7, pokemon.getAttackEVs());
+        preparedStatement.setInt(8, pokemon.getDefenceEVs());
+        preparedStatement.setInt(9, pokemon.getSpecialAttackEVs());
+        preparedStatement.setInt(10, pokemon.getSpecialDefenceEVs());
+        preparedStatement.setInt(11, pokemon.getSpeedEVs());
+        preparedStatement.setInt(12, pokemon.getHpIVs());
+        preparedStatement.setInt(13, pokemon.getAttackIVs());
+        preparedStatement.setInt(14, pokemon.getDefenceIVs());
+        preparedStatement.setInt(15, pokemon.getSpecialAttackIVs());
+        preparedStatement.setInt(16, pokemon.getSpecialDefenceIVs());
+        preparedStatement.setInt(17, pokemon.getSpeedIVs());
 
         return preparedStatement;
     }
@@ -282,8 +291,6 @@ public class PokemonRepository extends Repository {
         String item = rs.getString("item");
         String ability = rs.getString("ability");
         Integer level = rs.getInt("level");
-        String type1 = rs.getString("type1");
-        String type2 = rs.getString("type2");
         Integer hpEVs = rs.getInt("hp_evs");
         Integer attackEVs = rs.getInt("attack_evs");
         Integer defenceEVs = rs.getInt("defence_evs");
@@ -296,10 +303,9 @@ public class PokemonRepository extends Repository {
         Integer specialAttackIVs = rs.getInt("special_attack_ivs");
         Integer specialDefenceIVs = rs.getInt("special_defence_ivs");
         Integer speedIVs = rs.getInt("speed_ivs");
-        String move1 = rs.getString("move1");
-        String move2 = rs.getString("move2");
-        String move3 = rs.getString("move3");
-        String move4 = rs.getString("move4");
+
+        List<String> types = _getTypesByPokemonId(id);
+        List<String> moves = _getMovesByPokemonId(id);
 
         return new Pokemon.PokemonBuilder()
                 .withId(id)
@@ -308,8 +314,7 @@ public class PokemonRepository extends Repository {
                 .withItem(item)
                 .withAbility(ability)
                 .withLevel(level)
-                .withType1(type1)
-                .withType2(type2)
+                .withTypes(types)
                 .withHpEVs(hpEVs)
                 .withAttackEVs(attackEVs)
                 .withDefenceEVs(defenceEVs)
@@ -322,10 +327,7 @@ public class PokemonRepository extends Repository {
                 .withSpecialAttackIVs(specialAttackIVs)
                 .withSpecialDefenceIVs(specialDefenceIVs)
                 .withSpeedIVs(speedIVs)
-                .withMove1(move1)
-                .withMove2(move2)
-                .withMove3(move3)
-                .withMove4(move4)
+                .withMoves(moves)
                 .build();
     }
 }

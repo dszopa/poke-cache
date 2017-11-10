@@ -6,8 +6,6 @@ CREATE TABLE pokemon (
   item VARCHAR(255),
   ability VARCHAR(255),
   level INT,
-  type1 VARCHAR(255),
-  type2 VARCHAR(255),
   hp_evs INT,
   attack_evs INT,
   defence_evs INT,
@@ -19,13 +17,10 @@ CREATE TABLE pokemon (
   defence_ivs INT,
   special_attack_ivs INT,
   special_defence_ivs INT,
-  speed_ivs INT,
-  move1 VARCHAR(255),
-  move2 VARCHAR(255),
-  move3 VARCHAR(255),
-  move4 VARCHAR(255)
+  speed_ivs INT
 );
 
+# TODO change to use its own pokemon_type / move many 2 many?...
 # Create random_pokemon table
 CREATE TABLE random_pokemon (
   id BIGINT KEY AUTO_INCREMENT,
@@ -46,6 +41,24 @@ CREATE TABLE random_pokemon (
   move2 VARCHAR(255),
   move3 VARCHAR(255),
   move4 VARCHAR(255)
+);
+
+# Create Pokemon Type Table
+CREATE TABLE pokemon_type (
+  id BIGINT KEY AUTO_INCREMENT,
+  name VARCHAR(255),
+  slot INT,
+  pokemon_id BIGINT,
+  FOREIGN KEY (pokemon_id) REFERENCES pokemon(id)
+);
+
+# Create Pokemon Move Table
+CREATE TABLE pokemon_move (
+  id BIGINT KEY AUTO_INCREMENT,
+  name VARCHAR(255),
+  slot INT,
+  pokemon_id BIGINT,
+  FOREIGN KEY (pokemon_id) references pokemon(id)
 );
 
 # Create pokemon_team table

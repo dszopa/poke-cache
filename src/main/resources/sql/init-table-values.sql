@@ -1,53 +1,46 @@
 # Populate Pokemon
 INSERT INTO pokemon (
-  name, nickname, item, ability, level, type1, type2,
+  name, nickname, item, ability, level,
   hp_evs, attack_evs, defence_evs, special_attack_evs, special_defence_evs, speed_evs,
-  hp_ivs, attack_ivs, defence_ivs, special_attack_ivs, special_defence_ivs, speed_ivs,
-  move1, move2, move3, move4
+  hp_ivs, attack_ivs, defence_ivs, special_attack_ivs, special_defence_ivs, speed_ivs
 ) VALUES
   (
-      'Squirtle', 'Squirt', 'Choice Band', 'Hydration', 100, 'Water', NULL,
+      'Squirtle', 'Squirt', 'Choice Band', 'Hydration', 100,
       0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0,
-      'Bubble', 'Water Gun', 'Hydro Pump', 'Cut'
+      0, 0, 0, 0, 0, 0
   ),
   (
-      'Charmander', 'Char-Char', NULL, 'Blaze', 5, 'Fire', NULL,
+      'Charmander', 'Char-Char', NULL, 'Blaze', 5,
       1, 2, 3, 4, 5, 6,
-      1, 2, 3, 4, 5, 6,
-      'Scratch', 'Ember', 'Growl', NULL
+      1, 2, 3, 4, 5, 6
   ),
   (
-      'Bulbasaur', 'Seed', 'Miracle Seed', 'Overgrow', 10, 'Grass', 'Poison',
+      'Bulbasaur', 'Seed', 'Miracle Seed', 'Overgrow', 10,
       10, 10, 10, 10, 10, 10,
       10, 10, 10, 10, 10, 10,
-      'Growl', 'Bullet Seed', 'Hidden Power', NULL
   ),
   (
-      'Caterpie', NULL, NULL, 'Shield Dust', 1, 'Bug', NULL,
+      'Caterpie', NULL, NULL, 'Shield Dust', 1,
       10, 10, 10, 10, 10, 10,
-      10, 10, 10, 10, 10, 10,
-      'String Shot', 'Tackle', NULL, NULL
+      10, 10, 10, 10, 10, 10
   ),
   (
-      'Aggron', NULL, 'Assault Vest', 'Sturdy', 100, 'Steel', 'Rock',
+      'Aggron', NULL, 'Assault Vest', 'Sturdy', 100,
       10, 10, 10, 10, 10, 10,
       10, 10, 10, 10, 10, 10,
-      'Avalanche', 'Body Slam', 'Brick Break', 'Earthquake'
   ),
   (
-      'Chansey', NULL, 'Eviolite', 'Natural Cure', 100, 'Normal', NULL,
+      'Chansey', NULL, 'Eviolite', 'Natural Cure', 100,
       10, 10, 10, 10, 10, 10,
-      10, 10, 10, 10, 10, 10,
-      'Seismic Toss', 'Counter', 'Hyper Voice', 'Heal Bell'
+      10, 10, 10, 10, 10, 10
   ),
   (
-      'Tapu Bulu', NULL, NULL, 'Grassy Surge', 100, 'Grass', 'Fairy',
+      'Tapu Bulu', NULL, NULL, 'Grassy Surge', 100,
       10, 10, 10, 10, 10, 10,
-      10, 10, 10, 10, 10, 10,
-      'Horn Leech', 'Light Screen', 'Reflect', 'Roar'
+      10, 10, 10, 10, 10, 10
   );
 
+# TODO: need to update this too
 # Populate Random Pokemon
 INSERT INTO random_pokemon (
   name, nickname, item, ability, level, type1, type2,
@@ -89,6 +82,58 @@ INSERT INTO random_pokemon (
     1, 2, 3, 4, 5, 6,
     'Horn Leech', 'Light Screen', 'Reflect', 'Roar'
   );
+
+# Populate pokemon_types
+INSERT INTO pokemon_type (name, slot, pokemon_id) VALUES
+  ('Water', 1, 1),
+  #
+  ('Fire', 1, 2),
+  #
+  ('Grass', 1, 3),
+  ('Poison', 2, 3),
+  #
+  ('Bug', 1, 4),
+  #
+  ('Steel', 1, 5),
+  ('Rock', 2, 5),
+  #
+  ('Normal', 1, 6),
+  #
+  ('Fairy', 1, 7),
+  ('Grass', 2, 7);
+
+# Populate pokemon_moves
+INSERT INTO pokemon_move (name, slot, pokemon_id) VALUES
+  ('Bubble', 1, 1),
+  ('Water Gun', 2, 1),
+  ('Hydro Pump', 3, 1),
+  ('Rapid Spin', 4, 1),
+  #
+  ('Ember', 1, 2),
+  ('Flamethrower', 2, 2),
+  ('Metal Claw', 3, 2),
+  #
+  ('Leech Seed', 1, 3),
+  ('Toxic', 2, 3),
+  ('Protect', 3, 3),
+  ('Synthesis', 4, 3),
+  #
+  ('String Shot', 1, 4),
+  ('Tackle', 2, 4),
+  #
+  ('Heavy Slam', 1, 5),
+  ('Earthquake', 2, 5),
+  ('Fire Blast', 3, 5),
+  ('Surf', 4, 5),
+  #
+  ('Softboiled', 1, 6),
+  ('Seismic Toss', 2, 6),
+  ('Toxic', 3, 6),
+  #
+  ('Horn Leech', 1, 7),
+  ('Bulk Up', 2, 7),
+  ('Play Rough', 3, 7),
+  ('Stone Edge', 4, 7);
 
 # Populate Pokemon Teams
 INSERT INTO pokemon_team (

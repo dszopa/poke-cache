@@ -2,6 +2,7 @@ package service;
 
 import data.Pokemon;
 import dto.PokemonDTO;
+import dto.TextPokemonDTO;
 import factory.PokemonDtoFactory;
 import factory.PokemonFactory;
 import model.GetPokemonRequest;
@@ -71,6 +72,16 @@ public class PokemonService {
         }
         pokemonDTO.setId(pokemon.getId());
         return pokemonDTO;
+    }
+
+    public TextPokemonDTO createPokemon(TextPokemonDTO textPokemonDTO) {
+        Pokemon pokemon = pokemonFactory.createPokemon(textPokemonDTO);
+        pokemon = pokemonRepository.savePokemon(pokemon);
+        if (pokemon == null) {
+            return null;
+        }
+        textPokemonDTO.setId(pokemon.getId());
+        return textPokemonDTO;
     }
 
     /**

@@ -1,10 +1,12 @@
 package data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pokemon implements Serializable {
 
-    private static Long serialVersionUID = 1L;
+    private static Long serialVersionUID = 2L;
 
     private Long id;
 
@@ -14,10 +16,13 @@ public class Pokemon implements Serializable {
     private String item;
     private String ability;
     private Integer level;
+    private String gender;
+    private Boolean shiny;
+    private String nature;
+    private Integer happiness;
 
     // Typing
-    private String type1;
-    private String type2;
+    private List<String> types = new ArrayList<>();
 
     // Stats
     private Integer hpEVs;
@@ -35,10 +40,7 @@ public class Pokemon implements Serializable {
     private Integer speedIVs;
 
     // Move names
-    private String move1;
-    private String move2;
-    private String move3;
-    private String move4;
+    private List<String> moves = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -88,20 +90,44 @@ public class Pokemon implements Serializable {
         this.level = level;
     }
 
-    public String getType1() {
-        return type1;
+    public String getGender() {
+        return gender;
     }
 
-    public void setType1(String type1) {
-        this.type1 = type1;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getType2() {
-        return type2;
+    public Boolean getShiny() {
+        return shiny;
     }
 
-    public void setType2(String type2) {
-        this.type2 = type2;
+    public void setShiny(Boolean shiny) {
+        this.shiny = shiny;
+    }
+
+    public String getNature() {
+        return nature;
+    }
+
+    public void setNature(String nature) {
+        this.nature = nature;
+    }
+
+    public Integer getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(Integer happiness) {
+        this.happiness = happiness;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
     }
 
     public Integer getHpEVs() {
@@ -200,37 +226,14 @@ public class Pokemon implements Serializable {
         this.speedIVs = speedIVs;
     }
 
-    public String getMove1() {
-        return move1;
+    public List<String> getMoves() {
+        return moves;
     }
 
-    public void setMove1(String move1) {
-        this.move1 = move1;
+    public void setMoves(List<String> moves) {
+        this.moves = moves;
     }
 
-    public String getMove2() {
-        return move2;
-    }
-
-    public void setMove2(String move2) {
-        this.move2 = move2;
-    }
-
-    public String getMove3() {
-        return move3;
-    }
-
-    public void setMove3(String move3) {
-        this.move3 = move3;
-    }
-
-    public String getMove4() {
-        return move4;
-    }
-
-    public void setMove4(String move4) {
-        this.move4 = move4;
-    }
 
     public static final class PokemonBuilder {
         private Long id;
@@ -240,9 +243,12 @@ public class Pokemon implements Serializable {
         private String item;
         private String ability;
         private Integer level;
+        private String gender;
+        private Boolean shiny;
+        private String nature;
+        private Integer happiness;
         // Typing
-        private String type1;
-        private String type2;
+        private List<String> types = new ArrayList<>();
         // Stats
         private Integer hpEVs;
         private Integer attackEVs;
@@ -257,10 +263,7 @@ public class Pokemon implements Serializable {
         private Integer specialDefenceIVs;
         private Integer speedIVs;
         // Move names
-        private String move1;
-        private String move2;
-        private String move3;
-        private String move4;
+        private List<String> moves = new ArrayList<>();
 
         public PokemonBuilder withId(Long id) {
             this.id = id;
@@ -292,13 +295,28 @@ public class Pokemon implements Serializable {
             return this;
         }
 
-        public PokemonBuilder withType1(String type1) {
-            this.type1 = type1;
+        public PokemonBuilder withGender(String gender) {
+            this.gender = gender;
             return this;
         }
 
-        public PokemonBuilder withType2(String type2) {
-            this.type2 = type2;
+        public PokemonBuilder withShiny(Boolean shiny) {
+            this.shiny = shiny;
+            return this;
+        }
+
+        public PokemonBuilder withNature(String nature) {
+            this.nature = nature;
+            return this;
+        }
+
+        public PokemonBuilder withHappiness(Integer happiness) {
+            this.happiness = happiness;
+            return this;
+        }
+
+        public PokemonBuilder withTypes(List<String> types) {
+            this.types = types;
             return this;
         }
 
@@ -362,23 +380,8 @@ public class Pokemon implements Serializable {
             return this;
         }
 
-        public PokemonBuilder withMove1(String move1) {
-            this.move1 = move1;
-            return this;
-        }
-
-        public PokemonBuilder withMove2(String move2) {
-            this.move2 = move2;
-            return this;
-        }
-
-        public PokemonBuilder withMove3(String move3) {
-            this.move3 = move3;
-            return this;
-        }
-
-        public PokemonBuilder withMove4(String move4) {
-            this.move4 = move4;
+        public PokemonBuilder withMoves(List<String> moves) {
+            this.moves = moves;
             return this;
         }
 
@@ -390,8 +393,11 @@ public class Pokemon implements Serializable {
             pokemon.setItem(item);
             pokemon.setAbility(ability);
             pokemon.setLevel(level);
-            pokemon.setType1(type1);
-            pokemon.setType2(type2);
+            pokemon.setGender(gender);
+            pokemon.setShiny(shiny);
+            pokemon.setNature(nature);
+            pokemon.setHappiness(happiness);
+            pokemon.setTypes(types);
             pokemon.setHpEVs(hpEVs);
             pokemon.setAttackEVs(attackEVs);
             pokemon.setDefenceEVs(defenceEVs);
@@ -404,10 +410,7 @@ public class Pokemon implements Serializable {
             pokemon.setSpecialAttackIVs(specialAttackIVs);
             pokemon.setSpecialDefenceIVs(specialDefenceIVs);
             pokemon.setSpeedIVs(speedIVs);
-            pokemon.setMove1(move1);
-            pokemon.setMove2(move2);
-            pokemon.setMove3(move3);
-            pokemon.setMove4(move4);
+            pokemon.setMoves(moves);
             return pokemon;
         }
     }

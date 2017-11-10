@@ -18,10 +18,13 @@ public class PokemonDTO {
     private String item;
     private String ability;
     private Integer level;
+    private String gender;
+    private Boolean shiny;
+    private String nature;
+    private Integer happiness;
 
     // Typing
-    private String type1;
-    private String type2;
+    private List<String> types = new ArrayList<>();
 
     // Stats
     private Integer hpEVs;
@@ -39,202 +42,7 @@ public class PokemonDTO {
     private Integer speedIVs;
 
     // Move names
-    private String move1;
-    private String move2;
-    private String move3;
-    private String move4;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getItem() {
-        return item;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
-    }
-
-    public String getAbility() {
-        return ability;
-    }
-
-    public void setAbility(String ability) {
-        this.ability = ability;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public String getType1() {
-        return type1;
-    }
-
-    public void setType1(String type1) {
-        this.type1 = type1;
-    }
-
-    public String getType2() {
-        return type2;
-    }
-
-    public void setType2(String type2) {
-        this.type2 = type2;
-    }
-
-    public Integer getHpEVs() {
-        return hpEVs;
-    }
-
-    public void setHpEVs(Integer hpEVs) {
-        this.hpEVs = hpEVs;
-    }
-
-    public Integer getAttackEVs() {
-        return attackEVs;
-    }
-
-    public void setAttackEVs(Integer attackEVs) {
-        this.attackEVs = attackEVs;
-    }
-
-    public Integer getDefenceEVs() {
-        return defenceEVs;
-    }
-
-    public void setDefenceEVs(Integer defenceEVs) {
-        this.defenceEVs = defenceEVs;
-    }
-
-    public Integer getSpecialAttackEVs() {
-        return specialAttackEVs;
-    }
-
-    public void setSpecialAttackEVs(Integer specialAttackEVs) {
-        this.specialAttackEVs = specialAttackEVs;
-    }
-
-    public Integer getSpecialDefenceEVs() {
-        return specialDefenceEVs;
-    }
-
-    public void setSpecialDefenceEVs(Integer specialDefenceEVs) {
-        this.specialDefenceEVs = specialDefenceEVs;
-    }
-
-    public Integer getSpeedEVs() {
-        return speedEVs;
-    }
-
-    public void setSpeedEVs(Integer speedEVs) {
-        this.speedEVs = speedEVs;
-    }
-
-    public Integer getHpIVs() {
-        return hpIVs;
-    }
-
-    public void setHpIVs(Integer hpIVs) {
-        this.hpIVs = hpIVs;
-    }
-
-    public Integer getAttackIVs() {
-        return attackIVs;
-    }
-
-    public void setAttackIVs(Integer attackIVs) {
-        this.attackIVs = attackIVs;
-    }
-
-    public Integer getDefenceIVs() {
-        return defenceIVs;
-    }
-
-    public void setDefenceIVs(Integer defenceIVs) {
-        this.defenceIVs = defenceIVs;
-    }
-
-    public Integer getSpecialAttackIVs() {
-        return specialAttackIVs;
-    }
-
-    public void setSpecialAttackIVs(Integer specialAttackIVs) {
-        this.specialAttackIVs = specialAttackIVs;
-    }
-
-    public Integer getSpecialDefenceIVs() {
-        return specialDefenceIVs;
-    }
-
-    public void setSpecialDefenceIVs(Integer specialDefenceIVs) {
-        this.specialDefenceIVs = specialDefenceIVs;
-    }
-
-    public Integer getSpeedIVs() {
-        return speedIVs;
-    }
-
-    public void setSpeedIVs(Integer speedIVs) {
-        this.speedIVs = speedIVs;
-    }
-
-    public String getMove1() {
-        return move1;
-    }
-
-    public void setMove1(String move1) {
-        this.move1 = move1;
-    }
-
-    public String getMove2() {
-        return move2;
-    }
-
-    public void setMove2(String move2) {
-        this.move2 = move2;
-    }
-
-    public String getMove3() {
-        return move3;
-    }
-
-    public void setMove3(String move3) {
-        this.move3 = move3;
-    }
-
-    public String getMove4() {
-        return move4;
-    }
-
-    public void setMove4(String move4) {
-        this.move4 = move4;
-    }
+    private List<String> moves = new ArrayList<>();
 
     public List<ErrorDTO> validate() {
         List<ErrorDTO> errors = new ArrayList<>();
@@ -255,23 +63,17 @@ public class PokemonDTO {
             errors.add(new ErrorDTO("level", "level must be a number between 1 and 100"));
         }
 
-        if (type1 == null) {
-            errors.add(new ErrorDTO("type1", "pokemon must have a primary type"));
+        if (types.isEmpty()) {
+            errors.add(new ErrorDTO("types", "attribute was not given, types must be provided"));
         }
 
-        if (type1 != null) {
-            try {
-                Type.valueOf(type1.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                errors.add(new ErrorDTO("type1", invalidType));
-            }
-        }
-
-        if (type2 != null) {
-            try {
-                Type.valueOf(type2.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                errors.add(new ErrorDTO("type2", invalidType));
+        if (!types.isEmpty()) {
+            for (int i = 0; i < types.size(); i++) {
+                try {
+                    Type.valueOf(types.get(i).toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    errors.add(new ErrorDTO("type" + i, invalidType));
+                }
             }
         }
 
@@ -375,12 +177,205 @@ public class PokemonDTO {
             errors.add(new ErrorDTO("speedIVs", "speedIVs must be a number between 0 and 31"));
         }
 
-        if (move1 == null && move2 == null && move3 == null && move4 == null) {
-            errors.add(new ErrorDTO("move1, move2, move3, move4", "a pokemon must have atleast one move"));
+        if (moves.isEmpty()) {
+            errors.add(new ErrorDTO("moves", "a pokemon must have atleast one move"));
         }
 
         return errors;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
+    }
+
+    public String getAbility() {
+        return ability;
+    }
+
+    public void setAbility(String ability) {
+        this.ability = ability;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Boolean getShiny() {
+        return shiny;
+    }
+
+    public void setShiny(Boolean shiny) {
+        this.shiny = shiny;
+    }
+
+    public String getNature() {
+        return nature;
+    }
+
+    public void setNature(String nature) {
+        this.nature = nature;
+    }
+
+    public Integer getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(Integer happiness) {
+        this.happiness = happiness;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
+
+    public Integer getHpEVs() {
+        return hpEVs;
+    }
+
+    public void setHpEVs(Integer hpEVs) {
+        this.hpEVs = hpEVs;
+    }
+
+    public Integer getAttackEVs() {
+        return attackEVs;
+    }
+
+    public void setAttackEVs(Integer attackEVs) {
+        this.attackEVs = attackEVs;
+    }
+
+    public Integer getDefenceEVs() {
+        return defenceEVs;
+    }
+
+    public void setDefenceEVs(Integer defenceEVs) {
+        this.defenceEVs = defenceEVs;
+    }
+
+    public Integer getSpecialAttackEVs() {
+        return specialAttackEVs;
+    }
+
+    public void setSpecialAttackEVs(Integer specialAttackEVs) {
+        this.specialAttackEVs = specialAttackEVs;
+    }
+
+    public Integer getSpecialDefenceEVs() {
+        return specialDefenceEVs;
+    }
+
+    public void setSpecialDefenceEVs(Integer specialDefenceEVs) {
+        this.specialDefenceEVs = specialDefenceEVs;
+    }
+
+    public Integer getSpeedEVs() {
+        return speedEVs;
+    }
+
+    public void setSpeedEVs(Integer speedEVs) {
+        this.speedEVs = speedEVs;
+    }
+
+    public Integer getHpIVs() {
+        return hpIVs;
+    }
+
+    public void setHpIVs(Integer hpIVs) {
+        this.hpIVs = hpIVs;
+    }
+
+    public Integer getAttackIVs() {
+        return attackIVs;
+    }
+
+    public void setAttackIVs(Integer attackIVs) {
+        this.attackIVs = attackIVs;
+    }
+
+    public Integer getDefenceIVs() {
+        return defenceIVs;
+    }
+
+    public void setDefenceIVs(Integer defenceIVs) {
+        this.defenceIVs = defenceIVs;
+    }
+
+    public Integer getSpecialAttackIVs() {
+        return specialAttackIVs;
+    }
+
+    public void setSpecialAttackIVs(Integer specialAttackIVs) {
+        this.specialAttackIVs = specialAttackIVs;
+    }
+
+    public Integer getSpecialDefenceIVs() {
+        return specialDefenceIVs;
+    }
+
+    public void setSpecialDefenceIVs(Integer specialDefenceIVs) {
+        this.specialDefenceIVs = specialDefenceIVs;
+    }
+
+    public Integer getSpeedIVs() {
+        return speedIVs;
+    }
+
+    public void setSpeedIVs(Integer speedIVs) {
+        this.speedIVs = speedIVs;
+    }
+
+    public List<String> getMoves() {
+        return moves;
+    }
+
+    public void setMoves(List<String> moves) {
+        this.moves = moves;
+    }
+
 
     public static final class PokemonDTOBuilder {
         private Long id;
@@ -390,9 +385,12 @@ public class PokemonDTO {
         private String item;
         private String ability;
         private Integer level;
+        private String gender;
+        private Boolean shiny;
+        private String nature;
+        private Integer happiness;
         // Typing
-        private String type1;
-        private String type2;
+        private List<String> types = new ArrayList<>();
         // Stats
         private Integer hpEVs;
         private Integer attackEVs;
@@ -407,10 +405,7 @@ public class PokemonDTO {
         private Integer specialDefenceIVs;
         private Integer speedIVs;
         // Move names
-        private String move1;
-        private String move2;
-        private String move3;
-        private String move4;
+        private List<String> moves = new ArrayList<>();
 
         public PokemonDTOBuilder withId(Long id) {
             this.id = id;
@@ -442,13 +437,28 @@ public class PokemonDTO {
             return this;
         }
 
-        public PokemonDTOBuilder withType1(String type1) {
-            this.type1 = type1;
+        public PokemonDTOBuilder withGender(String gender) {
+            this.gender = gender;
             return this;
         }
 
-        public PokemonDTOBuilder withType2(String type2) {
-            this.type2 = type2;
+        public PokemonDTOBuilder withShiny(Boolean shiny) {
+            this.shiny = shiny;
+            return this;
+        }
+
+        public PokemonDTOBuilder withNature(String nature) {
+            this.nature = nature;
+            return this;
+        }
+
+        public PokemonDTOBuilder withHappiness(Integer happiness) {
+            this.happiness = happiness;
+            return this;
+        }
+
+        public PokemonDTOBuilder withTypes(List<String> types) {
+            this.types = types;
             return this;
         }
 
@@ -512,23 +522,8 @@ public class PokemonDTO {
             return this;
         }
 
-        public PokemonDTOBuilder withMove1(String move1) {
-            this.move1 = move1;
-            return this;
-        }
-
-        public PokemonDTOBuilder withMove2(String move2) {
-            this.move2 = move2;
-            return this;
-        }
-
-        public PokemonDTOBuilder withMove3(String move3) {
-            this.move3 = move3;
-            return this;
-        }
-
-        public PokemonDTOBuilder withMove4(String move4) {
-            this.move4 = move4;
+        public PokemonDTOBuilder withMoves(List<String> moves) {
+            this.moves = moves;
             return this;
         }
 
@@ -540,8 +535,11 @@ public class PokemonDTO {
             pokemonDTO.setItem(item);
             pokemonDTO.setAbility(ability);
             pokemonDTO.setLevel(level);
-            pokemonDTO.setType1(type1);
-            pokemonDTO.setType2(type2);
+            pokemonDTO.setGender(gender);
+            pokemonDTO.setShiny(shiny);
+            pokemonDTO.setNature(nature);
+            pokemonDTO.setHappiness(happiness);
+            pokemonDTO.setTypes(types);
             pokemonDTO.setHpEVs(hpEVs);
             pokemonDTO.setAttackEVs(attackEVs);
             pokemonDTO.setDefenceEVs(defenceEVs);
@@ -554,10 +552,7 @@ public class PokemonDTO {
             pokemonDTO.setSpecialAttackIVs(specialAttackIVs);
             pokemonDTO.setSpecialDefenceIVs(specialDefenceIVs);
             pokemonDTO.setSpeedIVs(speedIVs);
-            pokemonDTO.setMove1(move1);
-            pokemonDTO.setMove2(move2);
-            pokemonDTO.setMove3(move3);
-            pokemonDTO.setMove4(move4);
+            pokemonDTO.setMoves(moves);
             return pokemonDTO;
         }
     }
