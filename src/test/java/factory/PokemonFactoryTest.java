@@ -49,7 +49,7 @@ public class PokemonFactoryTest {
                 .withNature("Brave")
                 .withHappiness(255)
                 .withTypes(types)
-                .withHpEVs(4) // TODO: EVs can only be multiples of 4
+                .withHpEVs(4)
                 .withAttackEVs(4)
                 .withDefenceEVs(4)
                 .withSpecialAttackEVs(4)
