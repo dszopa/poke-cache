@@ -176,6 +176,81 @@ public class RandomPokemon implements Serializable {
         this.move4 = move4;
     }
 
+    @Override
+    public String toString() {
+        return "RandomPokemon{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", item='" + item + '\'' +
+                ", ability='" + ability + '\'' +
+                ", level=" + level +
+                ", type1='" + type1 + '\'' +
+                ", type2='" + type2 + '\'' +
+                ", hp=" + hp +
+                ", attack=" + attack +
+                ", defence=" + defence +
+                ", specialAttack=" + specialAttack +
+                ", specialDefence=" + specialDefence +
+                ", speed=" + speed +
+                ", move1='" + move1 + '\'' +
+                ", move2='" + move2 + '\'' +
+                ", move3='" + move3 + '\'' +
+                ", move4='" + move4 + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RandomPokemon that = (RandomPokemon) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
+        if (item != null ? !item.equals(that.item) : that.item != null) return false;
+        if (ability != null ? !ability.equals(that.ability) : that.ability != null) return false;
+        if (level != null ? !level.equals(that.level) : that.level != null) return false;
+        if (type1 != null ? !type1.equals(that.type1) : that.type1 != null) return false;
+        if (type2 != null ? !type2.equals(that.type2) : that.type2 != null) return false;
+        if (hp != null ? !hp.equals(that.hp) : that.hp != null) return false;
+        if (attack != null ? !attack.equals(that.attack) : that.attack != null) return false;
+        if (defence != null ? !defence.equals(that.defence) : that.defence != null) return false;
+        if (specialAttack != null ? !specialAttack.equals(that.specialAttack) : that.specialAttack != null)
+            return false;
+        if (specialDefence != null ? !specialDefence.equals(that.specialDefence) : that.specialDefence != null)
+            return false;
+        if (speed != null ? !speed.equals(that.speed) : that.speed != null) return false;
+        if (move1 != null ? !move1.equals(that.move1) : that.move1 != null) return false;
+        if (move2 != null ? !move2.equals(that.move2) : that.move2 != null) return false;
+        if (move3 != null ? !move3.equals(that.move3) : that.move3 != null) return false;
+        return move4 != null ? move4.equals(that.move4) : that.move4 == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (item != null ? item.hashCode() : 0);
+        result = 31 * result + (ability != null ? ability.hashCode() : 0);
+        result = 31 * result + (level != null ? level.hashCode() : 0);
+        result = 31 * result + (type1 != null ? type1.hashCode() : 0);
+        result = 31 * result + (type2 != null ? type2.hashCode() : 0);
+        result = 31 * result + (hp != null ? hp.hashCode() : 0);
+        result = 31 * result + (attack != null ? attack.hashCode() : 0);
+        result = 31 * result + (defence != null ? defence.hashCode() : 0);
+        result = 31 * result + (specialAttack != null ? specialAttack.hashCode() : 0);
+        result = 31 * result + (specialDefence != null ? specialDefence.hashCode() : 0);
+        result = 31 * result + (speed != null ? speed.hashCode() : 0);
+        result = 31 * result + (move1 != null ? move1.hashCode() : 0);
+        result = 31 * result + (move2 != null ? move2.hashCode() : 0);
+        result = 31 * result + (move3 != null ? move3.hashCode() : 0);
+        result = 31 * result + (move4 != null ? move4.hashCode() : 0);
+        return result;
+    }
 
     public static final class RandomPokemonBuilder {
         private Long id;

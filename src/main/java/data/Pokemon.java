@@ -210,6 +210,95 @@ public class Pokemon implements Serializable {
         this.speedIVs = speedIVs;
     }
 
+    @Override
+    public String toString() {
+        return "Pokemon{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", item='" + item + '\'' +
+                ", ability='" + ability + '\'' +
+                ", level=" + level +
+                ", gender='" + gender + '\'' +
+                ", shiny=" + shiny +
+                ", nature='" + nature + '\'' +
+                ", happiness=" + happiness +
+                ", hpEVs=" + hpEVs +
+                ", attackEVs=" + attackEVs +
+                ", defenceEVs=" + defenceEVs +
+                ", specialAttackEVs=" + specialAttackEVs +
+                ", specialDefenceEVs=" + specialDefenceEVs +
+                ", speedEVs=" + speedEVs +
+                ", hpIVs=" + hpIVs +
+                ", attackIVs=" + attackIVs +
+                ", defenceIVs=" + defenceIVs +
+                ", specialAttackIVs=" + specialAttackIVs +
+                ", specialDefenceIVs=" + specialDefenceIVs +
+                ", speedIVs=" + speedIVs +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pokemon pokemon = (Pokemon) o;
+
+        if (id != null ? !id.equals(pokemon.id) : pokemon.id != null) return false;
+        if (name != null ? !name.equals(pokemon.name) : pokemon.name != null) return false;
+        if (nickname != null ? !nickname.equals(pokemon.nickname) : pokemon.nickname != null) return false;
+        if (item != null ? !item.equals(pokemon.item) : pokemon.item != null) return false;
+        if (ability != null ? !ability.equals(pokemon.ability) : pokemon.ability != null) return false;
+        if (level != null ? !level.equals(pokemon.level) : pokemon.level != null) return false;
+        if (gender != null ? !gender.equals(pokemon.gender) : pokemon.gender != null) return false;
+        if (shiny != null ? !shiny.equals(pokemon.shiny) : pokemon.shiny != null) return false;
+        if (nature != null ? !nature.equals(pokemon.nature) : pokemon.nature != null) return false;
+        if (happiness != null ? !happiness.equals(pokemon.happiness) : pokemon.happiness != null) return false;
+        if (hpEVs != null ? !hpEVs.equals(pokemon.hpEVs) : pokemon.hpEVs != null) return false;
+        if (attackEVs != null ? !attackEVs.equals(pokemon.attackEVs) : pokemon.attackEVs != null) return false;
+        if (defenceEVs != null ? !defenceEVs.equals(pokemon.defenceEVs) : pokemon.defenceEVs != null) return false;
+        if (specialAttackEVs != null ? !specialAttackEVs.equals(pokemon.specialAttackEVs) : pokemon.specialAttackEVs != null)
+            return false;
+        if (specialDefenceEVs != null ? !specialDefenceEVs.equals(pokemon.specialDefenceEVs) : pokemon.specialDefenceEVs != null)
+            return false;
+        if (speedEVs != null ? !speedEVs.equals(pokemon.speedEVs) : pokemon.speedEVs != null) return false;
+        if (hpIVs != null ? !hpIVs.equals(pokemon.hpIVs) : pokemon.hpIVs != null) return false;
+        if (attackIVs != null ? !attackIVs.equals(pokemon.attackIVs) : pokemon.attackIVs != null) return false;
+        if (defenceIVs != null ? !defenceIVs.equals(pokemon.defenceIVs) : pokemon.defenceIVs != null) return false;
+        if (specialAttackIVs != null ? !specialAttackIVs.equals(pokemon.specialAttackIVs) : pokemon.specialAttackIVs != null)
+            return false;
+        if (specialDefenceIVs != null ? !specialDefenceIVs.equals(pokemon.specialDefenceIVs) : pokemon.specialDefenceIVs != null)
+            return false;
+        return speedIVs != null ? speedIVs.equals(pokemon.speedIVs) : pokemon.speedIVs == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (item != null ? item.hashCode() : 0);
+        result = 31 * result + (ability != null ? ability.hashCode() : 0);
+        result = 31 * result + (level != null ? level.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (shiny != null ? shiny.hashCode() : 0);
+        result = 31 * result + (nature != null ? nature.hashCode() : 0);
+        result = 31 * result + (happiness != null ? happiness.hashCode() : 0);
+        result = 31 * result + (hpEVs != null ? hpEVs.hashCode() : 0);
+        result = 31 * result + (attackEVs != null ? attackEVs.hashCode() : 0);
+        result = 31 * result + (defenceEVs != null ? defenceEVs.hashCode() : 0);
+        result = 31 * result + (specialAttackEVs != null ? specialAttackEVs.hashCode() : 0);
+        result = 31 * result + (specialDefenceEVs != null ? specialDefenceEVs.hashCode() : 0);
+        result = 31 * result + (speedEVs != null ? speedEVs.hashCode() : 0);
+        result = 31 * result + (hpIVs != null ? hpIVs.hashCode() : 0);
+        result = 31 * result + (attackIVs != null ? attackIVs.hashCode() : 0);
+        result = 31 * result + (defenceIVs != null ? defenceIVs.hashCode() : 0);
+        result = 31 * result + (specialAttackIVs != null ? specialAttackIVs.hashCode() : 0);
+        result = 31 * result + (specialDefenceIVs != null ? specialDefenceIVs.hashCode() : 0);
+        result = 31 * result + (speedIVs != null ? speedIVs.hashCode() : 0);
+        return result;
+    }
 
     public static final class PokemonBuilder {
         private Long id;

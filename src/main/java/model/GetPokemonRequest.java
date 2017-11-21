@@ -34,6 +34,35 @@ public class GetPokemonRequest {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "GetPokemonRequest{" +
+                "ids=" + ids +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GetPokemonRequest that = (GetPokemonRequest) o;
+
+        if (ids != null ? !ids.equals(that.ids) : that.ids != null) return false;
+        if (type != that.type) return false;
+        return name != null ? name.equals(that.name) : that.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ids != null ? ids.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
     public static final class GetPokemonRequestBuilder {
         List<Long> ids;
         Type type;

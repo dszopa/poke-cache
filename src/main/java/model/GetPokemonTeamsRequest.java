@@ -23,6 +23,32 @@ public class GetPokemonTeamsRequest {
         this.teamName = teamName;
     }
 
+    @Override
+    public String toString() {
+        return "GetPokemonTeamsRequest{" +
+                "format=" + format +
+                ", teamName='" + teamName + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GetPokemonTeamsRequest that = (GetPokemonTeamsRequest) o;
+
+        if (format != that.format) return false;
+        return teamName != null ? teamName.equals(that.teamName) : that.teamName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = format != null ? format.hashCode() : 0;
+        result = 31 * result + (teamName != null ? teamName.hashCode() : 0);
+        return result;
+    }
+
     public static final class GetPokemonTeamsRequestBuilder {
         private Format format;
         private String teamName;

@@ -88,6 +88,38 @@ public class PokemonTeamDTO {
         return errors;
     }
 
+    @Override
+    public String toString() {
+        return "PokemonTeamDTO{" +
+                "id=" + id +
+                ", teamName='" + teamName + '\'' +
+                ", format='" + format + '\'' +
+                ", pokemonList=" + pokemonList +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PokemonTeamDTO that = (PokemonTeamDTO) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (teamName != null ? !teamName.equals(that.teamName) : that.teamName != null) return false;
+        if (format != null ? !format.equals(that.format) : that.format != null) return false;
+        return pokemonList != null ? pokemonList.equals(that.pokemonList) : that.pokemonList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (teamName != null ? teamName.hashCode() : 0);
+        result = 31 * result + (format != null ? format.hashCode() : 0);
+        result = 31 * result + (pokemonList != null ? pokemonList.hashCode() : 0);
+        return result;
+    }
+
     public static final class PokemonTeamDTOBuilder {
         private Long id;
         private String teamName;

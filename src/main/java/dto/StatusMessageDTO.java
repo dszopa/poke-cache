@@ -35,4 +35,30 @@ public class StatusMessageDTO {
     public void setErrors(List<ErrorDTO> errors) {
         this.errors = errors;
     }
+
+    @Override
+    public String toString() {
+        return "StatusMessageDTO{" +
+                "message='" + message + '\'' +
+                ", errors=" + errors +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StatusMessageDTO that = (StatusMessageDTO) o;
+
+        if (message != null ? !message.equals(that.message) : that.message != null) return false;
+        return errors != null ? errors.equals(that.errors) : that.errors == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = message != null ? message.hashCode() : 0;
+        result = 31 * result + (errors != null ? errors.hashCode() : 0);
+        return result;
+    }
 }

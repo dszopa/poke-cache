@@ -376,6 +376,101 @@ public class PokemonDTO {
         this.moves = moves;
     }
 
+    @Override
+    public String toString() {
+        return "PokemonDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", item='" + item + '\'' +
+                ", ability='" + ability + '\'' +
+                ", level=" + level +
+                ", gender='" + gender + '\'' +
+                ", shiny=" + shiny +
+                ", nature='" + nature + '\'' +
+                ", happiness=" + happiness +
+                ", types=" + types +
+                ", hpEVs=" + hpEVs +
+                ", attackEVs=" + attackEVs +
+                ", defenceEVs=" + defenceEVs +
+                ", specialAttackEVs=" + specialAttackEVs +
+                ", specialDefenceEVs=" + specialDefenceEVs +
+                ", speedEVs=" + speedEVs +
+                ", hpIVs=" + hpIVs +
+                ", attackIVs=" + attackIVs +
+                ", defenceIVs=" + defenceIVs +
+                ", specialAttackIVs=" + specialAttackIVs +
+                ", specialDefenceIVs=" + specialDefenceIVs +
+                ", speedIVs=" + speedIVs +
+                ", moves=" + moves +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PokemonDTO that = (PokemonDTO) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
+        if (item != null ? !item.equals(that.item) : that.item != null) return false;
+        if (ability != null ? !ability.equals(that.ability) : that.ability != null) return false;
+        if (level != null ? !level.equals(that.level) : that.level != null) return false;
+        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
+        if (shiny != null ? !shiny.equals(that.shiny) : that.shiny != null) return false;
+        if (nature != null ? !nature.equals(that.nature) : that.nature != null) return false;
+        if (happiness != null ? !happiness.equals(that.happiness) : that.happiness != null) return false;
+        if (types != null ? !types.equals(that.types) : that.types != null) return false;
+        if (hpEVs != null ? !hpEVs.equals(that.hpEVs) : that.hpEVs != null) return false;
+        if (attackEVs != null ? !attackEVs.equals(that.attackEVs) : that.attackEVs != null) return false;
+        if (defenceEVs != null ? !defenceEVs.equals(that.defenceEVs) : that.defenceEVs != null) return false;
+        if (specialAttackEVs != null ? !specialAttackEVs.equals(that.specialAttackEVs) : that.specialAttackEVs != null)
+            return false;
+        if (specialDefenceEVs != null ? !specialDefenceEVs.equals(that.specialDefenceEVs) : that.specialDefenceEVs != null)
+            return false;
+        if (speedEVs != null ? !speedEVs.equals(that.speedEVs) : that.speedEVs != null) return false;
+        if (hpIVs != null ? !hpIVs.equals(that.hpIVs) : that.hpIVs != null) return false;
+        if (attackIVs != null ? !attackIVs.equals(that.attackIVs) : that.attackIVs != null) return false;
+        if (defenceIVs != null ? !defenceIVs.equals(that.defenceIVs) : that.defenceIVs != null) return false;
+        if (specialAttackIVs != null ? !specialAttackIVs.equals(that.specialAttackIVs) : that.specialAttackIVs != null)
+            return false;
+        if (specialDefenceIVs != null ? !specialDefenceIVs.equals(that.specialDefenceIVs) : that.specialDefenceIVs != null)
+            return false;
+        if (speedIVs != null ? !speedIVs.equals(that.speedIVs) : that.speedIVs != null) return false;
+        return moves != null ? moves.equals(that.moves) : that.moves == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (item != null ? item.hashCode() : 0);
+        result = 31 * result + (ability != null ? ability.hashCode() : 0);
+        result = 31 * result + (level != null ? level.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + (shiny != null ? shiny.hashCode() : 0);
+        result = 31 * result + (nature != null ? nature.hashCode() : 0);
+        result = 31 * result + (happiness != null ? happiness.hashCode() : 0);
+        result = 31 * result + (types != null ? types.hashCode() : 0);
+        result = 31 * result + (hpEVs != null ? hpEVs.hashCode() : 0);
+        result = 31 * result + (attackEVs != null ? attackEVs.hashCode() : 0);
+        result = 31 * result + (defenceEVs != null ? defenceEVs.hashCode() : 0);
+        result = 31 * result + (specialAttackEVs != null ? specialAttackEVs.hashCode() : 0);
+        result = 31 * result + (specialDefenceEVs != null ? specialDefenceEVs.hashCode() : 0);
+        result = 31 * result + (speedEVs != null ? speedEVs.hashCode() : 0);
+        result = 31 * result + (hpIVs != null ? hpIVs.hashCode() : 0);
+        result = 31 * result + (attackIVs != null ? attackIVs.hashCode() : 0);
+        result = 31 * result + (defenceIVs != null ? defenceIVs.hashCode() : 0);
+        result = 31 * result + (specialAttackIVs != null ? specialAttackIVs.hashCode() : 0);
+        result = 31 * result + (specialDefenceIVs != null ? specialDefenceIVs.hashCode() : 0);
+        result = 31 * result + (speedIVs != null ? speedIVs.hashCode() : 0);
+        result = 31 * result + (moves != null ? moves.hashCode() : 0);
+        return result;
+    }
 
     public static final class PokemonDTOBuilder {
         private Long id;
