@@ -6,14 +6,22 @@ import dto.TextPokemonDTO;
 import factory.PokemonDtoFactory;
 import factory.PokemonFactory;
 import model.GetPokemonRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import repository.MoveRepository;
 import repository.PokemonRepository;
+import repository.TypeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonService {
 
+    private final static Logger logger = LoggerFactory.getLogger(PokemonService.class);
+
     private final PokemonRepository pokemonRepository;
+    private final TypeRepository typeRepository;
+    private final MoveRepository moveRepository;
     private final PokemonFactory pokemonFactory;
     private final PokemonDtoFactory pokemonDtoFactory;
 
@@ -27,9 +35,12 @@ public class PokemonService {
      * @param pokemonFactory
      *  Reusable factory used to create Pokemon objects.
      */
-    public PokemonService(PokemonRepository pokemonRepository, PokemonFactory pokemonFactory,
+    public PokemonService(PokemonRepository pokemonRepository, TypeRepository typeRepository,
+                          MoveRepository moveRepository, PokemonFactory pokemonFactory,
                           PokemonDtoFactory pokemonDtoFactory) {
         this.pokemonRepository = pokemonRepository;
+        this.typeRepository = typeRepository;
+        this.moveRepository = moveRepository;
         this.pokemonFactory = pokemonFactory;
         this.pokemonDtoFactory = pokemonDtoFactory;
     }
@@ -54,7 +65,14 @@ public class PokemonService {
         if (pokemon == null) {
             return null;
         }
-        return pokemonDtoFactory.createPokemonDTO(pokemon);
+
+        List<String> typeStrings = new ArrayList<>();
+        typeRepository.getTypesByPokemonId(id).forEach(type -> typeStrings.add(type.getName()));
+
+        List<String> moveStrings = new ArrayList<>();
+        moveRepository.getMovesByPokemonId(id).forEach(move -> moveStrings.add(move.getName()));
+
+        return pokemonDtoFactory.createPokemonDTO(pokemon, typeStrings, moveStrings);
     }
 
     /**
@@ -67,19 +85,30 @@ public class PokemonService {
     public PokemonDTO createPokemon(PokemonDTO pokemonDTO) {
         Pokemon pokemon = pokemonFactory.createPokemon(pokemonDTO);
         pokemon = pokemonRepository.savePokemon(pokemon);
+
         if (pokemon == null) {
             return null;
         }
+
+        typeRepository.saveTypes(pokemon.getId(), pokemonDTO.getTypes());
+        moveRepository.saveMoves(pokemon.getId(), pokemonDTO.getMoves());
+
         pokemonDTO.setId(pokemon.getId());
         return pokemonDTO;
     }
 
     public TextPokemonDTO createPokemon(TextPokemonDTO textPokemonDTO) {
-        Pokemon pokemon = pokemonFactory.createPokemon(textPokemonDTO);
+        PokemonDTO pokemonDTO = pokemonDtoFactory.createPokemonDTO(textPokemonDTO);
+        Pokemon pokemon = pokemonFactory.createPokemon(pokemonDTO);
         pokemon = pokemonRepository.savePokemon(pokemon);
+
         if (pokemon == null) {
             return null;
         }
+
+        typeRepository.saveTypes(pokemon.getId(), pokemonDTO.getTypes());
+        moveRepository.saveMoves(pokemon.getId(), pokemonDTO.getMoves());
+
         textPokemonDTO.setId(pokemon.getId());
         return textPokemonDTO;
     }
@@ -94,7 +123,14 @@ public class PokemonService {
     private List<PokemonDTO> _convertPokemonListToPokemonDtoList(List<Pokemon> pokemonList) {
         List<PokemonDTO> pokemonDtoList = new ArrayList<>();
         for (Pokemon pokemon : pokemonList) {
-            pokemonDtoList.add(pokemonDtoFactory.createPokemonDTO(pokemon));
+
+            List<String> typeStrings = new ArrayList<>();
+            typeRepository.getTypesByPokemonId(pokemon.getId()).forEach(type -> typeStrings.add(type.getName()));
+
+            List<String> moveStrings = new ArrayList<>();
+            moveRepository.getMovesByPokemonId(pokemon.getId()).forEach(move -> moveStrings.add(move.getName()));
+
+            pokemonDtoList.add(pokemonDtoFactory.createPokemonDTO(pokemon, typeStrings, moveStrings));
         }
         return pokemonDtoList;
     }

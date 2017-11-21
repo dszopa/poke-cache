@@ -76,7 +76,7 @@ public class PokemonRepository extends Repository {
                 stringBuilder.append(" AND");
             }
             // No need to UPPER ?'s, type.value can never be lowercase.
-            stringBuilder.append(" ( UPPER(type1) = ? OR UPPER(type2) = ?)");
+            stringBuilder.append(" ( UPPER(type1) = ? OR UPPER(type2) = ?)"); // TODO: need to update
             count++;
             typeIndex = count;
             count++;
@@ -172,11 +172,7 @@ public class PokemonRepository extends Repository {
 
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                pokemon.setId(resultSet.getLong(1));
-
-                // TODO: create pokemonTypes
-                // TODO; create pokemonMoves
-
+                pokemon.setId(resultSet.getLong("id"));
             } else {
                 throw new SQLException("Creating Pokemon failed, no ID obtained.");
             }
@@ -189,18 +185,6 @@ public class PokemonRepository extends Repository {
         } finally {
             _closeIfNotNull(connection, statement, resultSet, logger);
         }
-    }
-
-    // TODO:
-    private List<String> _getTypesByPokemonId(Long id) {
-        List<String> types = new ArrayList<>();
-        return types;
-    }
-
-    // TODO:
-    private List<String> _getMovesByPokemonId(Long id) {
-        List<String> moves = new ArrayList<>();
-        return moves;
     }
 
     /**
@@ -304,9 +288,6 @@ public class PokemonRepository extends Repository {
         Integer specialDefenceIVs = rs.getInt("special_defence_ivs");
         Integer speedIVs = rs.getInt("speed_ivs");
 
-        List<String> types = _getTypesByPokemonId(id);
-        List<String> moves = _getMovesByPokemonId(id);
-
         return new Pokemon.PokemonBuilder()
                 .withId(id)
                 .withName(name)
@@ -314,7 +295,6 @@ public class PokemonRepository extends Repository {
                 .withItem(item)
                 .withAbility(ability)
                 .withLevel(level)
-                .withTypes(types)
                 .withHpEVs(hpEVs)
                 .withAttackEVs(attackEVs)
                 .withDefenceEVs(defenceEVs)
@@ -327,7 +307,6 @@ public class PokemonRepository extends Repository {
                 .withSpecialAttackIVs(specialAttackIVs)
                 .withSpecialDefenceIVs(specialDefenceIVs)
                 .withSpeedIVs(speedIVs)
-                .withMoves(moves)
                 .build();
     }
 }

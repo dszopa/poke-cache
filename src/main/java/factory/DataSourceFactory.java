@@ -1,10 +1,8 @@
 package factory;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-//import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.dbcp2.*;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -41,6 +39,7 @@ public class DataSourceFactory {
                         ds.setUsername(username);
                         ds.setPassword(password);
                         ds.setDriverClassName("com.mysql.jdbc.Driver");
+                        ds.setDefaultAutoCommit(false);
 
                         ds.setTestOnBorrow(true);
                         ds.setLogAbandoned(true);

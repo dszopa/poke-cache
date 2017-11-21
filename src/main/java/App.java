@@ -3,9 +3,7 @@ import controller.PokemonController;
 import controller.PokemonTeamController;
 import controller.RandomPokemonController;
 import factory.*;
-import repository.PokemonRepository;
-import repository.PokemonTeamRepository;
-import repository.RandomPokemonRepository;
+import repository.*;
 import service.PokemonService;
 import service.PokemonTeamService;
 import service.RandomPokemonService;
@@ -21,8 +19,8 @@ public class App {
         HttpClientFactory httpClientFactory = new HttpClientFactory();
 
         // Create Object Factories
-        PokemonFactory pokemonFactory = new PokemonFactory(httpClientFactory);
-        PokemonDtoFactory pokemonDtoFactory = new PokemonDtoFactory();
+        PokemonFactory pokemonFactory = new PokemonFactory();
+        PokemonDtoFactory pokemonDtoFactory = new PokemonDtoFactory(httpClientFactory);
         PokemonTeamFactory pokemonTeamFactory = new PokemonTeamFactory();
         PokemonTeamDtoFactory pokemonTeamDtoFactory = new PokemonTeamDtoFactory();
         RandomPokemonFactory randomPokemonFactory = new RandomPokemonFactory();
@@ -32,11 +30,15 @@ public class App {
         PokemonRepository pokemonRepository = new PokemonRepository(dataSourceFactory);
         PokemonTeamRepository pokemonTeamRepository = new PokemonTeamRepository(dataSourceFactory);
         RandomPokemonRepository randomPokemonRepository = new RandomPokemonRepository(dataSourceFactory);
+        TypeRepository typeRepository = new TypeRepository(dataSourceFactory);
+        MoveRepository moveRepository = new MoveRepository(dataSourceFactory);
 
         // Create Services
-        PokemonService pokemonService = new PokemonService(pokemonRepository, pokemonFactory, pokemonDtoFactory);
+        PokemonService pokemonService = new PokemonService(pokemonRepository, typeRepository, moveRepository,
+                pokemonFactory, pokemonDtoFactory);
         PokemonTeamService pokemonTeamService = new PokemonTeamService(pokemonTeamRepository, pokemonRepository,
-                pokemonFactory, pokemonDtoFactory, pokemonTeamFactory, pokemonTeamDtoFactory);
+                typeRepository, moveRepository, pokemonFactory, pokemonDtoFactory, pokemonTeamFactory,
+                pokemonTeamDtoFactory);
         RandomPokemonService randomPokemonService = new RandomPokemonService(randomPokemonRepository,
                 randomPokemonFactory, randomPokemonDtoFactory);
 

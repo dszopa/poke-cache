@@ -9,8 +9,10 @@ import factory.PokemonFactory;
 import factory.PokemonTeamDtoFactory;
 import factory.PokemonTeamFactory;
 import model.GetPokemonTeamsRequest;
+import repository.MoveRepository;
 import repository.PokemonRepository;
 import repository.PokemonTeamRepository;
+import repository.TypeRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +23,8 @@ public class PokemonTeamService {
 
     private final PokemonTeamRepository pokemonTeamRepository;
     private final PokemonRepository pokemonRepository;
+    private final TypeRepository typeRepository;
+    private final MoveRepository moveRepository;
     private final PokemonDtoFactory pokemonDtoFactory;
     private final PokemonFactory pokemonFactory;
     private final PokemonTeamDtoFactory pokemonTeamDtoFactory;
@@ -43,10 +47,13 @@ public class PokemonTeamService {
      *  Reusable factory to create PokemonTeamDTO objects.
      */
     public PokemonTeamService(PokemonTeamRepository pokemonTeamRepository, PokemonRepository pokemonRepository,
+                              TypeRepository typeRepository, MoveRepository moveRepository,
                               PokemonFactory pokemonFactory, PokemonDtoFactory pokemonDtoFactory,
                               PokemonTeamFactory pokemonTeamFactory, PokemonTeamDtoFactory pokemonTeamDtoFactory) {
         this.pokemonTeamRepository = pokemonTeamRepository;
         this.pokemonRepository = pokemonRepository;
+        this.typeRepository = typeRepository;
+        this.moveRepository = moveRepository;
         this.pokemonFactory = pokemonFactory;
         this.pokemonDtoFactory = pokemonDtoFactory;
         this.pokemonTeamFactory = pokemonTeamFactory;
@@ -134,7 +141,13 @@ public class PokemonTeamService {
         List<Pokemon> pokemonList = pokemonRepository.getPokemon(ids, null, null);
         Map<Long, PokemonDTO> pokemonDtoMap = new HashMap<>();
         for (Pokemon pokemon : pokemonList) {
-            pokemonDtoMap.put(pokemon.getId(), pokemonDtoFactory.createPokemonDTO(pokemon));
+            List<String> moveStrings = new ArrayList<>();
+            moveRepository.getMovesByPokemonId(pokemon.getId()).forEach(move -> moveStrings.add(move.getName()));
+
+            List<String> typeStrings = new ArrayList<>();
+            typeRepository.getTypesByPokemonId(pokemon.getId()).forEach(type -> typeStrings.add(type.getName()));
+
+            pokemonDtoMap.put(pokemon.getId(), pokemonDtoFactory.createPokemonDTO(pokemon, typeStrings, moveStrings));
         }
         return pokemonDtoMap;
     }

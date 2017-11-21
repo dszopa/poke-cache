@@ -20,7 +20,7 @@ CREATE TABLE pokemon (
   speed_ivs INT
 );
 
-# TODO change to use its own pokemon_type / move many 2 many?...
+# TODO change to use pokemon_type
 # Create random_pokemon table
 CREATE TABLE random_pokemon (
   id BIGINT KEY AUTO_INCREMENT,

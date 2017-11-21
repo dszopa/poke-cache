@@ -13,3 +13,7 @@
 and what types they dont.
 - Could also check against the meta and see if you cover the most
 popular pokemon.
+
+### Notes
+- Some queries take 8s+ when ran over network from a separate host.
+Over localhost they all seem to be fast.

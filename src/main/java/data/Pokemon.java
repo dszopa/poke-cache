@@ -1,8 +1,6 @@
 package data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Pokemon implements Serializable {
 
@@ -21,9 +19,6 @@ public class Pokemon implements Serializable {
     private String nature;
     private Integer happiness;
 
-    // Typing
-    private List<String> types = new ArrayList<>();
-
     // Stats
     private Integer hpEVs;
     private Integer attackEVs;
@@ -38,9 +33,6 @@ public class Pokemon implements Serializable {
     private Integer specialAttackIVs;
     private Integer specialDefenceIVs;
     private Integer speedIVs;
-
-    // Move names
-    private List<String> moves = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -120,14 +112,6 @@ public class Pokemon implements Serializable {
 
     public void setHappiness(Integer happiness) {
         this.happiness = happiness;
-    }
-
-    public List<String> getTypes() {
-        return types;
-    }
-
-    public void setTypes(List<String> types) {
-        this.types = types;
     }
 
     public Integer getHpEVs() {
@@ -226,14 +210,6 @@ public class Pokemon implements Serializable {
         this.speedIVs = speedIVs;
     }
 
-    public List<String> getMoves() {
-        return moves;
-    }
-
-    public void setMoves(List<String> moves) {
-        this.moves = moves;
-    }
-
 
     public static final class PokemonBuilder {
         private Long id;
@@ -247,8 +223,6 @@ public class Pokemon implements Serializable {
         private Boolean shiny;
         private String nature;
         private Integer happiness;
-        // Typing
-        private List<String> types = new ArrayList<>();
         // Stats
         private Integer hpEVs;
         private Integer attackEVs;
@@ -262,8 +236,6 @@ public class Pokemon implements Serializable {
         private Integer specialAttackIVs;
         private Integer specialDefenceIVs;
         private Integer speedIVs;
-        // Move names
-        private List<String> moves = new ArrayList<>();
 
         public PokemonBuilder withId(Long id) {
             this.id = id;
@@ -312,11 +284,6 @@ public class Pokemon implements Serializable {
 
         public PokemonBuilder withHappiness(Integer happiness) {
             this.happiness = happiness;
-            return this;
-        }
-
-        public PokemonBuilder withTypes(List<String> types) {
-            this.types = types;
             return this;
         }
 
@@ -380,11 +347,6 @@ public class Pokemon implements Serializable {
             return this;
         }
 
-        public PokemonBuilder withMoves(List<String> moves) {
-            this.moves = moves;
-            return this;
-        }
-
         public Pokemon build() {
             Pokemon pokemon = new Pokemon();
             pokemon.setId(id);
@@ -397,7 +359,6 @@ public class Pokemon implements Serializable {
             pokemon.setShiny(shiny);
             pokemon.setNature(nature);
             pokemon.setHappiness(happiness);
-            pokemon.setTypes(types);
             pokemon.setHpEVs(hpEVs);
             pokemon.setAttackEVs(attackEVs);
             pokemon.setDefenceEVs(defenceEVs);
@@ -410,7 +371,6 @@ public class Pokemon implements Serializable {
             pokemon.setSpecialAttackIVs(specialAttackIVs);
             pokemon.setSpecialDefenceIVs(specialDefenceIVs);
             pokemon.setSpeedIVs(speedIVs);
-            pokemon.setMoves(moves);
             return pokemon;
         }
     }

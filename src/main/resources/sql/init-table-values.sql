@@ -17,7 +17,7 @@ INSERT INTO pokemon (
   (
       'Bulbasaur', 'Seed', 'Miracle Seed', 'Overgrow', 10,
       10, 10, 10, 10, 10, 10,
-      10, 10, 10, 10, 10, 10,
+      10, 10, 10, 10, 10, 10
   ),
   (
       'Caterpie', NULL, NULL, 'Shield Dust', 1,
@@ -27,7 +27,7 @@ INSERT INTO pokemon (
   (
       'Aggron', NULL, 'Assault Vest', 'Sturdy', 100,
       10, 10, 10, 10, 10, 10,
-      10, 10, 10, 10, 10, 10,
+      10, 10, 10, 10, 10, 10
   ),
   (
       'Chansey', NULL, 'Eviolite', 'Natural Cure', 100,
@@ -40,7 +40,7 @@ INSERT INTO pokemon (
       10, 10, 10, 10, 10, 10
   );
 
-# TODO: need to update this too
+# TODO: need to update this when changes to type & move happen for random pokemon
 # Populate Random Pokemon
 INSERT INTO random_pokemon (
   name, nickname, item, ability, level, type1, type2,
