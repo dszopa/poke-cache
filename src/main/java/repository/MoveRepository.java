@@ -25,7 +25,7 @@ public class MoveRepository extends Repository {
         this.dataSource = dataSourceFactory.getDataSource();
     }
 
-    public List<PokemonMove> saveMoves(Long pokemonId, List<String> moves) {
+    public List<String> saveMoves(Long pokemonId, List<String> moves) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("INSERT INTO pokemon_move (name, slot, pokemon_id) VALUES");
         for (int i = 0; i < moves.size(); i++) {
@@ -44,14 +44,20 @@ public class MoveRepository extends Repository {
             statement = connection.prepareStatement(stringBuilder.toString());
 
             for (int i = 0; i < moves.size(); i++) {
-                statement.setString(i + 1, moves.get(i));
-                statement.setInt(i + 2, i + 1);
-                statement.setLong(i + 3, pokemonId);
+                statement.setString((3 * i) + 1, moves.get(i));
+                statement.setInt((3 * i) + 2, i + 1);
+                statement.setLong((3 * i) + 3, pokemonId);
             }
 
             logger.info("Database Call -> " + statement.toString());
-            resultSet = statement.executeQuery();
-            return _convertResultSetToPokemonMoves(resultSet);
+            int affectedRows = statement.executeUpdate();
+            connection.commit();
+
+            if (affectedRows == 0) {
+                throw new SQLException("No rows were effected by SQL insert!");
+            }
+
+            return moves;
 
         } catch (SQLException e) {
             logger.error("Error inserting moves into database. Call -> saveMoves(" +
@@ -75,6 +81,7 @@ public class MoveRepository extends Repository {
 
             logger.info("Database call -> " + statement.toString());
             resultSet = statement.executeQuery();
+            connection.commit();
             return _convertResultSetToPokemonMoves(resultSet);
         } catch (SQLException e) {
             logger.error("Error selecting moves by pokemonId. Call -> getMovesByPokemonId(" + pokemonId + ")");

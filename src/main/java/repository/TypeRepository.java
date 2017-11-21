@@ -25,7 +25,7 @@ public class TypeRepository extends Repository {
         this.dataSource = dataSourceFactory.getDataSource();
     }
 
-    public List<PokemonType> saveTypes(Long pokemonId, List<String> types) {
+    public List<String> saveTypes(Long pokemonId, List<String> types) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("INSERT INTO pokemon_type (name, slot, pokemon_id) VALUES");
         for (int i = 0; i < types.size(); i++) {
@@ -44,14 +44,19 @@ public class TypeRepository extends Repository {
             statement = connection.prepareStatement(stringBuilder.toString());
 
             for (int i = 0; i < types.size(); i++) {
-                statement.setString(i + 1, types.get(i));
-                statement.setInt(i + 2, i + 1);
-                statement.setLong(i + 3, pokemonId);
+                statement.setString((3 * i) + 1, types.get(i));
+                statement.setInt((3 * i) + 2, i + 1);
+                statement.setLong((3 * i) + 3, pokemonId);
             }
 
             logger.info("Database Call -> " + statement.toString());
-            resultSet = statement.executeQuery();
-            return _convertResultSetToPokemonTypes(resultSet);
+            int affectedRows = statement.executeUpdate();
+            connection.commit();
+            if (affectedRows == 0) {
+                throw new SQLException("No rows were effected by update insert query!");
+            }
+
+            return types;
 
         } catch (SQLException e) {
             logger.error("Error inserting types into database. Call -> saveTypes(" +
@@ -75,6 +80,7 @@ public class TypeRepository extends Repository {
 
             logger.info("Database call -> " + statement.toString());
             resultSet = statement.executeQuery();
+            connection.commit();
             return _convertResultSetToPokemonTypes(resultSet);
         } catch (SQLException e) {
             logger.error("Error selecting moves by pokemonId. Call -> getMovesByPokemonId(" + pokemonId + ")");

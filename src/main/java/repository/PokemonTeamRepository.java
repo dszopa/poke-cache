@@ -73,6 +73,7 @@ public class PokemonTeamRepository extends Repository {
 
             logger.info("Database Call -> " + statement.toString());
             resultSet = statement.executeQuery();
+            connection.commit();
             return _convertResultSetToPokemonTeams(resultSet);
 
         } catch (SQLException e) {
@@ -101,6 +102,7 @@ public class PokemonTeamRepository extends Repository {
             statement = _createInsertPokemonTeamStatement(pokemonTeam, connection);
 
             int affectedRows = statement.executeUpdate();
+            connection.commit();
             if (affectedRows == 0) {
                 throw new SQLException("Creating PokemonTeam failed, no rows affected.");
             }
@@ -138,6 +140,7 @@ public class PokemonTeamRepository extends Repository {
             statement = connection.prepareStatement(selectPokemonTeamByIdQuery);
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
+            connection.commit();
             return _convertResultSetToPokemonTeam(resultSet);
         } catch (SQLException e) {
             logger.error("Getting PokemonTeam from database by id failed. Call -> getPokemonTeamById(" + id + ")", e);

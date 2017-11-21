@@ -44,6 +44,16 @@ public class PokemonTeam implements Serializable {
         this.pokemonIdList = pokemonIdList;
     }
 
+    @Override
+    public String toString() {
+        return "PokemonTeam{" +
+                "id=" + id +
+                ", teamName='" + teamName + '\'' +
+                ", format='" + format + '\'' +
+                ", pokemonIdList=" + pokemonIdList +
+                '}';
+    }
+
     public static final class PokemonTeamBuilder {
         private Long id;
         private String teamName;

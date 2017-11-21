@@ -18,7 +18,7 @@ public class PokemonRepository extends Repository {
             " shiny, nature, happiness, hp_evs, attack_evs, defence_evs, special_attack_evs, special_defence_evs," +
             " speed_evs, hp_ivs, attack_ivs, defence_ivs, special_attack_ivs, special_defence_ivs, speed_ivs)" +
             " VALUES" +
-            " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private final static Logger logger = LoggerFactory.getLogger(PokemonRepository.class);
     private final DataSource dataSource;
@@ -112,6 +112,7 @@ public class PokemonRepository extends Repository {
 
             logger.info("Database Call -> " + statement.toString());
             resultSet = statement.executeQuery();
+            connection.commit();
             return _convertResultSetToPokemonList(resultSet);
 
         } catch (SQLException e) {
@@ -140,6 +141,7 @@ public class PokemonRepository extends Repository {
             statement = connection.prepareStatement(selectPokemonByIdQuery);
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
+            connection.commit();
             return _convertResultSetToPokemon(resultSet);
         } catch (SQLException e) {
             logger.error("Getting Pokemon from database by id failed. Call -> getPokemonById(" + id + ")", e);
@@ -166,13 +168,14 @@ public class PokemonRepository extends Repository {
             statement = _createInsertPokemonStatement(pokemon, connection);
 
             int affectedRows = statement.executeUpdate();
+            connection.commit();
             if (affectedRows == 0) {
                 throw new SQLException("Creating Pokemon failed, no rows affected.");
             }
 
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                pokemon.setId(resultSet.getLong("id"));
+                pokemon.setId(resultSet.getLong(1));
             } else {
                 throw new SQLException("Creating Pokemon failed, no ID obtained.");
             }
@@ -208,18 +211,22 @@ public class PokemonRepository extends Repository {
         preparedStatement.setString(3, pokemon.getItem());
         preparedStatement.setString(4, pokemon.getAbility());
         preparedStatement.setInt(5, pokemon.getLevel());
-        preparedStatement.setInt(6, pokemon.getHpEVs());
-        preparedStatement.setInt(7, pokemon.getAttackEVs());
-        preparedStatement.setInt(8, pokemon.getDefenceEVs());
-        preparedStatement.setInt(9, pokemon.getSpecialAttackEVs());
-        preparedStatement.setInt(10, pokemon.getSpecialDefenceEVs());
-        preparedStatement.setInt(11, pokemon.getSpeedEVs());
-        preparedStatement.setInt(12, pokemon.getHpIVs());
-        preparedStatement.setInt(13, pokemon.getAttackIVs());
-        preparedStatement.setInt(14, pokemon.getDefenceIVs());
-        preparedStatement.setInt(15, pokemon.getSpecialAttackIVs());
-        preparedStatement.setInt(16, pokemon.getSpecialDefenceIVs());
-        preparedStatement.setInt(17, pokemon.getSpeedIVs());
+        preparedStatement.setString(6, pokemon.getGender());
+        preparedStatement.setBoolean(7, pokemon.getShiny());
+        preparedStatement.setString(8, pokemon.getNature());
+        preparedStatement.setInt(9, pokemon.getHappiness());
+        preparedStatement.setInt(10, pokemon.getHpEVs());
+        preparedStatement.setInt(11, pokemon.getAttackEVs());
+        preparedStatement.setInt(12, pokemon.getDefenceEVs());
+        preparedStatement.setInt(13, pokemon.getSpecialAttackEVs());
+        preparedStatement.setInt(14, pokemon.getSpecialDefenceEVs());
+        preparedStatement.setInt(15, pokemon.getSpeedEVs());
+        preparedStatement.setInt(16, pokemon.getHpIVs());
+        preparedStatement.setInt(17, pokemon.getAttackIVs());
+        preparedStatement.setInt(18, pokemon.getDefenceIVs());
+        preparedStatement.setInt(19, pokemon.getSpecialAttackIVs());
+        preparedStatement.setInt(20, pokemon.getSpecialDefenceIVs());
+        preparedStatement.setInt(21, pokemon.getSpeedIVs());
 
         return preparedStatement;
     }

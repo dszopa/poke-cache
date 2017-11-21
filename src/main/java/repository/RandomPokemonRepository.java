@@ -44,6 +44,7 @@ public class RandomPokemonRepository extends Repository {
             statement = _createInsertRandomPokemonStatement(randomPokemon, connection);
 
             int affectedRows = statement.executeUpdate();
+            connection.commit();
             if (affectedRows == 0) {
                 throw new SQLException("Creating RandomPokemon failed, no rows affected.");
             }
@@ -81,6 +82,7 @@ public class RandomPokemonRepository extends Repository {
             statement = connection.prepareStatement(selectRandomPokemonByIdQuery);
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
+            connection.commit();
             return _convertResultSetToRandomPokemon(resultSet);
         } catch (SQLException e) {
             logger.error("Getting RandomPokemon from database failed. Call -> getRandomPokemonById(" + id + ")", e);
