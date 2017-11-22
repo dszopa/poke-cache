@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/dszopa/poke-cache.svg?branch=master)](https://travis-ci.org/dszopa/poke-cache)
 # Poke-Cache
 
 ### Features
