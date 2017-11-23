@@ -6,6 +6,7 @@
 - Add & Search random pokemon sets
 
 ### TODO
+- Make a "Documentation" page
 - Implement random pokemon search by pokemon name
 - Allow text team submissions
 - Convert text teams to PokemonTeam
