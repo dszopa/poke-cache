@@ -6,7 +6,7 @@ import static constant.RegExps.*;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
-public class RegexTest {
+public class RegexUTest {
 
     private static String nicknameGenderItemString = "Sparky Boy (Tapu Koko) (M) @ Choice Scarf   ";
     private static String nicknameGenderString = "blabo boyo(M) (Hawlucha) (M)  ";
