@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class PokemonTeamDtoFactory {
 
+    // TODO: might be able to get rid of this? The preferred method for making a TeamDTO
+    // should be by passing a map
     public PokemonTeamDTO createPokemonTeamDto(PokemonTeam pokemonTeam, List<PokemonDTO> pokemonDtoList) {
         return new PokemonTeamDTO.PokemonTeamDTOBuilder()
                 .withId(pokemonTeam.getId())
