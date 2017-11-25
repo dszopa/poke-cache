@@ -24,6 +24,18 @@ public class PokemonTeamDTOUTest {
     }
 
     @Test
+    public void pokemonTeamDTOValid() throws Exception {
+        PokemonTeamDTO pokemonTeamDTO = new PokemonTeamDTO.PokemonTeamDTOBuilder()
+                .withTeamName("teamName")
+                .withFormat("OU")
+                .build();
+
+        List<ErrorDTO> errors = pokemonTeamDTO.validate();
+
+        assertEquals(0,  errors.size());
+    }
+
+    @Test
     public void pokemonTeamDTOInvalidFormat() throws Exception {
         PokemonTeamDTO pokemonTeamDTO = new PokemonTeamDTO.PokemonTeamDTOBuilder()
                 .withFormat("LOL")
@@ -34,6 +46,20 @@ public class PokemonTeamDTOUTest {
         assertEquals(2, errors.size());
         assertTrue(errors.contains(new ErrorDTO("teamName", "attribute was not given, teamName must be provided")));
         assertTrue(errors.contains(new ErrorDTO("format", invalidFormat)));
+    }
+
+    @Test
+    public void pokemonTeamDTONullPokemonList() throws Exception {
+        PokemonTeamDTO pokemonTeamDTO = new PokemonTeamDTO.PokemonTeamDTOBuilder()
+                .withPokemonList(null)
+                .build();
+
+        List<ErrorDTO> errors = pokemonTeamDTO.validate();
+
+        assertEquals(3, errors.size());
+        assertTrue(errors.contains(new ErrorDTO("teamName", "attribute was not given, teamName must be provided")));
+        assertTrue(errors.contains(new ErrorDTO("format", "attribute was not given, format must be provided")));
+        assertTrue(errors.contains(new ErrorDTO("pokemonList", "attribute was not given, pokemonList must be provided")));
     }
 
     @Test
