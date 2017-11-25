@@ -15,7 +15,7 @@ public class PokemonDTOUTest {
 
     @Test
     public void pokemonDTODefaultConstructor() throws Exception {
-        PokemonDTO pokemonDTO = new PokemonDTO();
+        PokemonDTO pokemonDTO = new PokemonDTO.PokemonDTOBuilder().build();
 
         List<ErrorDTO> errors = pokemonDTO.validate();
 
