@@ -25,6 +25,19 @@ public class PokemonDTOUTest {
     }
 
     @Test
+    public void pokemonDTOValid() throws Exception {
+        PokemonDTO pokemonDTO = new PokemonDTO.PokemonDTOBuilder()
+                .withId(1L)
+                .withName("Piplup")
+                .withAbility("Hydration")
+                .build();
+
+        List<ErrorDTO> errors = pokemonDTO.validate();
+
+        assertEquals(0, errors.size());
+    }
+
+    @Test
     public void pokemonDTOAllNullValues() throws Exception {
         PokemonDTO pokemonDTO = new PokemonDTO.PokemonDTOBuilder()
                 .withId(null)
@@ -108,8 +121,8 @@ public class PokemonDTOUTest {
                 .withAttackEVs(-1)
                 .withDefenceEVs(-1)
                 .withSpecialAttackEVs(-1)
-                .withSpecialDefenceEVs(-1)
-                .withSpeedEVs(-1)
+                .withSpecialDefenceEVs(500)
+                .withSpeedEVs(500)
                 .withHpIVs(-1)
                 .withAttackIVs(-1)
                 .withDefenceIVs(-1)
@@ -120,7 +133,7 @@ public class PokemonDTOUTest {
 
         List<ErrorDTO> errors = pokemonDTO.validate();
 
-        assertEquals(14, errors.size());
+        assertEquals(15, errors.size());
         assertTrue(errors.contains(new ErrorDTO("level", "level must be a number between 1 and 100")));
         assertTrue(errors.contains(new ErrorDTO("happiness", "happiness must be a number between 0 and 255")));
         assertTrue(errors.contains(new ErrorDTO("hpEVs", "hpEVs must be a number between 0 and 252")));
@@ -135,5 +148,6 @@ public class PokemonDTOUTest {
         assertTrue(errors.contains(new ErrorDTO("specialAttackIVs", "specialAttackIVs must be a number between 0 and 31")));
         assertTrue(errors.contains(new ErrorDTO("specialDefenceIVs", "specialDefenceIVs must be a number between 0 and 31")));
         assertTrue(errors.contains(new ErrorDTO("speedIVs", "speedIVs must be a number between 0 and 31")));
+        assertTrue(errors.contains(new ErrorDTO("EV Total", "a pokemon cannot have more than 510 total EVs")));
     }
 }
