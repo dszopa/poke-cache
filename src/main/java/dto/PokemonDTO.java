@@ -52,14 +52,14 @@ public class PokemonDTO {
         List<ErrorDTO> errors = new ArrayList<>();
 
         // TODO: name is a valid pokemon name
-        if (name == null) {
+        if (name == null || name.isEmpty()) {
             errors.add(new ErrorDTO("name", "attribute was not given, name must be provided"));
         }
 
         // TODO: item is a valid item or no item
 
         // TODO: ability is a valid ability
-        if (ability == null) {
+        if (ability == null || ability.isEmpty()) {
             errors.add(new ErrorDTO("ability", "attribute was not given, ability must be provided"));
         }
 

@@ -18,7 +18,7 @@ public class PokemonTeamDTO {
     public List<ErrorDTO> validate() {
         List<ErrorDTO> errors = new ArrayList<>();
 
-        if (teamName == null) {
+        if (teamName == null || teamName.isEmpty()) {
             errors.add(new ErrorDTO("teamName", "attribute was not given, teamName must be provided"));
         }
 
