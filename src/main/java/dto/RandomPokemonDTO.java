@@ -8,12 +8,11 @@ import java.util.List;
 
 public class RandomPokemonDTO {
 
-    private static final String invalidType = "Not a valid type. valid types are: " + Arrays.toString(Type.values());
+    static final String invalidType = "Not a valid type. valid types are: " + Arrays.toString(Type.values());
 
     private Long id;
 
     private String name;
-    private String nickname;
     private String item;
     private String ability;
     private Integer level;
@@ -36,6 +35,87 @@ public class RandomPokemonDTO {
     private String move3;
     private String move4;
 
+    public List<ErrorDTO> validate() {
+        List<ErrorDTO> errors = new ArrayList<>();
+
+        // TODO: make sure name is a valid pokemon name
+        if (name == null) {
+            errors.add(new ErrorDTO("name", "attribute was not given, name must be provided"));
+        }
+
+        // TODO: make sure item is a valid pokemon item
+        if (item == null) {
+            errors.add(new ErrorDTO("item", "attribute was not given, item must be provided"));
+        }
+
+        // TODO: make sure ability is a valid pokemon ability
+        if (ability == null) {
+            errors.add(new ErrorDTO("ability", "attribute was not given, ability must be provided"));
+        }
+
+        if (level == null || (level < 0 || level > 100)) {
+            errors.add(new ErrorDTO("level", "level must be a number between 1 and 100"));
+        }
+
+        if (type1 != null) {
+            try {
+                Type.valueOf(type1.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                errors.add(new ErrorDTO("type1", invalidType));
+            }
+        }
+
+        if (type2 != null) {
+            try {
+                Type.valueOf(type2.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                errors.add(new ErrorDTO("type2", invalidType));
+            }
+        }
+
+        if (hp == null || hp < 0) {
+            errors.add(new ErrorDTO("hp", "hp must be a number greater than 0"));
+        }
+
+        if (attack == null || attack < 0) {
+            errors.add(new ErrorDTO("attack", "attack must be a number greater than 0"));
+        }
+
+        if (defence == null || defence < 0) {
+            errors.add(new ErrorDTO("defence", "defence must be a number greater than 0"));
+        }
+
+        if (specialAttack == null || specialAttack < 0) {
+            errors.add(new ErrorDTO("specialAttack", "specialAttack must be a number greater than 0"));
+        }
+
+        if (specialDefence == null || specialDefence < 0) {
+            errors.add(new ErrorDTO("specialDefence", "specialDefence must be a number greater than 0"));
+        }
+
+        if (speed == null || speed < 0) {
+            errors.add(new ErrorDTO("speed", "speed must be a number greater than 0"));
+        }
+
+        if (move1 == null || move1.isEmpty()) {
+            errors.add(new ErrorDTO("move1", "attribute not given, move1 must be provided"));
+        }
+
+        if (move2 == null || move2.isEmpty()) {
+            errors.add(new ErrorDTO("move2", "attribute not given, move2 must be provided"));
+        }
+
+        if (move3 == null || move3.isEmpty()) {
+            errors.add(new ErrorDTO("move3", "attribute not given, move3 must be provided"));
+        }
+
+        if (move4 == null || move4.isEmpty()) {
+            errors.add(new ErrorDTO("move4", "attribute not given, move4 must be provided"));
+        }
+
+        return errors;
+    }
+
     public Long getId() {
         return id;
     }
@@ -50,14 +130,6 @@ public class RandomPokemonDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getItem() {
@@ -180,118 +252,11 @@ public class RandomPokemonDTO {
         this.move4 = move4;
     }
 
-    public List<ErrorDTO> validate() {
-        List<ErrorDTO> errors = new ArrayList<>();
-
-        if (name == null) {
-            errors.add(new ErrorDTO("name", "attribute was not given, name must be provided"));
-        }
-
-         if (ability == null) {
-            errors.add(new ErrorDTO("ability", "attribute was not given, ability must be provided"));
-         }
-
-         if (level == null) {
-            errors.add(new ErrorDTO("level", "attribute was not given, level must be provided"));
-         }
-
-          if (level < 0 || level > 100) {
-            errors.add(new ErrorDTO("level", "level must be a number between 1 and 100"));
-          }
-
-          if (type1 == null) {
-            errors.add(new ErrorDTO("type1", "attribute not given, type1 must be provided"));
-          }
-
-        if (type1 != null) {
-            try {
-                Type.valueOf(type1.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                errors.add(new ErrorDTO("type1", invalidType));
-            }
-        }
-
-        if (type2 != null) {
-            try {
-                Type.valueOf(type2.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                errors.add(new ErrorDTO("type2", invalidType));
-            }
-        }
-
-        if (hp == null) {
-            errors.add(new ErrorDTO("hp", "attribute not given, hp must be provided"));
-        }
-
-        if (hp < 0) {
-            errors.add(new ErrorDTO("hp", "hp must be a number greater than 0"));
-        }
-
-        if (attack == null) {
-            errors.add(new ErrorDTO("attack", "attribute not given, attack must be provided"));
-        }
-
-        if (attack < 0) {
-            errors.add(new ErrorDTO("attack", "attack must be a number greater than 0"));
-        }
-
-        if (defence == null) {
-            errors.add(new ErrorDTO("defence", "attribute not given, defence must be provided"));
-        }
-
-        if (defence < 0) {
-            errors.add(new ErrorDTO("defence", "defence must be a number greater than 0"));
-        }
-
-        if (specialAttack == null) {
-            errors.add(new ErrorDTO("specialAttack", "attribute not given, specialAttack must be provided"));
-        }
-
-        if (specialAttack < 0) {
-            errors.add(new ErrorDTO("specialAttack", "specialAttack must be a number greater than 0"));
-        }
-
-        if (specialDefence == null) {
-            errors.add(new ErrorDTO("specialDefence", "attribute not given, specialDefence must be provided"));
-        }
-
-        if (specialDefence < 0) {
-            errors.add(new ErrorDTO("specialDefence", "specialDefence must be a number greater than 0"));
-        }
-
-        if (speed == null) {
-            errors.add(new ErrorDTO("speed", "attribute not given, speed must be provided"));
-        }
-
-        if (speed < 0) {
-            errors.add(new ErrorDTO("speed", "speed must be a number greater than 0"));
-        }
-
-        if (move1 == null) {
-            errors.add(new ErrorDTO("move1", "attribute not given, move1 must be provided"));
-        }
-
-        if (move2 == null) {
-            errors.add(new ErrorDTO("move2", "attribute not given, move2 must be provided"));
-        }
-
-        if (move3 == null) {
-            errors.add(new ErrorDTO("move3", "attribute not given, move3 must be provided"));
-        }
-
-        if (move4 == null) {
-            errors.add(new ErrorDTO("move4", "attribute not given, move4 must be provided"));
-        }
-
-        return errors;
-    }
-
     @Override
     public String toString() {
         return "RandomPokemonDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", nickname='" + nickname + '\'' +
                 ", item='" + item + '\'' +
                 ", ability='" + ability + '\'' +
                 ", level=" + level +
@@ -319,7 +284,6 @@ public class RandomPokemonDTO {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
         if (item != null ? !item.equals(that.item) : that.item != null) return false;
         if (ability != null ? !ability.equals(that.ability) : that.ability != null) return false;
         if (level != null ? !level.equals(that.level) : that.level != null) return false;
@@ -343,7 +307,6 @@ public class RandomPokemonDTO {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
         result = 31 * result + (item != null ? item.hashCode() : 0);
         result = 31 * result + (ability != null ? ability.hashCode() : 0);
         result = 31 * result + (level != null ? level.hashCode() : 0);
@@ -365,7 +328,6 @@ public class RandomPokemonDTO {
     public static final class RandomPokemonDTOBuilder {
         private Long id;
         private String name;
-        private String nickname;
         private String item;
         private String ability;
         private Integer level;
@@ -392,11 +354,6 @@ public class RandomPokemonDTO {
 
         public RandomPokemonDTOBuilder withName(String name) {
             this.name = name;
-            return this;
-        }
-
-        public RandomPokemonDTOBuilder withNickname(String nickname) {
-            this.nickname = nickname;
             return this;
         }
 
@@ -479,7 +436,6 @@ public class RandomPokemonDTO {
             RandomPokemonDTO randomPokemonDTO = new RandomPokemonDTO();
             randomPokemonDTO.setId(id);
             randomPokemonDTO.setName(name);
-            randomPokemonDTO.setNickname(nickname);
             randomPokemonDTO.setItem(item);
             randomPokemonDTO.setAbility(ability);
             randomPokemonDTO.setLevel(level);

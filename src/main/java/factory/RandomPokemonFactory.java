@@ -9,7 +9,6 @@ public class RandomPokemonFactory {
         return new RandomPokemon.RandomPokemonBuilder()
                 .withId(randomPokemonDTO.getId())
                 .withName(randomPokemonDTO.getName())
-                .withNickname(randomPokemonDTO.getNickname())
                 .withItem(randomPokemonDTO.getItem())
                 .withAbility(randomPokemonDTO.getAbility())
                 .withLevel(randomPokemonDTO.getLevel())

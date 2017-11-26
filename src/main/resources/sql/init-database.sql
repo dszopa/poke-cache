@@ -29,7 +29,6 @@ CREATE TABLE pokemon (
 CREATE TABLE random_pokemon (
   id BIGINT KEY AUTO_INCREMENT,
   name VARCHAR(255),
-  nickname VARCHAR(255),
   item VARCHAR(255),
   ability VARCHAR(255),
   level INT,

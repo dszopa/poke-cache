@@ -9,7 +9,6 @@ public class RandomPokemon implements Serializable {
     private Long id;
 
     private String name;
-    private String nickname;
     private String item;
     private String ability;
     private Integer level;
@@ -46,14 +45,6 @@ public class RandomPokemon implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getItem() {
@@ -181,7 +172,6 @@ public class RandomPokemon implements Serializable {
         return "RandomPokemon{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", nickname='" + nickname + '\'' +
                 ", item='" + item + '\'' +
                 ", ability='" + ability + '\'' +
                 ", level=" + level +
@@ -209,7 +199,6 @@ public class RandomPokemon implements Serializable {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
         if (item != null ? !item.equals(that.item) : that.item != null) return false;
         if (ability != null ? !ability.equals(that.ability) : that.ability != null) return false;
         if (level != null ? !level.equals(that.level) : that.level != null) return false;
@@ -233,7 +222,6 @@ public class RandomPokemon implements Serializable {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
         result = 31 * result + (item != null ? item.hashCode() : 0);
         result = 31 * result + (ability != null ? ability.hashCode() : 0);
         result = 31 * result + (level != null ? level.hashCode() : 0);
@@ -255,7 +243,6 @@ public class RandomPokemon implements Serializable {
     public static final class RandomPokemonBuilder {
         private Long id;
         private String name;
-        private String nickname;
         private String item;
         private String ability;
         private Integer level;
@@ -282,11 +269,6 @@ public class RandomPokemon implements Serializable {
 
         public RandomPokemonBuilder withName(String name) {
             this.name = name;
-            return this;
-        }
-
-        public RandomPokemonBuilder withNickname(String nickname) {
-            this.nickname = nickname;
             return this;
         }
 
@@ -369,7 +351,6 @@ public class RandomPokemon implements Serializable {
             RandomPokemon randomPokemon = new RandomPokemon();
             randomPokemon.setId(id);
             randomPokemon.setName(name);
-            randomPokemon.setNickname(nickname);
             randomPokemon.setItem(item);
             randomPokemon.setAbility(ability);
             randomPokemon.setLevel(level);

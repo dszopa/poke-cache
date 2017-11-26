@@ -11,10 +11,10 @@ import java.sql.*;
 public class RandomPokemonRepository extends Repository {
 
     private static final String selectRandomPokemonByIdQuery = "SELECT * FROM random_pokemon where id = ? LIMIT 1";
-    private static final String saveRandomPokemonQuery = "INSERT INTO random_pokemon (name, nickname, item, ability, level, " +
+    private static final String saveRandomPokemonQuery = "INSERT INTO random_pokemon (name, item, ability, level, " +
             "type1, type2, hp, attack, defence, special_attack, special_defence, speed, move1, move2, move3, move4) " +
             "VALUES " +
-            "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private final static Logger logger = LoggerFactory.getLogger(RandomPokemonRepository.class);
     private final DataSource dataSource;
@@ -110,22 +110,21 @@ public class RandomPokemonRepository extends Repository {
                 saveRandomPokemonQuery, Statement.RETURN_GENERATED_KEYS);
 
         preparedStatement.setString(1, randomPokemon.getName());
-        preparedStatement.setString(2, randomPokemon.getNickname());
-        preparedStatement.setString(3, randomPokemon.getItem());
-        preparedStatement.setString(4, randomPokemon.getAbility());
-        preparedStatement.setInt(5, randomPokemon.getLevel());
-        preparedStatement.setString(6, randomPokemon.getType1());
-        preparedStatement.setString(7, randomPokemon.getType2());
-        preparedStatement.setInt(8, randomPokemon.getHp());
-        preparedStatement.setInt(9, randomPokemon.getAttack());
-        preparedStatement.setInt(10, randomPokemon.getDefence());
-        preparedStatement.setInt(11, randomPokemon.getSpecialAttack());
-        preparedStatement.setInt(12, randomPokemon.getSpecialDefence());
-        preparedStatement.setInt(13, randomPokemon.getSpeed());
-        preparedStatement.setString(14, randomPokemon.getMove1());
-        preparedStatement.setString(15, randomPokemon.getMove2());
-        preparedStatement.setString(16, randomPokemon.getMove3());
-        preparedStatement.setString(17, randomPokemon.getMove4());
+        preparedStatement.setString(2, randomPokemon.getItem());
+        preparedStatement.setString(3, randomPokemon.getAbility());
+        preparedStatement.setInt(4, randomPokemon.getLevel());
+        preparedStatement.setString(5, randomPokemon.getType1());
+        preparedStatement.setString(6, randomPokemon.getType2());
+        preparedStatement.setInt(7, randomPokemon.getHp());
+        preparedStatement.setInt(8, randomPokemon.getAttack());
+        preparedStatement.setInt(9, randomPokemon.getDefence());
+        preparedStatement.setInt(10, randomPokemon.getSpecialAttack());
+        preparedStatement.setInt(11, randomPokemon.getSpecialDefence());
+        preparedStatement.setInt(12, randomPokemon.getSpeed());
+        preparedStatement.setString(13, randomPokemon.getMove1());
+        preparedStatement.setString(14, randomPokemon.getMove2());
+        preparedStatement.setString(15, randomPokemon.getMove3());
+        preparedStatement.setString(16, randomPokemon.getMove4());
 
         return preparedStatement;
     }
@@ -159,7 +158,6 @@ public class RandomPokemonRepository extends Repository {
     private RandomPokemon _convertResultSetToRandomPokemonNoNextCall(ResultSet rs) throws SQLException {
         Long id = rs.getLong("id");
         String name = rs.getString("name");
-        String nickname = rs.getString("nickname");
         String item = rs.getString("item");
         String ability = rs.getString("ability");
         Integer level = rs.getInt("level");
@@ -179,7 +177,6 @@ public class RandomPokemonRepository extends Repository {
         return new RandomPokemon.RandomPokemonBuilder()
                 .withId(id)
                 .withName(name)
-                .withNickname(nickname)
                 .withItem(item)
                 .withAbility(ability)
                 .withLevel(level)

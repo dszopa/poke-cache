@@ -1,3 +1,4 @@
+# TODO: fix to make sure values comply with validate()
 # Populate Pokemon
 INSERT INTO pokemon (
   name, nickname, item, ability, level,
@@ -43,42 +44,42 @@ INSERT INTO pokemon (
 # TODO: need to update this when changes to type & move happen for random pokemon
 # Populate Random Pokemon
 INSERT INTO random_pokemon (
-  name, nickname, item, ability, level, type1, type2,
+  name, item, ability, level, type1, type2,
   hp, attack, defence, special_attack, special_defence, speed,
   move1, move2, move3, move4
 ) VALUES
   (
-    'Squirtle', 'Squirt', 'Choice Band', 'Hydration', 100, 'Water', NULL,
+    'Squirtle', 'Choice Band', 'Hydration', 100, 'Water', NULL,
     1, 2, 3, 4, 5, 6,
     'Bubble', 'Water Gun', 'Hydro Pump', 'Cut'
   ),
   (
-    'Charmander', 'Char-Char', NULL, 'Blaze', 5, 'Fire', NULL,
+    'Charmander', 'Choice Band', 'Blaze', 5, 'Fire', NULL,
     1, 2, 3, 4, 5, 6,
-    'Scratch', 'Ember', 'Growl', NULL
+    'Scratch', 'Ember', 'Growl', 'Flamethrower'
   ),
   (
-    'Bulbasaur', 'Seed', 'Miracle Seed', 'Overgrow', 10, 'Grass', 'Poison',
+    'Bulbasaur', 'Miracle Seed', 'Overgrow', 10, 'Grass', 'Poison',
     1, 2, 3, 4, 5, 6,
-    'Growl', 'Bullet Seed', 'Hidden Power', NULL
+    'Growl', 'Bullet Seed', 'Hidden Power [Grass]', 'Vine Whip'
   ),
   (
-    'Caterpie', NULL, NULL, 'Shield Dust', 1, 'Bug', NULL,
+    'Caterpie', 'Choice Scarf', 'Shield Dust', 1, 'Bug', NULL,
     1, 2, 3, 4, 5, 6,
-    'String Shot', 'Tackle', NULL, NULL
+    'String Shot', 'Tackle', 'Poison Sting', 'Harden'
   ),
   (
-    'Aggron', NULL, 'Assault Vest', 'Sturdy', 100, 'Steel', 'Rock',
+    'Aggron', 'Assault Vest', 'Sturdy', 100, 'Steel', 'Rock',
     1, 2, 3, 4, 5, 6,
     'Avalanche', 'Body Slam', 'Brick Break', 'Earthquake'
   ),
   (
-    'Chansey', NULL, 'Eviolite', 'Natural Cure', 100, 'Normal', NULL,
+    'Chansey', 'Eviolite', 'Natural Cure', 100, 'Normal', NULL,
     1, 2, 3, 4, 5, 6,
     'Seismic Toss', 'Counter', 'Hyper Voice', 'Heal Bell'
   ),
   (
-    'Tapu Bulu', NULL, NULL, 'Grassy Surge', 100, 'Grass', 'Fairy',
+    'Tapu Bulu', 'Life Orb', 'Grassy Surge', 100, 'Grass', 'Fairy',
     1, 2, 3, 4, 5, 6,
     'Horn Leech', 'Light Screen', 'Reflect', 'Roar'
   );

@@ -8,6 +8,16 @@ public class TextPokemonDTO {
     private Long id;
     private String text;
 
+    public List<ErrorDTO> validate() {
+        List<ErrorDTO> errors = new ArrayList<>();
+
+        if (text == null || text.isEmpty()) {
+            errors.add(new ErrorDTO("text", "attribute was not given, text must be provided"));
+        }
+
+        return errors;
+    }
+
     public Long getId() {
         return id;
     }
@@ -22,16 +32,6 @@ public class TextPokemonDTO {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public List<ErrorDTO> validate() {
-        List<ErrorDTO> errors = new ArrayList<>();
-
-        if (text == null) {
-            errors.add(new ErrorDTO("text", "attribute was not given, text must be provided"));
-        }
-
-        return errors;
     }
 
     @Override

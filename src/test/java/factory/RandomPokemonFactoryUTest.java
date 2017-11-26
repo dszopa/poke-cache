@@ -21,7 +21,6 @@ public class RandomPokemonFactoryUTest {
         RandomPokemonDTO randomPokemonDTO = new RandomPokemonDTO.RandomPokemonDTOBuilder()
                 .withId(1L)
                 .withName("Name")
-                .withNickname("Nickname")
                 .withItem("Item")
                 .withAbility("Ability")
                 .withLevel(100)
@@ -43,7 +42,6 @@ public class RandomPokemonFactoryUTest {
 
         assertEquals(randomPokemonDTO.getId(), randomPokemon.getId());
         assertEquals(randomPokemonDTO.getName(), randomPokemon.getName());
-        assertEquals(randomPokemonDTO.getNickname(), randomPokemon.getNickname());
         assertEquals(randomPokemonDTO.getItem(), randomPokemon.getItem());
         assertEquals(randomPokemonDTO.getAbility(), randomPokemon.getAbility());
         assertEquals(randomPokemonDTO.getLevel(), randomPokemon.getLevel());
