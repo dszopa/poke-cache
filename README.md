@@ -18,7 +18,7 @@
 - [ ] /documentation Page
 
 ### Setup
-- `git clone https://github.com/dszopa/poke-cache.git`
--  `cd poke-cache`
-- `./gradlew jar`
-- `java -jar build/libs/poke-cache-0.0.0.jar`
+1. `git clone https://github.com/dszopa/poke-cache.git`
+2.  `cd poke-cache`
+3. `./gradlew jar`
+4. `java -jar build/libs/poke-cache-0.0.0.jar`
