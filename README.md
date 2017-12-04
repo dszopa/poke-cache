@@ -3,21 +3,22 @@
 
 # Poke-Cache
 
-### Features
-- A server for read / write of pokemon teams.
-- Add & Search random pokemon sets
+### Functionality
+- [x] Storing & Retrieval of Pokemon
+- [x] Storing & Retrieval of Pokemon Teams
+- [x] Storing & Retrieval of Text Pokemon
+- [x] Storing & Retrieval of Random Pokemon
+- [ ] Storing & Retrieval of Text Pokemon Teams
+- [ ] Conversion of Pokemon & Pokemon Teams to Text Form
+- [ ] Team Analysis - Strengths & Weaknesses - Team
+- [ ] Team Analysis - Strengths & Weaknesses - Individual Pokemon
+- [ ] Team Analysis - Vs Popular metagame (Smogon Sets)
+- [ ] Scripts to gather Pokemon Data
+- [ ] Generate Random Pokemon Sets
+- [ ] /documentation Page
 
-### TODO
-- Make a "Documentation" page
-- Implement random pokemon search by pokemon name
-- Allow text team submissions
-- Convert text teams to PokemonTeam
-- Convert PokemonTeam to text team
-- Would be cool to have a typechart showing what types your team covers
-and what types they dont.
-- Could also check against the meta and see if you cover the most
-popular pokemon.
-
-### Notes
-- Some queries take 8s+ when ran over network from a separate host.
-Over localhost they all seem to be fast.
+### Setup
+- `git clone https://github.com/dszopa/poke-cache.git`
+-  `cd poke-cache`
+- `./gradlew jar`
+- `java -jar build/libs/poke-cache-0.0.0.jar`
