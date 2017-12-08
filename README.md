@@ -22,3 +22,7 @@
 2.  `cd poke-cache`
 3. `./gradlew jar`
 4. `java -jar build/libs/poke-cache-0.0.0.jar`
+
+
+### TODO
+- Make sure nulls can't be returned, Spark returns 404 if you return null in a controller.
